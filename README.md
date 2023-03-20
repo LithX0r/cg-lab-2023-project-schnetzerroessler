@@ -11,10 +11,10 @@ For every submission change/extend the corresponding sections by replacing the *
 
 ### Group Members
 
-|               | Student ID    | First Name  | Last Name      | E-Mail         |
-|---------------|---------------|-------------|----------------|----------------|
-| **Student 1** | TODO          | TODO        | TODO           | TODO           |
-| **Student 2** | TODO          | TODO        | TODO           | TODO           |
+|               | Student ID | First Name | Last Name | E-Mail                        |
+|---------------|------------|------------|-----------|-------------------------------|
+| **Student 1** | k12102659  | Annabell   | Rößler    | annabell.roessler@outlook.com |
+| **Student 2** | k12104562  | Leon       | Schnetzer | leon.schnetzer@gmail.com      |
 
 ### Concept Submission due on 31.03.2023
 
