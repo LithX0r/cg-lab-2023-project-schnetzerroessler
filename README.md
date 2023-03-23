@@ -18,7 +18,10 @@ For every submission change/extend the corresponding sections by replacing the *
 
 ### Concept Submission due on 31.03.2023
 
-TODO
+Penguins try to reach a platform with something (TBD) on it and fail as they cannot fly. Then a technologically advanced
+penguin with a jetpack comes and flies up to the platform to get the desired something.
+
+TODO complete description
 
 (Explain the basic story of your movie, i.e., planned scenes, what happens, which objects are used, etc.)
 
