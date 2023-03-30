@@ -18,6 +18,8 @@ For every submission change/extend the corresponding sections by replacing the *
 
 ### Concept Submission due on 31.03.2023
 
+Penguins are stranded in a dessert/a dry place. They see an oasis.
+
 Penguins try to reach a platform with something (TBD) on it and fail as they cannot fly. Then a technologically advanced
 penguin with a jetpack comes and flies up to the platform to get the desired something.
 
@@ -31,16 +33,16 @@ Selected special effects must add up to exactly 30 points. Replace yes/no with e
 
 | Selected   | ID | Name                                  | Points |
 |------------|----|---------------------------------------|--------|
-| yes/no     | S1 | Multi texturing                       | 15     |  
-| yes/no     | S2 | Level of detail                       | 15     |
-| yes/no     | S3 | Billboarding                          | 15     |
-| yes/no     | S4 | Terrain from heightmap                | 30     |
-| yes/no     | S5 | Postprocessing shader                 | 30     |
-| yes/no     | S6 | Animated water surface                | 30     |
-| yes/no     | S7 | Minimap                               | 30     |
-| yes/no     | S8 | Particle system (rain, smoke, fire)   | 30     |
-| yes/no     | S9 | Motion blur                           | 30     |
-| yes/no     | SO | Own suggestion (preapproved by email) | TODO   |
+| yes        | S1 | Multi texturing                       | 15     |  
+| yes        | S2 | Level of detail                       | 15     |
+| no         | S3 | Billboarding                          | 15     |
+| no         | S4 | Terrain from heightmap                | 30     |
+| no         | S5 | Postprocessing shader                 | 30     |
+| no         | S6 | Animated water surface                | 30     |
+| no         | S7 | Minimap                               | 30     |
+| no         | S8 | Particle system (rain, smoke, fire)   | 30     |
+| no         | S9 | Motion blur                           | 30     |
+| no         | SO | Own suggestion (preapproved by email) | TODO   |
 
 ## Intermediate Submission due on 29.04.2023
 
