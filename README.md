@@ -18,7 +18,14 @@ For every submission change/extend the corresponding sections by replacing the *
 
 ### Concept Submission due on 31.03.2023
 
-Penguins are stranded in a dessert/a dry place. They see an oasis.
+
+**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Concept not final, will still be changed on 31.3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+Penguins are stranded in a desert/a dry place. They see an oasis.
+
+The Penguin Research Facility is working on a ice mashine in order to freeze parts of the ocean to get more living space. When the time for the big reveal has 
+come, the scientists accidentally divert the power away from the cooling parts and turn the freezer into a gigantic heater which is starting to 
+turn the surface of the antarctica into a desert. 
 
 Penguins try to reach a platform with something (TBD) on it and fail as they cannot fly. Then a technologically advanced
 penguin with a jetpack comes and flies up to the platform to get the desired something.
