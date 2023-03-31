@@ -18,38 +18,29 @@ For every submission change/extend the corresponding sections by replacing the *
 
 ### Concept Submission due on 31.03.2023
 
+#### Basic story of the movie
+A group of penguins is walking around in a landscape which does not resemble their natural habitat. Their walk is interrupted when they notice an ancient-looking illuminated button.
+One particularly brave (or stupid) penguin comes forward and presses the button without hesitation. A glowing orb then ascends from the now dark button.
+Responding to the signal, a UFO appears in the sky and seemingly assesses the situation. From previous adventures to Earth, the alien inside the UFO notices the lack of snow, where there was plenty in the past.
+The visitor from space turns on the UFOs internal snow generator and starts casting a beam of ice onto the landscape, transforming it back into a frosty paradise. Now that the spirit of Antarctica is restored once again, the penguins are jumping up and down with excitement.
 
-**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Concept not final, will still be changed on 31.3!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
-
-Penguins are stranded in a desert/a dry place. They see an oasis.
-
-The Penguin Research Facility is working on a ice mashine in order to freeze parts of the ocean to get more living space. When the time for the big reveal has 
-come, the scientists accidentally divert the power away from the cooling parts and turn the freezer into a gigantic heater which is starting to 
-turn the surface of the antarctica into a desert. 
-
-Penguins try to reach a platform with something (TBD) on it and fail as they cannot fly. Then a technologically advanced
-penguin with a jetpack comes and flies up to the platform to get the desired something.
-
-TODO complete description
-
-(Explain the basic story of your movie, i.e., planned scenes, what happens, which objects are used, etc.)
 
 ### Special Effects
 
 Selected special effects must add up to exactly 30 points. Replace yes/no with either yes or no.
 
-| Selected   | ID | Name                                  | Points |
-|------------|----|---------------------------------------|--------|
-| yes        | S1 | Multi texturing                       | 15     |  
-| yes        | S2 | Level of detail                       | 15     |
-| no         | S3 | Billboarding                          | 15     |
-| no         | S4 | Terrain from heightmap                | 30     |
-| no         | S5 | Postprocessing shader                 | 30     |
-| no         | S6 | Animated water surface                | 30     |
-| no         | S7 | Minimap                               | 30     |
-| no         | S8 | Particle system (rain, smoke, fire)   | 30     |
-| no         | S9 | Motion blur                           | 30     |
-| no         | SO | Own suggestion (preapproved by email) | TODO   |
+| Selected | ID | Name                                  | Points |
+|----------|----|---------------------------------------|--------|
+| no       | S1 | Multi texturing                       | 15     |  
+| no       | S2 | Level of detail                       | 15     |
+| no       | S3 | Billboarding                          | 15     |
+| no       | S4 | Terrain from heightmap                | 30     |
+| no       | S5 | Postprocessing shader                 | 30     |
+| no       | S6 | Animated water surface                | 30     |
+| no       | S7 | Minimap                               | 30     |
+| yes      | S8 | Particle system (rain, smoke, fire)   | 30     |
+| no       | S9 | Motion blur                           | 30     |
+| no       | SO | Own suggestion (preapproved by email) | TODO   |
 
 ## Intermediate Submission due on 29.04.2023
 
