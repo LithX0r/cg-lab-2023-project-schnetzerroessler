@@ -333,7 +333,7 @@ function makeSphere(radius, latitudeBands, longitudeBands) {
   };
 }
 
-function parseObjFile(objectData) {
+function parseObjFile(objectData) { // TODO: parseFile
   //based on https://github.com/frenchtoast747/webgl-obj-loader/blob/master/webgl-obj-loader.js
   /*
    The OBJ file format does a sort of compression when saving a model in a
@@ -1010,7 +1010,7 @@ class LightSGNode extends TransformationSGNode {
 class UserControlledCamera {
   constructor(canvas, position) {
     //Camera movement speed in 1000 m/s
-    this.moveSpeed = 0.05;
+    this.moveSpeed = 0.01; // TODO change to 0.05
     //Encapsulates camera fields for easier passing to functions
     this.control = {
       //Enables/disables manual control of the camera
@@ -1123,6 +1123,8 @@ class UserControlledCamera {
     context.viewMatrix = this.viewMatrix;
   }
 }
+
+// TODO: Animation doc
 
 /**
  * Animates a TransformationSGNode
