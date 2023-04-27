@@ -34,7 +34,10 @@ loadResources({
 
     ufoFixedParts: './src/models/ufo/ufoFixedParts.obj',
     ufoUpperDisk: './src/models/ufo/ufoUpperDisk.obj',
-    ufoLowerDisk: './src/models/ufo/ufoLowerDisk.obj'
+    ufoLowerDisk: './src/models/ufo/ufoLowerDisk.obj',
+
+    pillarWRing: './src/models/pillar/pillarWCircle.obj',
+    pillarButton: './src/models/pillar/pillarButton.obj'
 
 
 
@@ -52,12 +55,13 @@ function init(resources) {
     gl = createContext();
 
     //setup camera
-    cameraStartPos = vec3.fromValues(0, 1, -10);
+    cameraStartPos = vec3.fromValues(0, 3, -15);
     camera = new UserControlledCamera(gl.canvas, cameraStartPos);
     //setup an animation for the camera, moving it into position
     // /*
+
     cameraAnimation = new Animation(camera,
-        [{matrix: mat4.translate(mat4.create(), mat4.create(), vec3.fromValues(0, 1, -10)), duration: 1000}],
+        [{matrix: mat4.translate(mat4.create(), mat4.create(), vec3.fromValues(0, 3, -15)), duration: 1000}],
         false);
     cameraAnimation.start()
     
@@ -81,10 +85,10 @@ function createSceneGraph(gl, resources) {
 // /*
     // create white light node
     let light = new LightSGNode();
-    light.ambient = [.5, .5, .5, 1];
+    light.ambient = [1, 1, 1, 1];
     light.diffuse = [1, 1, 1, 1];
     light.specular = [1, 1, 1, 1];
-    light.position = [0, 5, -2];
+    light.position = [0, 500, -2];
     light.append(createLightSphere(resources));
     // add light to scenegraph
     root.append(light);
@@ -124,8 +128,15 @@ function createSceneGraph(gl, resources) {
     root.append(transformNode);
      */
 
-
     /*
+    light2 = new LightSGNode();
+    light2.ambient = [1,1,1,1];
+    light2.position = [5, 0, 5];
+    root.append(light2);
+
+     */
+
+    // /*
     // Moving Penguin
     let penguinBody = new MaterialSGNode([new RenderSGNode(resources.penguinBody)]);
 
@@ -144,12 +155,12 @@ function createSceneGraph(gl, resources) {
     let pengHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengHeadBeak]);
     pengBodyTransformNode.append(pengHeadBeakTransformNode);
 
-     */
+     // */
 
 
 
     // UFO
-    // UFO
+
     let ufo1 = new MaterialSGNode([new RenderSGNode(resources.ufoFixedParts)]);
     let ufo1TNode = new TransformationSGNode(glm.translate(0,0,0),[ufo1]);
     root.append(ufo1TNode);
@@ -164,6 +175,13 @@ function createSceneGraph(gl, resources) {
 
     let anim = new Animation(ufoLDiskTNode, [{matrix: glm.rotateY(glm.deg2rad(0)), duration: 0}, {matrix: glm.rotateY(glm.deg2rad(180)), duration: 1000}], true);
     anim.start();
+
+
+    // Pillar
+    let pillWCirc = new MaterialSGNode([new RenderSGNode(resources.pillarWRing)]);
+    let pillWCircTNode = new TransformationSGNode(glm.translate(5, 0, 5), [pillWCirc]);
+    root.append(pillWCircTNode);
+
 
     // create floor
     let floor = new MaterialSGNode([
