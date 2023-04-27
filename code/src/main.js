@@ -37,8 +37,22 @@ loadResources({
     ufoLowerDisk: './src/models/ufo/ufoLowerDisk.obj',
 
     pillarWRing: './src/models/pillar/pillarWCircle.obj',
-    pillarButton: './src/models/pillar/pillarButton.obj'
+    pillarButton: './src/models/pillar/pillarButton.obj',
 
+    tree0Top: './src/models/trees/tree000Top.obj',
+    tree0Trunk: './src/models/trees/tree000Trunk.obj',
+
+    tree1Top: './src/models/trees/tree001Top.obj',
+    tree1Trunk: './src/models/trees/tree001Trunk.obj',
+
+    tree2Top: './src/models/trees/tree002Top.obj',
+    tree2Trunk: './src/models/trees/tree002Trunk.obj',
+
+    tree3Top: './src/models/trees/tree003Top.obj',
+    tree3Trunk: './src/models/trees/tree003Trunk.obj',
+
+    tree4Top: './src/models/trees/tree004Top.obj',
+    tree4Trunk: './src/models/trees/tree004Trunk.obj',
 
 
 }).then(function (resources /*an object containing our keys with the loaded resources*/) {
@@ -48,6 +62,7 @@ loadResources({
 });
 
 /**
+
  * initializes OpenGL context, compile shader, and load buffers
  */
 function init(resources) {
@@ -64,12 +79,17 @@ function init(resources) {
         [{matrix: mat4.translate(mat4.create(), mat4.create(), vec3.fromValues(0, 3, -15)), duration: 1000}],
         false);
     cameraAnimation.start()
-    
+
      // */
     //TODO create your own scenegraph
     root = createSceneGraph(gl, resources);
-}
 
+
+    createMainPenguin(root, resources);
+    createUFO(root, resources);
+    createPillar(root, resources);
+    // createTree(root, resources.tree1Top, resources.tree1Trunk, vec3.fromValues([10, 0,5]));
+}
 
 function createSceneGraph(gl, resources) {
     //create scenegraph
@@ -88,12 +108,12 @@ function createSceneGraph(gl, resources) {
     light.ambient = [1, 1, 1, 1];
     light.diffuse = [1, 1, 1, 1];
     light.specular = [1, 1, 1, 1];
-    light.position = [0, 500, -2];
+    light.position = [1000, 500, -2];
     light.append(createLightSphere(resources));
     // add light to scenegraph
     root.append(light);
 
- // */
+    // */
     /*
     let light2= new LightSGNode();
     light2.ambient = [1, 1, 1, 1];
@@ -137,51 +157,6 @@ function createSceneGraph(gl, resources) {
      */
 
     // /*
-    // Moving Penguin
-    let penguinBody = new MaterialSGNode([new RenderSGNode(resources.penguinBody)]);
-
-    let pengBodyTransformNode = new TransformationSGNode(glm.translate(10,0., 0), [penguinBody]);
-    root.append(pengBodyTransformNode);
-
-    let pengLeftWing = new MaterialSGNode([new RenderSGNode(resources.penguinLeftWing)]);
-    let pengLWingTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengLeftWing]);
-    pengBodyTransformNode.append(pengLWingTransformNode);
-
-    let pengRightWing = new MaterialSGNode(([new RenderSGNode((resources.penguinRightWing))]));
-    let pengRWingTransformNode = new TransformationSGNode(glm.transform(0, 0, 0), [pengRightWing]);
-    pengBodyTransformNode.append(pengRWingTransformNode);
-
-    let pengHeadBeak = new MaterialSGNode([new RenderSGNode(resources.penguinHeadBeak)]);
-    let pengHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengHeadBeak]);
-    pengBodyTransformNode.append(pengHeadBeakTransformNode);
-
-     // */
-
-
-
-    // UFO
-
-    let ufo1 = new MaterialSGNode([new RenderSGNode(resources.ufoFixedParts)]);
-    let ufo1TNode = new TransformationSGNode(glm.translate(0,0,0),[ufo1]);
-    root.append(ufo1TNode);
-
-    let ufoUDisk = new MaterialSGNode([new RenderSGNode(resources.ufoUpperDisk)]);
-    let ufoUDiskTNode = new TransformationSGNode(glm.translate(0,0,0), [ufoUDisk]);
-    ufo1TNode.append(ufoUDiskTNode);
-
-    let ufoLDisk = new MaterialSGNode([new RenderSGNode(resources.ufoLowerDisk)]);
-    let ufoLDiskTNode = new TransformationSGNode(glm.translate(0,0,0), [ufoLDisk]);
-    ufo1TNode.append(ufoLDiskTNode);
-
-    let anim = new Animation(ufoLDiskTNode, [{matrix: glm.rotateY(glm.deg2rad(0)), duration: 0}, {matrix: glm.rotateY(glm.deg2rad(180)), duration: 1000}], true);
-    anim.start();
-
-
-    // Pillar
-    let pillWCirc = new MaterialSGNode([new RenderSGNode(resources.pillarWRing)]);
-    let pillWCircTNode = new TransformationSGNode(glm.translate(5, 0, 5), [pillWCirc]);
-    root.append(pillWCircTNode);
-
 
     // create floor
     let floor = new MaterialSGNode([
@@ -199,7 +174,6 @@ function createSceneGraph(gl, resources) {
 
     return root;
 }
-
 
 /**
  * render one frame
@@ -245,3 +219,63 @@ function render(timeInMilliseconds) {
     requestAnimationFrame(render);
 }
 
+
+function createMainPenguin(root,resources) {
+    // Moving Penguin
+    let pengLeftWing = new MaterialSGNode([new RenderSGNode(resources.penguinLeftWing)]);
+    let pengLWingTransformNode = new TransformationSGNode(glm.translate(0,0,0), [pengLeftWing]);
+
+    let pengRightWing = new MaterialSGNode(([new RenderSGNode((resources.penguinRightWing))]));
+    let pengRWingTransformNode = new TransformationSGNode(glm.transform(0, 0, 0), [pengRightWing]);
+    let pengHeadBeak = new MaterialSGNode([new RenderSGNode(resources.penguinHeadBeak)]);
+
+    let pengHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengHeadBeak]);
+    let penguinBody = new MaterialSGNode([new RenderSGNode(resources.penguinBody)]);
+    let pengBodyTransformNode = new TransformationSGNode(glm.translate(10,0., 0), [penguinBody, pengHeadBeak, pengLeftWing, pengRightWing]);
+
+
+    root.append(pengBodyTransformNode);
+    pengBodyTransformNode.append(pengLWingTransformNode);
+    pengBodyTransformNode.append(pengRWingTransformNode);
+    pengBodyTransformNode.append(pengHeadBeakTransformNode);
+}
+
+
+function createUFO(root, resources) {
+    // UFO
+    let ufo1 = new MaterialSGNode([new RenderSGNode(resources.ufoFixedParts)]);
+    let ufo1TNode = new TransformationSGNode(glm.translate(0,0,0),[ufo1]);
+    root.append(ufo1TNode);
+
+    let ufoUDisk = new MaterialSGNode([new RenderSGNode(resources.ufoUpperDisk)]);
+    let ufoUDiskTNode = new TransformationSGNode(glm.translate(0,0,0), [ufoUDisk]);
+    ufo1TNode.append(ufoUDiskTNode);
+
+    let ufoLDisk = new MaterialSGNode([new RenderSGNode(resources.ufoLowerDisk)]);
+    let ufoLDiskTNode = new TransformationSGNode(glm.translate(0,0,0), [ufoLDisk]);
+    ufo1TNode.append(ufoLDiskTNode);
+}
+
+function createPillar(root, resources) {
+    // Pillar
+    let pillWCirc = new MaterialSGNode([new RenderSGNode(resources.pillarWRing)]);
+    let pillWCircTNode = new TransformationSGNode(glm.translate(5, 0, 5), [pillWCirc]);
+
+    root.append(pillWCircTNode);
+    let pillButton = new MaterialSGNode([new RenderSGNode(resources.pillarButton)]);
+    let pillButtonTNode = new TransformationSGNode(glm.translate(0,0,0), [pillButton]);
+    pillWCircTNode.append(pillButtonTNode);
+}
+
+
+
+function createTree(root, trunk, top, position) {
+    let treeTop = new MaterialSGNode([new RenderSGNode(top)])
+    let treeTopTNode = new TransformationSGNode(glm.translate(0, 0, 0), [treeTop]);
+    let treeTrunk = new MaterialSGNode([new RenderSGNode(trunk)])
+    let treeTrunkTNode = new TransformationSGNode(glm.translate(0, 0, 0), [treeTrunk]);
+    let tree = new TransformationSGNode(glm.translate(position.x, position.y, position.z), [treeTopTNode, treeTrunkTNode])
+    tree.append(treeTopTNode);
+    tree.append(treeTrunkTNode);
+    root.append(tree);
+}
