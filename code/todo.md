@@ -1,9 +1,10 @@
 ## Objects
 - [x] loading main penguin
 - [x] loading ufo
-- [ ] loading pillar with button
-- [ ] loading trees
-- [ ] loading other penguins
+- [x] loading pillar with button
+- [x] loading trees
+  - [x] implement tree function
+- [x] loading other penguins
 
 ## Compositing
 - [ ] Basic rotations on objects and child nodes
@@ -13,6 +14,13 @@
 ## Animation
 - [ ] Camera animation
 - [ ] basic wing movement for main penguin
-- [ ] disk rotations for ufo
+- [x] disk rotations for ufo
 - [ ] button movement for pillar
+- [ ] penguin walk
 
+## Rendering
+- [ ] research if we need buffers
+- [ ] penguin render function
+- [ ] UFO render function
+- [ ] pillar render function
+- ~~[ ] trees render function~~
