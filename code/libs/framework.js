@@ -333,7 +333,7 @@ function makeSphere(radius, latitudeBands, longitudeBands) {
   };
 }
 
-function parseObjFile(objectData) { // TODO: parseFile
+function parseObjFile(objectData) {
   //based on https://github.com/frenchtoast747/webgl-obj-loader/blob/master/webgl-obj-loader.js
   /*
    The OBJ file format does a sort of compression when saving a model in a
