@@ -223,10 +223,10 @@ function render(timeInMilliseconds) {
         startedPenguins = penguinMainWaddle[0].running;
         console.log(penguinMainWaddle[0].running);
     } else {
-        var animation = new Animation(pillButtonTNode, [{matrix: mat4.translate(mat4.create(), mat4.create(), [0,-0.05,0]), duration: 1500}], false );
-        animation.start();
-        console.log(animation.running);
-        animation.update(timeInMilliseconds);
+        var buttonAnim = new Animation(pillButtonTNode, [{matrix: mat4.translate(mat4.create(), mat4.create(), [0,-0.05,0]), duration: 1500}], false );
+        buttonAnim.start();
+        console.log(buttonAnim.running);
+        buttonAnim.update(timeInMilliseconds);
 
     }
 
