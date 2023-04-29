@@ -123,8 +123,6 @@ function init(resources) {
         false);
     cameraAnimation.start()
 
-
-
     //TODO create your own scenegraph
     root = createSceneGraph(gl, resources);
 
@@ -153,6 +151,8 @@ function init(resources) {
 
     penguin4Waddle = createPenguinWaddle(penguin4TNode, [-6.2, 0, 1.3], [0, 0, -4.4], 129, -30);
 
+
+    // could not get penguin to press button correctly. will be added in final submission
     buttonAnim = new Animation(pillButtonTNode, [{
         matrix: mat4.translate(mat4.create(), mat4.create(), [0, 0, 0]),
         duration: 1
@@ -256,7 +256,6 @@ function render(timeInMilliseconds) {
 
 
     if (startedPenguins) {
-
         penguinMainWaddle.forEach(e => e.update(deltaTime));
         penguin1Waddle.forEach(e => e.update(deltaTime));
         penguin2Waddle.forEach(e => e.update(deltaTime));
@@ -282,11 +281,9 @@ function render(timeInMilliseconds) {
         }
         if (!ufoFlight[0].running) {
             ufoFlight[1].update(deltaTime);
-            // ufoFlight[2].update(deltaTime);
             ufoTNodes[3].setMatrix(glm.translate(0, 0, 0));
         }
         if (!ufoFlight[1].running) {
-            // ufoFlight[2].running = false;
             ufoTNodes[3].setMatrix(glm.translate(0, -7, 0));
             penguinMainJump.update(deltaTime);
             penguin1Jump.update(deltaTime);
@@ -295,7 +292,6 @@ function render(timeInMilliseconds) {
             penguin4Jump.update(deltaTime);
         }
     }
-
 
     //Apply camera
     camera.render(context);
@@ -309,40 +305,34 @@ function render(timeInMilliseconds) {
 
 function createMainPenguin(root, resources) {
     // Moving Penguin
-    let pengLeftWing = new MaterialSGNode([new RenderSGNode(resources.penguinLeftWing)]);
-    let pengLWingTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengLeftWing]);
+    let penguinLeftWing = new MaterialSGNode([new RenderSGNode(resources.penguinLeftWing)]);
+    let penguinLWingTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [penguinLeftWing]);
 
 
-    let pengRightWing = new MaterialSGNode(([new RenderSGNode((resources.penguinRightWing))]));
-    let pengRWingTransformNode = new TransformationSGNode(glm.transform(0, 0, 0), [pengRightWing]);
+    let penguinRightWing = new MaterialSGNode(([new RenderSGNode((resources.penguinRightWing))]));
+    let penguinRWingTransformNode = new TransformationSGNode(glm.transform(0, 0, 0), [penguinRightWing]);
 
 
-    let pengHeadBeak = new MaterialSGNode([new RenderSGNode(resources.penguinHeadBeak)]);
-    let pengHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengHeadBeak]);
+    let penguinHeadBeak = new MaterialSGNode([new RenderSGNode(resources.penguinHeadBeak)]);
+    let penguinHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [penguinHeadBeak]);
 
     let penguinBody = new MaterialSGNode([new RenderSGNode(resources.penguinBody)]);
-    let pengBodyTransformNode = new TransformationSGNode(mat4.create(), [penguinBody]);
+    let penguinBodyTransformNode = new TransformationSGNode(mat4.create(), [penguinBody]);
 
-    // let matBody = mat4.multiply(mat4.create(), mat4.create(), glm.translate(-3.8, 0, -1.5))
-    // matBody = mat4.multiply(mat4.create(), matBody, glm.rotateY(125))
-
-    // pengBodyTransformNode.setMatrix(matBody);
-    pengBodyTransformNode.setMatrix(glm.rotateY(125));
+    penguinBodyTransformNode.setMatrix(glm.rotateY(125));
 
 
     let mainTNode = new TransformationSGNode(glm.translate(-3.8, 0, -1.5));
 
     root.append(mainTNode);
-    mainTNode.append(pengBodyTransformNode);
-    // root.append(pengBodyTransformNode);
-    pengBodyTransformNode.append(pengLWingTransformNode);
-    pengBodyTransformNode.append(pengRWingTransformNode);
-    pengBodyTransformNode.append(pengHeadBeakTransformNode);
-    return [mainTNode, pengBodyTransformNode, pengLWingTransformNode, pengRWingTransformNode, pengHeadBeakTransformNode];
+    mainTNode.append(penguinBodyTransformNode);
+    penguinBodyTransformNode.append(penguinLWingTransformNode);
+    penguinBodyTransformNode.append(penguinRWingTransformNode);
+    penguinBodyTransformNode.append(penguinHeadBeakTransformNode);
+    return [mainTNode, penguinBodyTransformNode, penguinLWingTransformNode, penguinRWingTransformNode, penguinHeadBeakTransformNode];
 }
 
 function createUFO(root, resources) {
-    // UFO
     let ufo1 = new MaterialSGNode([new RenderSGNode(resources.ufoFixedParts)]);
     let ufo1TNode = new TransformationSGNode(glm.translate(100, 5, -30), [ufo1]);
     root.append(ufo1TNode);
@@ -363,7 +353,6 @@ function createUFO(root, resources) {
 }
 
 function createPillar(root, resources) {
-    // Pillar
     let pillWCirc = new MaterialSGNode([new RenderSGNode(resources.pillarWRing)]);
     let pillWCircTNode = new TransformationSGNode(glm.translate(2.5, 0, -4), [pillWCirc]);
 
@@ -415,9 +404,7 @@ function createForest(root, resources) {
 function createPenguin(root, resources, position, rotation) {
     let penguin = new MaterialSGNode([new RenderSGNode(resources.penguinFull)]);
     let penguinTNode = new TransformationSGNode(rotation, [penguin]);
-    // let transM = mat4.multiply(mat4.create(), mat4.create(), rotation);
     let mainTNode = new TransformationSGNode(glm.translate(position[0], position[1], position[2]));
-    // penguinTNode.setMatrix(transM);
     mainTNode.append(penguinTNode);
     root.append(mainTNode);
     return [mainTNode, penguinTNode];
@@ -425,17 +412,16 @@ function createPenguin(root, resources, position, rotation) {
 
 
 function createPenguinWaddle(penguin, bPosition, fPosition, angle, offset) {
-    var penguinMainTurnAnimation = new Animation(penguin[1],
+    let penguinMainTurnAnimation = new Animation(penguin[1],
         [{matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle + 20)), duration: 500 + offset},
             {
                 matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle - 20)),
                 duration: 500 + offset
             }], true);
 
-    // */
     penguinMainTurnAnimation.start();
 
-    var penguinMainWalk = new Animation(penguin[0], [{
+    let penguinMainWalk = new Animation(penguin[0], [{
         matrix: mat4.translate(mat4.create(), mat4.create(), bPosition),
         duration: 1
     },
@@ -485,12 +471,7 @@ function createFlight(ufo, positions) {
         {matrix: mat4.translate(mat4.create(), mat4.create(), positions[7]), duration: 2000}], false);
     flightP2.start();
 
-
-    let iceBeam = new Animation(ufo[3], [
-        {matrix: mat4.translate(mat4.create(), mat4.create(), [0, -7, 0]), duration: 1},
-        {matrix: mat4.translate(mat4.create(), mat4.create(), [0, 0, 0]), duration: 1}], false);
-    iceBeam.start();
-    return [flightP1, flightP2, iceBeam];
+    return [flightP1, flightP2];
 }
 
 function createJump(penguin, position, offset, height) {
