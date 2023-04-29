@@ -100,45 +100,58 @@ function init(resources) {
     gl = createContext();
 
     //setup camera
-    cameraStartPos = vec3.fromValues(-1, 2, -2);
+    cameraStartPos = vec3.fromValues(2, 1, -10);
     camera = new UserControlledCamera(gl.canvas, cameraStartPos);
     //setup an animation for the camera, moving it into position
-    // /*
-    // mat4.lookAt(mat4.create(), vec3.fromValues())
-
 
     cameraAnimation = new Animation(camera, [
-            {matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(180)), duration: 1},
-            {matrix: mat4.translate(mat4.create(), mat4.create(), vec3.fromValues(-1, 2, -2)), duration: 1}],
+            {matrix: addKeyFrame([-0.4, 1, -3.6], 0, -45, 0), duration: 1},
+            {matrix: addKeyFrame([3, 1, -8], 0, -30, 0), duration: 6000},
+            {matrix: addKeyFrame([-1, 2, -12], 0, 15, 0), duration: 1000},
+            {matrix: addKeyFrame([-1, 2, -12], 0, 20, 0), duration: 2000},
+            {matrix: addKeyFrame([-1, 4, -12], 0, 20, 0), duration: 150},
+            {matrix: addKeyFrame([-1, 4, -12], -25, 20, 0), duration: 850},
+            {matrix: addKeyFrame([-15, 10, -17], 10, 60, 0), duration: 4000},
+            {matrix: addKeyFrame([-15, 10, -17], 13, 57, 0), duration: 5500},
+            {matrix: addKeyFrame([-20 + 3, 10, -17 - (2 * 0.4)], 13, 57 - 0.8, 0), duration: 4000},
+            {matrix: addKeyFrame([-20, 10, -20], 13, 50, 0), duration: 2000},
+            {matrix: addKeyFrame([-18, 10, -20 + 0.8], 13, 48, 0), duration: 2000},
+            {matrix: addKeyFrame([-18, 10, -20 + 0.8], 13, 53, 0), duration: 1500},
+            {matrix: addKeyFrame([10, 7, -5], 40, -75, 0), duration: 500},
+            {matrix: addKeyFrame([10, 7, -5], 40, -75, 0), duration: 1500},
+        ],
         false);
     cameraAnimation.start()
 
-    // mat4.lookAt(camera.viewMatrix, vec3.fromValues(0, 10, -15), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 1, 0));
 
 
-    // */
     //TODO create your own scenegraph
     root = createSceneGraph(gl, resources);
 
+    // Object creation
 
     ufoTNodes = createUFO(root, resources);
+
     pillButtonTNode = createPillar(root, resources);
+
     createForest(root, resources);
+
     penguinMain = createMainPenguin(root, resources);
     penguin1TNode = createPenguin(root, resources, [-4.8, 0, 0.8], glm.rotateY(121));
     penguin2TNode = createPenguin(root, resources, [-4, 0, 2], glm.rotateY(132));
     penguin3TNode = createPenguin(root, resources, [-3.5, 0, -0.2], glm.rotateY(132));
+
+    orb = createOrb(root, resources);
+
+    // Animation creation
     penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129));
-
-
     penguinMainWaddle = createPenguinWaddle(penguinMain, [-3.8, 0, -1.5], [2, 0, -4], 125, 0);
     penguin1Waddle = createPenguinWaddle(penguin1TNode, [-4.8, 0, 0.8], [1, 0, -4.5], 121, 10)
     penguin2Waddle = createPenguinWaddle(penguin2TNode, [-4, 0, 2], [2, 0, -2.5], 132, 25);
     penguin3Waddle = createPenguinWaddle(penguin3TNode, [-3.5, 0, -0.2], [1, 0, -3], 132, -5);
+
+
     penguin4Waddle = createPenguinWaddle(penguin4TNode, [-6.2, 0, 1.3], [0, 0, -4.4], 129, -30);
-
-
-    orb = createOrb(root, resources);
 
     buttonAnim = new Animation(pillButtonTNode, [{
         matrix: mat4.translate(mat4.create(), mat4.create(), [0, 0, 0]),
@@ -150,7 +163,7 @@ function init(resources) {
     buttonAnim.start();
 
 
-    ufoFlight = createFlight(ufoTNodes, [[40, 5, 3], [8, 5, 0], [8, 5, 0], [5, 5, -5], [0, 5, -8], [-5, 5, -5], [-2, 5, 0], [3, 5, 3]]);
+    ufoFlight = createFlight(ufoTNodes, [[100, 5, -30], [8, 5, 0], [8, 5, 0], [5, 5, -5], [0, 5, -8], [-5, 5, -5], [-2, 5, 0], [3, 5, 3]]);
 
 
     orbAnim = createOrbAnim(orb, [2.5, 1, -4], [2.5, 20, -4]);
@@ -280,9 +293,9 @@ function render(timeInMilliseconds) {
             penguin2Jump.update(deltaTime);
             penguin3Jump.update(deltaTime);
             penguin4Jump.update(deltaTime);
-
         }
     }
+
 
     //Apply camera
     camera.render(context);
@@ -331,7 +344,7 @@ function createMainPenguin(root, resources) {
 function createUFO(root, resources) {
     // UFO
     let ufo1 = new MaterialSGNode([new RenderSGNode(resources.ufoFixedParts)]);
-    let ufo1TNode = new TransformationSGNode(glm.translate(40, 5, 3), [ufo1]);
+    let ufo1TNode = new TransformationSGNode(glm.translate(100, 5, -30), [ufo1]);
     root.append(ufo1TNode);
 
     let ufoUDisk = new MaterialSGNode([new RenderSGNode(resources.ufoUpperDisk)]);
@@ -413,8 +426,11 @@ function createPenguin(root, resources, position, rotation) {
 
 function createPenguinWaddle(penguin, bPosition, fPosition, angle, offset) {
     var penguinMainTurnAnimation = new Animation(penguin[1],
-        [{matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle + 20)), duration: 500+offset},
-            {matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle - 20)), duration: 500+offset}], true);
+        [{matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle + 20)), duration: 500 + offset},
+            {
+                matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle - 20)),
+                duration: 500 + offset
+            }], true);
 
     // */
     penguinMainTurnAnimation.start();
@@ -457,7 +473,7 @@ function createFlight(ufo, positions) {
     let flightP1 = new Animation(ufo[0], [
         {matrix: mat4.translate(mat4.create(), mat4.create(), positions[0]), duration: 1},
         {matrix: mat4.translate(mat4.create(), mat4.create(), positions[1]), duration: 5000},
-        {matrix: mat4.translate(mat4.create(), mat4.create(), positions[2]), duration: 2000}], false);
+        {matrix: mat4.translate(mat4.create(), mat4.create(), positions[2]), duration: 1000}], false);
     flightP1.start();
 
     let flightP2 = new Animation(ufo[0], [
@@ -480,9 +496,20 @@ function createFlight(ufo, positions) {
 function createJump(penguin, position, offset, height) {
     let jumpAnim = new Animation(penguin[0], [
         {matrix: mat4.translate(mat4.create(), mat4.create(), position), duration: 1},
-        {matrix: mat4.translate(mat4.create(), mat4.create(), [position[0], height, position [2]]), duration: 300 + offset},
+        {
+            matrix: mat4.translate(mat4.create(), mat4.create(), [position[0], height, position [2]]),
+            duration: 300 + offset
+        },
         {matrix: mat4.translate(mat4.create(), mat4.create(), position), duration: 300 + offset},
         {matrix: mat4.translate(mat4.create(), mat4.create(), position), duration: 1},], true);
     jumpAnim.start();
     return jumpAnim;
+}
+
+function addKeyFrame(position, xAngle, yAngle, zAngle) {
+    let out = mat4.translate(mat4.create(), mat4.create(), position);
+    out = mat4.rotateY(mat4.create(), out, glm.deg2rad(yAngle));
+    out = mat4.rotateX(mat4.create(), out, glm.deg2rad(xAngle));
+    out = mat4.rotateZ(mat4.create(), out, glm.deg2rad(zAngle))
+    return out;
 }

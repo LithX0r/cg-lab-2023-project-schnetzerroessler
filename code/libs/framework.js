@@ -1010,7 +1010,7 @@ class LightSGNode extends TransformationSGNode {
 class UserControlledCamera {
   constructor(canvas, position) {
     //Camera movement speed in 1000 m/s
-    this.moveSpeed = 0.01; // TODO change to 0.05
+    this.moveSpeed = 0.05;
     //Encapsulates camera fields for easier passing to functions
     this.control = {
       //Enables/disables manual control of the camera
