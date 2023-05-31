@@ -70,10 +70,10 @@ The repository needs to contain:
 
 ### Workload
 
-| Student ID     | Workload (in %) |
-| ---------------|-----------------|
-| TODO           | TODO            |
-| TODO           | TODO            |
+| Student ID | Workload (in %) |
+|------------|-----------------|
+| k12102659  | 50              |
+| k12104562  | 50              |
 
 Workload has to sum up to 100%.
 
