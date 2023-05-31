@@ -1124,7 +1124,6 @@ class UserControlledCamera {
   }
 }
 
-// TODO: Animation doc
 
 /**
  * Animates a TransformationSGNode
