@@ -1,3 +1,5 @@
+# Graphics Pipeline
+
 ## Objects
 - [x] loading main penguin
 - [x] loading ufo
@@ -12,11 +14,11 @@
   - [ ] LookAt vector
 
 ## Animation
-- [ ] Camera animation
+- [X] Camera animation
 - [ ] basic wing movement for main penguin
 - [x] disk rotations for ufo
-- [ ] button movement for pillar
-- [ ] penguin walk
+- [X] button movement for pillar
+- [X] penguin walk
 
 ## Rendering
 - [ ] research if we need buffers
@@ -24,3 +26,30 @@
 - [ ] UFO render function
 - [ ] pillar render function
 - ~~[ ] trees render function~~
+
+## Texturing
+- [ ] Penguin Textures
+- [ ] Tree Textures
+- [ ] UFO Textures
+- [ ] Pillar Textures
+- [ ] Floor Textures
+
+## Materials 
+- [ ] Research
+
+## Particle System
+- [ ] Research
+
+
+------------------------------------------------
+# Refactoring & Doc
+
+## Objects
+- [ ] extract object creation methods
+- [ ] documentation for animation methods
+- [ ] documentation for creation methods
+
+## Camera
+- [ ] Documentation for Keyframes
+- [ ] Maybe change animation to lookAt vectors
+
