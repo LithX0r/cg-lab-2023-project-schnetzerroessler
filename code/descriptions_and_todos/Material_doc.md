@@ -173,11 +173,11 @@
 
 ## Object Name: orb
 **Absolute Values**
-- **Diffuse:** [ r, g, b, a ]
-- **Specular:** [ r, g, b, a ]
-- **Ambient:** [ r, g, b, a ]
-- **Emission:** [ r, g, b, a ]
-- **Shininess:** [ value ]
+- **Diffuse:** [0,255,122,255]
+- **Specular:** [250,250,250,255]
+- **Ambient:** [88,177,4,255]
+- **Emission:** [36,214,210,255]
+- **Shininess:** [ 51 ]
 
 **Relative Values**
 - **Diffuse:** [ r, g, b, a ]
