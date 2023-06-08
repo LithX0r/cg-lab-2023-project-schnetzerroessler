@@ -700,6 +700,7 @@ class ShaderSGNode extends SGNode {
 /**
  * a utility node for setting a uniform in a shader
  */
+
 class SetUniformSGNode extends SGNode {
   constructor(uniform, value, children) {
     super(typeof uniform === 'string' ? children : uniform);
@@ -737,6 +738,8 @@ class SetUniformSGNode extends SGNode {
   }
 
 }
+
+
 
 class AdvancedTextureSGNode extends SGNode {
   constructor(image, children) {

@@ -19,15 +19,6 @@ function createPenguinWaddle(penguin, bPosition, fPosition, angle, offset) {
     return [penguinMainWalk, penguinMainTurnAnimation];
 }
 
-function createOrb(root, resources) {
-    let mainTNode = new TransformationSGNode(glm.translate(2.5, -2, -4));
-    let orb = new MaterialSGNode([new RenderSGNode(resources.orb)])
-    let orbRotTNode = new TransformationSGNode(mat4.create(), [orb]);
-
-    mainTNode.append(orbRotTNode);
-    root.append(mainTNode);
-    return [mainTNode, orbRotTNode];
-}
 
 function createOrbAnim(orb, startPos, endPos) {
     let orbFlight = new Animation(orb[0], [

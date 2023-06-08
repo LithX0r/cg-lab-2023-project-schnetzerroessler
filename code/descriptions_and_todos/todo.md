@@ -21,32 +21,36 @@
 - [X] penguin walk
 
 ## Rendering
-- [ ] research if we need buffers
-- [ ] penguin render function
-- [ ] UFO render function
-- [ ] pillar render function
-- ~~[ ] trees render function~~
+~~- [ ] research if we need buffers~~
+~~- [ ] penguin render function~~
+~~- [ ] UFO render function~~
+~~- [ ] pillar render function~~
+~~- [ ] trees render function~~
 
 ## Texturing
 - [ ] Penguin Textures
-- [ ] Tree Textures
-- [ ] UFO Textures
+~~- [ ] Tree Textures~~
+~~- [ ] UFO Textures~~
 - [ ] Pillar Textures
 - [ ] Floor Textures
 - [ ] Add Skybox
 
 ## Materials 
 - [ ] Research
-- [ ] generate materials in blender
+- [ ] generate materials
   - [ ] penguin
-  - [ ] UFO
-  - [ ] pillar
-  - [ ] orb
-  - [ ] trees
+  - [X] UFO
+  - [X] pillar
+  - [X] orb
+  - [X] trees
 
 ## Particle System
 - [ ] Research
 
+## Lighting
+- [ ] research spotlight
+- [ ] add moving light source
+- [ ] implement spotlight
 
 ------------------------------------------------
 # Refactoring & Doc
@@ -59,17 +63,27 @@
 ## Camera
 - [ ] Documentation for Keyframes
 - [ ] Maybe change animation to lookAt vectors
-
 ------------------------------------------------
 # 8.6.2023
 
 - [ ] penguin wing movement
-- [ ] code refactoring objects
-- [ ] PDF file about working on the project
-- [ ] apply base colors
-  - [ ] tree tops
-  - [ ] tree trunks
-  - [ ] button
-  - [ ] UFO body
-  - [ ] UFO beam
-  - [ ] orb
+- [X] code refactoring objects
+- [X] create PDF file about working on the project
+- [X] apply base colors
+  - [X] tree tops
+  - [X] tree trunks
+  - [X] button
+  - [X] UFO body
+  - [X] UFO beam
+  - [X] orb
+
+
+---
+# 9.6.2023
+
+- [ ] finish yesterdays todos
+- [ ] texture map penguin
+- [ ] texture map floor
+- [ ] texture map pillar
+- [ ] start research on particle system
+- [ ] start research for spotlight
