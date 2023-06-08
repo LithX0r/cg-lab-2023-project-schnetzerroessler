@@ -33,9 +33,16 @@
 - [ ] UFO Textures
 - [ ] Pillar Textures
 - [ ] Floor Textures
+- [ ] Add Skybox
 
 ## Materials 
 - [ ] Research
+- [ ] generate materials in blender
+  - [ ] penguin
+  - [ ] UFO
+  - [ ] pillar
+  - [ ] orb
+  - [ ] trees
 
 ## Particle System
 - [ ] Research
