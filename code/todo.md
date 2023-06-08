@@ -53,3 +53,16 @@
 - [ ] Documentation for Keyframes
 - [ ] Maybe change animation to lookAt vectors
 
+------------------------------------------------
+# 8.6.2023
+
+- [ ] penguin wing movement
+- [ ] code refactoring objects
+- [ ] PDF file about working on the project
+- [ ] apply base colors
+  - [ ] tree tops
+  - [ ] tree trunks
+  - [ ] button
+  - [ ] UFO body
+  - [ ] UFO beam
+  - [ ] orb
