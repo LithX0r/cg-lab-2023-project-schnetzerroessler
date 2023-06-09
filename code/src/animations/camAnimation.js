@@ -9,8 +9,8 @@ function addKeyFrame(position, xAngle, yAngle, zAngle) {
 function addCameraAnimation(camera) {
     return new Animation(camera, [
             {matrix: addKeyFrame([-0.4, 1, -3.6], 0, -45, 0), duration: 1},
-            {matrix: addKeyFrame([3, 1, -8], 0, -30, 0), duration: 6000},
-            {matrix: addKeyFrame([-1, 2, -12], 0, 15, 0), duration: 1000},
+            {matrix: addKeyFrame([3, 1, -8], 0, -30, 0), duration: 5000},
+            {matrix: addKeyFrame([-1, 2, -12], 0, 15, 0), duration: 850},
             {matrix: addKeyFrame([-1, 2, -12], 0, 20, 0), duration: 2000},
             {matrix: addKeyFrame([-1, 4, -12], 0, 20, 0), duration: 150},
             {matrix: addKeyFrame([-1, 4, -12], -25, 20, 0), duration: 850},

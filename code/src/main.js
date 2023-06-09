@@ -45,6 +45,8 @@ let startedPenguins = true;
 let orb = null;
 let orbAnim = null;
 
+let penguinArmUp = null;
+let penguinArmDown = null;
 
 //load the shader resources using a utility function
 loadResources({
@@ -59,6 +61,8 @@ loadResources({
     penguinLeftWing: './src/models/penguin/penguinLeftWing.obj',
     penguinRightWing: './src/models/penguin/penguinRightWing.obj',
     penguinFull: './src/models/penguin/penguinFull.obj',
+    penguinRightWing_separate: './src/models/penguin/penguinRightWing_separate.obj',
+
 
     ufoFixedParts: './src/models/ufo/ufoFixedParts.obj',
     ufoUpperDisk: './src/models/ufo/ufoUpperDisk.obj',
@@ -105,24 +109,9 @@ function init(resources) {
     camera = new UserControlledCamera(gl.canvas, cameraStartPos);
     //setup an animation for the camera, moving it into position
 
-    cameraAnimation = new Animation(camera, [
-            {matrix: addKeyFrame([-0.4, 1, -3.6], 0, -45, 0), duration: 1},
-            {matrix: addKeyFrame([3, 1, -8], 0, -30, 0), duration: 6000},
-            {matrix: addKeyFrame([-1, 2, -12], 0, 15, 0), duration: 1000},
-            {matrix: addKeyFrame([-1, 2, -12], 0, 20, 0), duration: 2000},
-            {matrix: addKeyFrame([-1, 4, -12], 0, 20, 0), duration: 150},
-            {matrix: addKeyFrame([-1, 4, -12], -25, 20, 0), duration: 850},
-            {matrix: addKeyFrame([-15, 10, -17], 10, 60, 0), duration: 4000},
-            {matrix: addKeyFrame([-15, 10, -17], 13, 57, 0), duration: 5500},
-            {matrix: addKeyFrame([-20 + 3, 10, -17 - (2 * 0.4)], 13, 57 - 0.8, 0), duration: 4000},
-            {matrix: addKeyFrame([-20, 10, -20], 13, 50, 0), duration: 2000},
-            {matrix: addKeyFrame([-18, 10, -20 + 0.8], 13, 48, 0), duration: 2000},
-            {matrix: addKeyFrame([-18, 10, -20 + 0.8], 13, 53, 0), duration: 1500},
-            {matrix: addKeyFrame([10, 7, -5], 40, -75, 0), duration: 500},
-            {matrix: addKeyFrame([10, 7, -5], 40, -75, 0), duration: 1500},
-        ],
-        false);
-    cameraAnimation.start()
+    // cameraAnimation = new Animation(camera,[{matrix: addKeyFrame([2,1,-10],0,-45, 0), duration: 10}], false);
+    cameraAnimation = addCameraAnimation(camera);
+    cameraAnimation.start();
 
 
 
@@ -141,47 +130,38 @@ function init(resources) {
     penguin1TNode = createPenguin(root, resources, [-4.8, 0, 0.8], glm.rotateY(121));
     penguin2TNode = createPenguin(root, resources, [-4, 0, 2], glm.rotateY(132));
     penguin3TNode = createPenguin(root, resources, [-3.5, 0, -0.2], glm.rotateY(132));
-
-    /*
-    let orb = new MaterialSGNode([new RenderSGNode(resources.orb)]);
-    orb.ambient = [0.70196078, 0.13333333, 0.07058824, 1];
-    orb.diffuse = [0.0000000, 0.8000000, 0.3333333, 1];
-    orb.specular = [0.5882353, 0.1098039, 0.5882353, 1];
-    orb.shininess = 67;
-
-    let orbRotTNode = new TransformationSGNode(mat4.create(), [orb]);
-
-    let mainTNode = new TransformationSGNode(glm.translate(2.5, -2, -4), [orbRotTNode]);
+    penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129));
 
 
-    mainTNode.append(orbRotTNode);
-    root.append(mainTNode);
-    orb = [mainTNode, orbRotTNode];
 
-     */
+
+
 
     // orb = createOrb(root, resources);
-
-
-
-
     // Animation creation
-    penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129));
     penguinMainWaddle = createPenguinWaddle(penguinMain, [-3.8, 0, -1.5], [2, 0, -4], 125, 0);
     penguin1Waddle = createPenguinWaddle(penguin1TNode, [-4.8, 0, 0.8], [1, 0, -4.5], 121, 10)
     penguin2Waddle = createPenguinWaddle(penguin2TNode, [-4, 0, 2], [2, 0, -2.5], 132, 25);
     penguin2Waddle = createPenguinWaddle(penguin2TNode, [-4, 0, 2], [2, 0, -2.5], 132, 25);
     penguin3Waddle = createPenguinWaddle(penguin3TNode, [-3.5, 0, -0.2], [1, 0, -3], 132, -5);
-
-
     penguin4Waddle = createPenguinWaddle(penguin4TNode, [-6.2, 0, 1.3], [0, 0, -4.4], 129, -30);
 
+    /*
+    let test = new MaterialSGNode([new RenderSGNode(resources.penguinRightWing_separate)]);
+    testNode = new TransformationSGNode(glm.translate(0,0,0), [test]);
+    root.append(testNode);
+
+     // */
+    // testNode.setMatrix(glm.rotateX(50));
+
+
+    // /*
     buttonAnim = new Animation(pillButtonTNode, [{
         matrix: mat4.translate(mat4.create(), mat4.create(), [0, 0, 0]),
         duration: 1
     }, {
         matrix: mat4.translate(mat4.create(), mat4.create(), [0, -0.05, 0]),
-        duration: 1500
+        duration: 350
     }], false);
     buttonAnim.start();
 
@@ -198,6 +178,26 @@ function init(resources) {
     penguin3Jump = createJump(penguin3TNode, [1, 0, -3], -5, 0.32);
     penguin4Jump = createJump(penguin4TNode, [0, 0, -4.4], -30, 0.31);
 
+
+     // */
+
+
+    penguinArmUp = new Animation(penguinMain[3], [
+        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], -70, 0, 0), duration: 1000}], false);
+    penguinArmUp.start()
+
+    penguinArmDown = new Animation(penguinMain[3], [
+        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], -70, 0, 0), duration: 1},
+        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], 0, 0, 0), duration: 1500}], false);
+    penguinArmDown.start();
+
+    /*
+    penguinArm = new Animation(penguinMain[3], [
+        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], -45, 0, 0), duration: 1000},
+        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], 0, 0, 0), duration: 1000}], false);
+    penguinArm.start();
+
+     */
 }
 
 function createSceneGraph(gl, resources) {
@@ -227,7 +227,7 @@ function createSceneGraph(gl, resources) {
         new RenderSGNode(makeRect(10, 10))
     ]);
     //dark
-    floor.ambient = [0.2, 0.3, 0.2, 1];
+    floor.ambient = [0.2, 0.4, 0.2, 1];
     floor.diffuse = [0.1, 0.1, 0.1, 1];
     floor.specular = [0.5, 0.5, 0.5, 1];
     floor.shininess = 3;
@@ -287,29 +287,37 @@ function render(timeInMilliseconds) {
 
     //TODO use your own scene for rendering
 
+    // penguinMain[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateX(1), penguinMain[2].matrix));
+    // penguinMain[3].setMatrix(mat4.multiply(mat4.create(), penguinMain[3].matrix, glm.rotateX(1)));
 
+    // testNode.setMatrix(mat4.multiply(mat4.create(), glm.rotateX(1), testNode.matrix));
+
+    // /*
     ufoTNodes[1].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(1.7), ufoTNodes[1].matrix));
     ufoTNodes[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(-1.7), ufoTNodes[2].matrix));
-
-
     if (startedPenguins) {
 
+
+
         penguinMainWaddle.forEach(e => e.update(deltaTime));
+
         penguin1Waddle.forEach(e => e.update(deltaTime));
         penguin2Waddle.forEach(e => e.update(deltaTime));
         penguin3Waddle.forEach(e => e.update(deltaTime));
         penguin4Waddle.forEach(e => e.update(deltaTime));
         startedPenguins = penguinMainWaddle[0].running;
-
     } else {
+
         penguinMainWaddle[1].running = false;
         penguin1Waddle[1].running = false;
         penguin2Waddle[1].running = false;
         penguin3Waddle[1].running = false;
         penguin4Waddle[1].running = false;
-
-        buttonAnim.update(deltaTime);
-
+        penguinArmUp.update(deltaTime);
+        if(!penguinArmUp.running) {
+            penguinArmDown.update(deltaTime);
+            buttonAnim.update(deltaTime);
+        }
         if (!buttonAnim.running) {
 
             orbAnim.forEach(e => e.update(deltaTime));
@@ -334,7 +342,7 @@ function render(timeInMilliseconds) {
             penguin4Jump.update(deltaTime);
         }
     }
-
+    // */
 
     //Apply camera
     camera.render(context);

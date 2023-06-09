@@ -13,7 +13,7 @@ function createPenguinWaddle(penguin, bPosition, fPosition, angle, offset) {
         matrix: mat4.translate(mat4.create(), mat4.create(), bPosition),
         duration: 1
     },
-        {matrix: mat4.translate(mat4.create(), mat4.create(), fPosition), duration: 7000}], false);
+        {matrix: mat4.translate(mat4.create(), mat4.create(), fPosition), duration: 6000}], false);
     penguinMainWalk.start();
 
     return [penguinMainWalk, penguinMainTurnAnimation];
@@ -73,10 +73,14 @@ function createJump(penguin, position, offset, height) {
 
 // /*
 function createArmRoation(penguin) {
-    let armAnim = new Animation(penguin[3], [
-        {matrix: glm.rotateX(45), duration: 1000}
-    ], true);
-    armAnim.start();
-    return armAnim;
+    let penguinArmUp = new Animation(penguin[3], [
+        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], -70, 0, 0), duration: 1000}], false);
+    penguinArmUp.start()
+
+    let penguinArmDown = new Animation(penguin[3], [
+        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], -70, 0, 0), duration: 1},
+        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], 0, 0, 0), duration: 1500}], false);
+    penguinArmDown.start();
+    return [penguinArmUp, penguinArmDown];
 }
 // */

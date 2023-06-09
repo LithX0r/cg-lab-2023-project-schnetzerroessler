@@ -66,7 +66,7 @@
 ------------------------------------------------
 # 8.6.2023
 
-- [ ] penguin wing movement
+- [X] penguin wing movement
 - [X] code refactoring objects
 - [X] create PDF file about working on the project
 - [X] apply base colors
@@ -81,7 +81,7 @@
 ---
 # 9.6.2023
 
-- [ ] finish yesterdays todos
+- [X] finish yesterdays todos
 - [ ] texture map penguin
 - [ ] texture map floor
 - [ ] texture map pillar

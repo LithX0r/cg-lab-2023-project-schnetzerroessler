@@ -4,31 +4,41 @@ function createMainPenguin(root, resources) {
     let pengLWingTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengLeftWing]);
 
 
+    /*
     let pengRightWing = new MaterialSGNode(([new RenderSGNode((resources.penguinRightWing))]));
     let pengRWingTransformNode = new TransformationSGNode(glm.transform(0, 0, 0), [pengRightWing]);
+     */
 
+
+
+    let pengRightWing = new MaterialSGNode([new RenderSGNode(resources.penguinRightWing_separate)]);
+
+    let pengRWingTransformNode = new TransformationSGNode(glm.translate(-0.145811, 0.947348, -0.00042),[pengRightWing]);
+    // pengRWingTransformNode.setMatrix(mat4.multiply(mat4.create(), glm.rotateX(45), pengRWingTransformNode.matrix));
+    // pengRWingTransformNode.setMatrix(mat4.multiply(mat4.create(), glm.translate(0, 0.947348 , 0), glm.rotateX(0)));
 
     let pengHeadBeak = new MaterialSGNode([new RenderSGNode(resources.penguinHeadBeak)]);
-    let pengHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengHeadBeak]);
+    let pengHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0 , 0), [pengHeadBeak]);
 
     let penguinBody = new MaterialSGNode([new RenderSGNode(resources.penguinBody)]);
-    let pengBodyTransformNode = new TransformationSGNode(mat4.create(), [penguinBody]);
+    let pengBodyTransformNode = new TransformationSGNode(mat4.create(), [penguinBody, pengHeadBeakTransformNode, pengLWingTransformNode, pengRWingTransformNode]);
 
     // let matBody = mat4.multiply(mat4.create(), mat4.create(), glm.translate(-3.8, 0, -1.5))
     // matBody = mat4.multiply(mat4.create(), matBody, glm.rotateY(125))
 
     // pengBodyTransformNode.setMatrix(matBody);
+    // pengRWingTransformNode.setMatrix(mat4.multiply(mat4.create(), glm.rotateY(125), pengRWingTransformNode.matrix))
     pengBodyTransformNode.setMatrix(glm.rotateY(125));
 
 
-    let mainTNode = new TransformationSGNode(glm.translate(-3.8, 0, -1.5));
+    let mainTNode = new TransformationSGNode(glm.translate(-3.8, 0, -1.5) );
 
     root.append(mainTNode);
     mainTNode.append(pengBodyTransformNode);
     // root.append(pengBodyTransformNode);
-    pengBodyTransformNode.append(pengLWingTransformNode);
-    pengBodyTransformNode.append(pengRWingTransformNode);
-    pengBodyTransformNode.append(pengHeadBeakTransformNode);
+    // pengBodyTransformNode.append(pengLWingTransformNode);
+    // pengBodyTransformNode.append(pengRWingTransformNode);
+    // pengBodyTransformNode.append(pengHeadBeakTransformNode);
     return [mainTNode, pengBodyTransformNode, pengLWingTransformNode, pengRWingTransformNode, pengHeadBeakTransformNode];
 }
 
