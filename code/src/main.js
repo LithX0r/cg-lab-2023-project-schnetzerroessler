@@ -60,9 +60,10 @@ loadResources({
     penguinHeadBeak: './src/models/penguin/penguinHeadBeak.obj',
     penguinLeftWing: './src/models/penguin/penguinLeftWing.obj',
     penguinRightWing: './src/models/penguin/penguinRightWing.obj',
-    penguinFull: './src/models/penguin/penguinFull.obj',
+    penguinFull: './src/models/penguin/penguin2.obj',
     penguinRightWing_separate: './src/models/penguin/penguinRightWing_separate.obj',
 
+    penguinTex: './src/models/penguin/texture_test.png',
 
     ufoFixedParts: './src/models/ufo/ufoFixedParts.obj',
     ufoUpperDisk: './src/models/ufo/ufoUpperDisk.obj',
@@ -198,6 +199,8 @@ function init(resources) {
     penguinArm.start();
 
      */
+    // let u_enableObjTex = SetUniformSGNode.constructor("u_enableObjectTexture", true, []);
+
 }
 
 function createSceneGraph(gl, resources) {
@@ -286,6 +289,9 @@ function render(timeInMilliseconds) {
     }
 
     //TODO use your own scene for rendering
+
+
+
 
     // penguinMain[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateX(1), penguinMain[2].matrix));
     // penguinMain[3].setMatrix(mat4.multiply(mat4.create(), penguinMain[3].matrix, glm.rotateX(1)));
