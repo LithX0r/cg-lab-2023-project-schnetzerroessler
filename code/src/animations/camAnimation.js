@@ -1,3 +1,12 @@
+/**
+ * Rotates the camera first based on the given angles and then translates the camera to the wanted location.
+ * Is also used to add the penguins arm/button pressing rotation.
+ * @param position  The coordinates where the viewer is positioned.
+ * @param xAngle    The view's angle on the x-axis.
+ * @param yAngle    The view's angle on the y-axis.
+ * @param zAngle    The view's angle on the z-axis.
+ * @return The defined matrix.
+ */
 function addKeyFrame(position, xAngle, yAngle, zAngle) {
     let out = mat4.translate(mat4.create(), mat4.create(), position);
     out = mat4.rotateY(mat4.create(), out, glm.deg2rad(yAngle));
@@ -6,6 +15,11 @@ function addKeyFrame(position, xAngle, yAngle, zAngle) {
     return out;
 }
 
+/**
+ * Adds the complete camera animation for the video by defining suitable keyframes with {@link #addKeyFrame}.
+ * @param camera    The camera object created in {@link #init}.
+ * @return The camera animation.
+ */
 function addCameraAnimation(camera) {
     return new Animation(camera, [
             {matrix: addKeyFrame([-0.4, 1, -3.6], 0, -45, 0), duration: 1},
