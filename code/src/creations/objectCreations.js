@@ -159,8 +159,14 @@ function createForest(root, resources) {
 }
 
 function createPenguin(root, resources, position, rotation) {
-    let penguin = new MaterialSGNode([new RenderSGNode(resources.penguinFull)]);
+    let penguin = new MaterialSGNode(new AdvancedTextureSGNode(resources.penguinTex, [new RenderSGNode(resources.penguinFull)]));
     let penguinTNode = new TransformationSGNode(rotation, [penguin]);
+    // let pengMat = parseMtlFile(resources.penguinTex);
+    // penguin.ambient = pengMat.ambient;
+    // penguin.diffuse = pengMat.diffuse;
+    // penguin.specular = pengMat.specular;
+    // penguin.emission = pengMat.emission;
+    // penguin.shininess = pengMat.shininess;
     // let transM = mat4.multiply(mat4.create(), mat4.create(), rotation);
     let mainTNode = new TransformationSGNode(glm.translate(position[0], position[1], position[2]));
     // penguinTNode.setMatrix(transM);
