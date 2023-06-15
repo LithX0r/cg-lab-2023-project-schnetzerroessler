@@ -15,7 +15,7 @@
 
 ## Animation
 - [X] Camera animation
-- [ ] basic wing movement for main penguin
+- [X] basic wing movement for main penguin
 - [x] disk rotations for ufo
 - [X] button movement for pillar
 - [X] penguin walk
@@ -31,12 +31,12 @@
 - [ ] Penguin Textures
 ~~- [ ] Tree Textures~~
 ~~- [ ] UFO Textures~~
-- [ ] Pillar Textures
+~~- [ ] Pillar Textures~~
 - [ ] Floor Textures
 - [ ] Add Skybox
 
 ## Materials 
-- [ ] Research
+- [X] Research
 - [ ] generate materials
   - [ ] penguin
   - [X] UFO
@@ -84,6 +84,6 @@
 - [X] finish yesterdays todos
 - [ ] texture map penguin
 - [ ] texture map floor
-- [ ] texture map pillar
+~~- [ ] texture map pillar~~
 - [ ] start research on particle system
 - [ ] start research for spotlight

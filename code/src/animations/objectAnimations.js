@@ -133,7 +133,7 @@ function createArmRotation(penguin) {
 }
 
 function createButtonAnim(button) {
-    buttonAnim = new Animation(pillButtonTNode, [{
+    buttonAnim = new Animation(button, [{
         matrix: mat4.translate(mat4.create(), mat4.create(), [0, 0, 0]),
         duration: 1
     }, {
