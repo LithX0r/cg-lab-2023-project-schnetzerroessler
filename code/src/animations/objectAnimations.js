@@ -10,19 +10,19 @@
  * @return An Array with the two defined animations needed for making a penguin waddle forward.
  */
 function createPenguinWaddle(penguin, startPos, endPos, angle, offset) {
-    let penguinMainTurnAnimation = new Animation(penguin[1],[
+    let turnAnim = new Animation(penguin[1],[
         {matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle + 20)), duration: 500 + offset},
         {matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle - 20)), duration: 500 + offset}],
         true);
-    penguinMainTurnAnimation.start();
+    turnAnim.start();
 
-    let penguinMainWalk = new Animation(penguin[0], [
+    let walkAnim = new Animation(penguin[0], [
         {matrix: mat4.translate(mat4.create(), mat4.create(), startPos), duration: 1},
         {matrix: mat4.translate(mat4.create(), mat4.create(), endPos), duration: 6000}],
         false);
-    penguinMainWalk.start();
+    walkAnim.start();
 
-    return [penguinMainWalk, penguinMainTurnAnimation];
+    return [walkAnim, turnAnim];
 }
 
 
@@ -109,7 +109,6 @@ function createJump(penguin, position, offset, height) {
     return jumpAnim;
 }
 
-// /*
 /**
  * Implements the arm movements the penguin needs for pressing the button (up and down).
  * For this, it defines two separate animations and returns them as an array with two elements.
@@ -132,4 +131,15 @@ function createArmRotation(penguin) {
 
     return [penguinArmUp, penguinArmDown];
 }
-// */
+
+function createButtonAnim(button) {
+    buttonAnim = new Animation(pillButtonTNode, [{
+        matrix: mat4.translate(mat4.create(), mat4.create(), [0, 0, 0]),
+        duration: 1
+    }, {
+        matrix: mat4.translate(mat4.create(), mat4.create(), [0, -0.05, 0]),
+        duration: 350
+    }], false);
+    buttonAnim.start();
+    return buttonAnim;
+}

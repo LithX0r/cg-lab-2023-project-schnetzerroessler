@@ -9,9 +9,9 @@
  */
 function addKeyFrame(position, xAngle, yAngle, zAngle) {
     let out = mat4.translate(mat4.create(), mat4.create(), position);
-        out = mat4.rotateY(mat4.create(), out, glm.deg2rad(yAngle));
-        out = mat4.rotateX(mat4.create(), out, glm.deg2rad(xAngle));
-        out = mat4.rotateZ(mat4.create(), out, glm.deg2rad(zAngle))
+    out = mat4.rotateY(mat4.create(), out, glm.deg2rad(yAngle));
+    out = mat4.rotateX(mat4.create(), out, glm.deg2rad(xAngle));
+    out = mat4.rotateZ(mat4.create(), out, glm.deg2rad(zAngle))
     return out;
 }
 

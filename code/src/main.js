@@ -15,6 +15,8 @@ var root = null;
 // time in last render step
 var previousTime = 0;
 
+let floor = null;
+
 let penguinMain = null;
 let penguin1TNode = null;
 let penguin2TNode = null;
@@ -127,6 +129,8 @@ function init(resources) {
 
     createForest(root, resources);
 
+    orb = createOrb(root, resources);
+
     penguinMain = createMainPenguin(root, resources);
     penguin1TNode = createPenguin(root, resources, [-4.8, 0, 0.8], glm.rotateY(121));
     penguin2TNode = createPenguin(root, resources, [-4, 0, 2], glm.rotateY(132));
@@ -134,11 +138,6 @@ function init(resources) {
     penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129));
 
 
-
-
-
-
-    // orb = createOrb(root, resources);
     // Animation creation
     penguinMainWaddle = createPenguinWaddle(penguinMain, [-3.8, 0, -1.5], [2, 0, -4], 125, 0);
     penguin1Waddle = createPenguinWaddle(penguin1TNode, [-4.8, 0, 0.8], [1, 0, -4.5], 121, 10)
@@ -146,31 +145,11 @@ function init(resources) {
     penguin3Waddle = createPenguinWaddle(penguin3TNode, [-3.5, 0, -0.2], [1, 0, -3], 132, -5);
     penguin4Waddle = createPenguinWaddle(penguin4TNode, [-6.2, 0, 1.3], [0, 0, -4.4], 129, -30);
 
-    /*
-    let test = new MaterialSGNode([new RenderSGNode(resources.penguinRightWing_separate)]);
-    testNode = new TransformationSGNode(glm.translate(0,0,0), [test]);
-    root.append(testNode);
-
-     // */
-    // testNode.setMatrix(glm.rotateX(50));
-
-
-    // /*
-    buttonAnim = new Animation(pillButtonTNode, [{
-        matrix: mat4.translate(mat4.create(), mat4.create(), [0, 0, 0]),
-        duration: 1
-    }, {
-        matrix: mat4.translate(mat4.create(), mat4.create(), [0, -0.05, 0]),
-        duration: 350
-    }], false);
-    buttonAnim.start();
-
+    buttonAnim = createButtonAnim(pillButtonTNode);
 
     ufoFlight = createUfoAnim(ufoTNodes, [[100, 5, -30], [8, 5, 0], [8, 5, 0], [5, 5, -5], [0, 5, -8], [-5, 5, -5], [-2, 5, 0], [3, 5, 3]]);
 
-
     orbAnim = createOrbAnim(orb, [2.5, 1, -4], [2.5, 20, -4]);
-
 
     penguinMainJump = createJump(penguinMain, [2, 0, -4], 0, 0.3);
     penguin1Jump = createJump(penguin1TNode, [1, 0, -4.5], 10, 0.33);
@@ -178,26 +157,9 @@ function init(resources) {
     penguin3Jump = createJump(penguin3TNode, [1, 0, -3], -5, 0.32);
     penguin4Jump = createJump(penguin4TNode, [0, 0, -4.4], -30, 0.31);
 
-
-     // */
-
-
-    penguinArmUp = new Animation(penguinMain[3], [
-        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], -70, 0, 0), duration: 1000}], false);
-    penguinArmUp.start()
-
-    penguinArmDown = new Animation(penguinMain[3], [
-        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], -70, 0, 0), duration: 1},
-        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], 0, 0, 0), duration: 1500}], false);
-    penguinArmDown.start();
-
-    /*
-    penguinArm = new Animation(penguinMain[3], [
-        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], -45, 0, 0), duration: 1000},
-        {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], 0, 0, 0), duration: 1000}], false);
-    penguinArm.start();
-
-     */
+    let penguinArm = createArmRotation(penguinMain);
+    penguinArmUp = penguinArm[0];
+    penguinArmDown = penguinArm[1];
 
 }
 
@@ -223,33 +185,7 @@ function createSceneGraph(gl, resources) {
     // add light to scenegraph
     root.append(light);
 
-    // create floor
-    let floor = new MaterialSGNode( [
-        new RenderSGNode(makeRect(10, 10))
-    ]);
-    //dark
-    floor.ambient = [0.2, 0.4, 0.2, 1];
-    floor.diffuse = [0.1, 0.1, 0.1, 1];
-    floor.specular = [0.5, 0.5, 0.5, 1];
-    floor.shininess = 3;
-    // add floor to scenegraph
-    root.append(new TransformationSGNode(glm.transform({translate: [0, 0, 0], rotateX: -90, scale: 5}), [
-        floor
-    ]));
-    // floor = createFloor(root);
-
-
-
-    // orb.shininess = 67;
-
-    orb = createOrb(root, resources);
-    // let mainTNode = orb[0];
-    // let orbRotTNode = orb[1];
-
-    // mainTNode.append(orbRotTNode);
-    // root.append(mainTNode);
-    // orb = [mainTNode, orbRotTNode];
-
+    floor = createFloor(root);
 
     return root;
 }
@@ -291,14 +227,6 @@ function render(timeInMilliseconds) {
     }
 
     //TODO use your own scene for rendering
-
-
-
-
-    // penguinMain[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateX(1), penguinMain[2].matrix));
-    // penguinMain[3].setMatrix(mat4.multiply(mat4.create(), penguinMain[3].matrix, glm.rotateX(1)));
-
-    // testNode.setMatrix(mat4.multiply(mat4.create(), glm.rotateX(1), testNode.matrix));
 
     // /*
     ufoTNodes[1].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(1.7), ufoTNodes[1].matrix));
@@ -361,4 +289,6 @@ function render(timeInMilliseconds) {
     //request another call as soon as possible
     requestAnimationFrame(render);
 }
+
+
 

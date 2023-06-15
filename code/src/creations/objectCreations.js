@@ -3,19 +3,9 @@ function createMainPenguin(root, resources) {
     let pengLeftWing = new MaterialSGNode([new RenderSGNode(resources.penguinLeftWing)]);
     let pengLWingTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengLeftWing]);
 
-
-    /*
-    let pengRightWing = new MaterialSGNode(([new RenderSGNode((resources.penguinRightWing))]));
-    let pengRWingTransformNode = new TransformationSGNode(glm.transform(0, 0, 0), [pengRightWing]);
-     */
-
-
-
     let pengRightWing = new MaterialSGNode([new RenderSGNode(resources.penguinRightWing_separate)]);
 
     let pengRWingTransformNode = new TransformationSGNode(glm.translate(-0.145811, 0.947348, -0.00042),[pengRightWing]);
-    // pengRWingTransformNode.setMatrix(mat4.multiply(mat4.create(), glm.rotateX(45), pengRWingTransformNode.matrix));
-    // pengRWingTransformNode.setMatrix(mat4.multiply(mat4.create(), glm.translate(0, 0.947348 , 0), glm.rotateX(0)));
 
     let pengHeadBeak = new MaterialSGNode([new RenderSGNode(resources.penguinHeadBeak)]);
     let pengHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0 , 0), [pengHeadBeak]);
@@ -23,22 +13,12 @@ function createMainPenguin(root, resources) {
     let penguinBody = new MaterialSGNode([new RenderSGNode(resources.penguinBody)]);
     let pengBodyTransformNode = new TransformationSGNode(mat4.create(), [penguinBody, pengHeadBeakTransformNode, pengLWingTransformNode, pengRWingTransformNode]);
 
-    // let matBody = mat4.multiply(mat4.create(), mat4.create(), glm.translate(-3.8, 0, -1.5))
-    // matBody = mat4.multiply(mat4.create(), matBody, glm.rotateY(125))
-
-    // pengBodyTransformNode.setMatrix(matBody);
-    // pengRWingTransformNode.setMatrix(mat4.multiply(mat4.create(), glm.rotateY(125), pengRWingTransformNode.matrix))
     pengBodyTransformNode.setMatrix(glm.rotateY(125));
-
 
     let mainTNode = new TransformationSGNode(glm.translate(-3.8, 0, -1.5) );
 
     root.append(mainTNode);
     mainTNode.append(pengBodyTransformNode);
-    // root.append(pengBodyTransformNode);
-    // pengBodyTransformNode.append(pengLWingTransformNode);
-    // pengBodyTransformNode.append(pengRWingTransformNode);
-    // pengBodyTransformNode.append(pengHeadBeakTransformNode);
     return [mainTNode, pengBodyTransformNode, pengLWingTransformNode, pengRWingTransformNode, pengHeadBeakTransformNode];
 }
 
@@ -165,15 +145,7 @@ function createPenguin(root, resources, position, rotation) {
     let penguin = new MaterialSGNode(texNode);
     // let penguin = new MaterialSGNode(new AdvancedTextureSGNode(resources.penguinTex,[new RenderSGNode(resources.penguinFull)]));
     let penguinTNode = new TransformationSGNode(rotation, [penguin]);
-    // let pengMat = parseMtlFile(resources.penguinTex);
-    // penguin.ambient = pengMat.ambient;
-    // penguin.diffuse = pengMat.diffuse;
-    // penguin.specular = pengMat.specular;
-    // penguin.emission = pengMat.emission;
-    // penguin.shininess = pengMat.shininess;
-    // let transM = mat4.multiply(mat4.create(), mat4.create(), rotation);
     let mainTNode = new TransformationSGNode(glm.translate(position[0], position[1], position[2]));
-    // penguinTNode.setMatrix(transM);
     mainTNode.append(penguinTNode);
     root.append(mainTNode);
     return [mainTNode, penguinTNode];
@@ -198,6 +170,23 @@ function createOrb(root, resources) {
 
     return [mainTNode, orbRotTNode];
 }
+
+function createFloor(root) {
+    let floor = new MaterialSGNode( [
+        new RenderSGNode(makeRect(10, 10))
+    ]);
+    //dark
+    floor.ambient = [0.2, 0.4, 0.2, 1];
+    floor.diffuse = [0.1, 0.1, 0.1, 1];
+    floor.specular = [0.5, 0.5, 0.5, 1];
+    floor.shininess = 3;
+    // add floor to scenegraph
+    root.append(new TransformationSGNode(glm.transform({translate: [0, 0, 0], rotateX: -90, scale: 5}), [
+        floor
+    ]));
+    return floor;
+}
+
 
 function rgbToPercent(v) {
     for(i = 0; i < 4; i++) {
