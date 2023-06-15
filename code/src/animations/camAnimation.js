@@ -1,6 +1,6 @@
 /**
- * Rotates the camera first based on the given angles and then translates the camera to the wanted location.
- * Is also used to add the penguins arm/button pressing rotation.
+ * Rotates the camera or object first based on the given angles and then translates it to the wanted location.
+ * Is also used to add the penguins arm/button-pressing rotation.
  * @param position  The coordinates where the viewer is positioned.
  * @param xAngle    The view's angle on the x-axis.
  * @param yAngle    The view's angle on the y-axis.
@@ -9,9 +9,9 @@
  */
 function addKeyFrame(position, xAngle, yAngle, zAngle) {
     let out = mat4.translate(mat4.create(), mat4.create(), position);
-    out = mat4.rotateY(mat4.create(), out, glm.deg2rad(yAngle));
-    out = mat4.rotateX(mat4.create(), out, glm.deg2rad(xAngle));
-    out = mat4.rotateZ(mat4.create(), out, glm.deg2rad(zAngle))
+        out = mat4.rotateY(mat4.create(), out, glm.deg2rad(yAngle));
+        out = mat4.rotateX(mat4.create(), out, glm.deg2rad(xAngle));
+        out = mat4.rotateZ(mat4.create(), out, glm.deg2rad(zAngle))
     return out;
 }
 
