@@ -151,13 +151,13 @@ function init(resources) {
 
     orbAnim = createOrbAnim(orb, [2.5, 1, -4], [2.5, 20, -4]);
 
-    penguinMainJump = createJump(penguinMain, [2, 0, -4], 0, 0.3);
-    penguin1Jump = createJump(penguin1TNode, [1, 0, -4.5], 10, 0.33);
-    penguin2Jump = createJump(penguin2TNode, [2, 0, -2.5], 25, 0.28);
-    penguin3Jump = createJump(penguin3TNode, [1, 0, -3], -5, 0.32);
-    penguin4Jump = createJump(penguin4TNode, [0, 0, -4.4], -30, 0.31);
+    penguinMainJump = createPenguinJump(penguinMain, [2, 0, -4], 0, 0.3);
+    penguin1Jump = createPenguinJump(penguin1TNode, [1, 0, -4.5], 10, 0.33);
+    penguin2Jump = createPenguinJump(penguin2TNode, [2, 0, -2.5], 25, 0.28);
+    penguin3Jump = createPenguinJump(penguin3TNode, [1, 0, -3], -5, 0.32);
+    penguin4Jump = createPenguinJump(penguin4TNode, [0, 0, -4.4], -30, 0.31);
 
-    let penguinArm = createArmRotation(penguinMain);
+    let penguinArm = createPenguinWingRotation(penguinMain);
     penguinArmUp = penguinArm[0];
     penguinArmDown = penguinArm[1];
 

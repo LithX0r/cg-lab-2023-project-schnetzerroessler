@@ -1,57 +1,72 @@
+/**
+ * Is used for the creation of the main penguin, which is the penguin that presses the button.
+ * Creates transformation nodes for all the main penguins body parts and appends them to each other as children.
+ * Also appends them to {@param root} via the mainTNode.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @param resources An object containing defined keys with loaded resources.
+ * @return An array containing all the penguins transformation nodes.
+ */
 function createMainPenguin(root, resources) {
-    // Moving Penguin
-    let pengLeftWing = new MaterialSGNode([new RenderSGNode(resources.penguinLeftWing)]);
-    let pengLWingTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [pengLeftWing]);
+    let penguinLeftWing = new MaterialSGNode([new RenderSGNode(resources.penguinLeftWing)]);
+    let penguinLeftWingTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [penguinLeftWing]);
 
-    let pengRightWing = new MaterialSGNode([new RenderSGNode(resources.penguinRightWing_separate)]);
+    let penguinRightWing = new MaterialSGNode([new RenderSGNode(resources.penguinRightWing_separate)]);
+    let penguinRightWingTransformNode = new TransformationSGNode(glm.translate(-0.145811, 0.947348, -0.00042),[penguinRightWing]);
 
-    let pengRWingTransformNode = new TransformationSGNode(glm.translate(-0.145811, 0.947348, -0.00042),[pengRightWing]);
-
-    let pengHeadBeak = new MaterialSGNode([new RenderSGNode(resources.penguinHeadBeak)]);
-    let pengHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0 , 0), [pengHeadBeak]);
+    let penguinHeadBeak = new MaterialSGNode([new RenderSGNode(resources.penguinHeadBeak)]);
+    let penguinHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0 , 0), [penguinHeadBeak]);
 
     let penguinBody = new MaterialSGNode([new RenderSGNode(resources.penguinBody)]);
-    let pengBodyTransformNode = new TransformationSGNode(mat4.create(), [penguinBody, pengHeadBeakTransformNode, pengLWingTransformNode, pengRWingTransformNode]);
+    let penguinBodyTransformNode = new TransformationSGNode(mat4.create(), [penguinBody, penguinHeadBeakTransformNode, penguinLeftWingTransformNode, penguinRightWingTransformNode]);
 
-    pengBodyTransformNode.setMatrix(glm.rotateY(125));
+    penguinBodyTransformNode.setMatrix(glm.rotateY(125));
 
     let mainTNode = new TransformationSGNode(glm.translate(-3.8, 0, -1.5) );
-
     root.append(mainTNode);
-    mainTNode.append(pengBodyTransformNode);
-    return [mainTNode, pengBodyTransformNode, pengLWingTransformNode, pengRWingTransformNode, pengHeadBeakTransformNode];
+    mainTNode.append(penguinBodyTransformNode);
+
+    return [mainTNode, penguinBodyTransformNode, penguinLeftWingTransformNode, penguinRightWingTransformNode, penguinHeadBeakTransformNode];
 }
 
+
+/**
+ * Creates transformation nodes for all the UFOs parts and appends them to the ufoCenterTNode.
+ * Also appends this node to {@param root}.
+ * Defines the UFOs materials and colors.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @param resources An object containing defined keys with loaded resources.
+ * @return An array containing all the UFOs transformation nodes.
+ */
 function createUFO(root, resources) {
-    // UFO
-    let ufo1 = new MaterialSGNode([new RenderSGNode(resources.ufoFixedParts)]);
-    let ufo1TNode = new TransformationSGNode(glm.translate(100, 5, -30), [ufo1]);
-    ufo1.diffuse  = rgbToPercent([32,10,98,255]);
-    ufo1.specular = rgbToPercent([134,0,250,255]);
-    ufo1.ambient  = rgbToPercent([0,0,0,255]);
-    ufo1.emission = rgbToPercent([0,0,0,255]);
-    ufo1.shininess = 2;
+    let ufoCenter = new MaterialSGNode([new RenderSGNode(resources.ufoFixedParts)]);
+    let ufoCenterTNode = new TransformationSGNode(glm.translate(100, 5, -30), [ufoCenter]);
+    ufoCenter.diffuse  = rgbToPercent([32,10,98,255]);
+    ufoCenter.specular = rgbToPercent([134,0,250,255]);
+    ufoCenter.ambient  = rgbToPercent([0,0,0,255]);
+    ufoCenter.emission = rgbToPercent([0,0,0,255]);
+    ufoCenter.shininess = 2;
 
+    root.append(ufoCenterTNode);
 
-    root.append(ufo1TNode);
+    let ufoTopDisk = new MaterialSGNode([new RenderSGNode(resources.ufoUpperDisk)]);
+    let ufoTopDiskTNode = new TransformationSGNode(glm.translate(0, 0, 0), [ufoTopDisk]);
+    ufoTopDisk.diffuse  = rgbToPercent([108,108,108,255]);
+    ufoTopDisk.specular = rgbToPercent([198,198,198,255]);
+    ufoTopDisk.ambient  = rgbToPercent([39,39,39,255]);
+    ufoTopDisk.emission = rgbToPercent([0,0,0,255]);
+    ufoTopDisk.shininess = 8;
 
-    let ufoUDisk = new MaterialSGNode([new RenderSGNode(resources.ufoUpperDisk)]);
-    let ufoUDiskTNode = new TransformationSGNode(glm.translate(0, 0, 0), [ufoUDisk]);
-    ufoUDisk.diffuse  = rgbToPercent([108,108,108,255]);
-    ufoUDisk.specular = rgbToPercent([198,198,198,255]);
-    ufoUDisk.ambient  = rgbToPercent([39,39,39,255]);
-    ufoUDisk.emission = rgbToPercent([0,0,0,255]);
-    ufoUDisk.shininess = 8;
-    ufo1TNode.append(ufoUDiskTNode);
+    ufoCenterTNode.append(ufoTopDiskTNode);
 
-    let ufoLDisk = new MaterialSGNode([new RenderSGNode(resources.ufoLowerDisk)]);
-    let ufoLDiskTNode = new TransformationSGNode(glm.translate(0, 0, 0), [ufoLDisk]);
-    ufoLDiskTNode.diffuse  = rgbToPercent([108,108,108,255]);
-    ufoLDiskTNode.specular = rgbToPercent([198,198,198,255]);
-    ufoLDiskTNode.ambient  = rgbToPercent([39,39,39,255]);
-    ufoLDiskTNode.emission = rgbToPercent([0,0,0,255]);
-    ufoLDiskTNode.shininess = 8;
-    ufo1TNode.append(ufoLDiskTNode);
+    let ufoBottomDisk = new MaterialSGNode([new RenderSGNode(resources.ufoLowerDisk)]);
+    let ufoBottomDiskTNode = new TransformationSGNode(glm.translate(0, 0, 0), [ufoBottomDisk]);
+    ufoBottomDiskTNode.diffuse  = rgbToPercent([108,108,108,255]);
+    ufoBottomDiskTNode.specular = rgbToPercent([198,198,198,255]);
+    ufoBottomDiskTNode.ambient  = rgbToPercent([39,39,39,255]);
+    ufoBottomDiskTNode.emission = rgbToPercent([0,0,0,255]);
+    ufoBottomDiskTNode.shininess = 8;
+
+    ufoCenterTNode.append(ufoBottomDiskTNode);
 
     let ufoBeam = new MaterialSGNode([new RenderSGNode(resources.ufoBeam)]);
     let ufoBeamTNode = new TransformationSGNode(glm.translate(0, -7, 0), [ufoBeam]);
@@ -60,34 +75,56 @@ function createUFO(root, resources) {
     ufoBeam.ambient  = rgbToPercent([3,108,197,123]);
     ufoBeam.emission = rgbToPercent([4,0,26,123]);
     ufoBeam.shininess = 51;
-    ufo1TNode.append(ufoBeamTNode);
 
-    return [ufo1TNode, ufoUDiskTNode, ufoLDiskTNode, ufoBeamTNode];
+    ufoCenterTNode.append(ufoBeamTNode);
+
+    return [ufoCenterTNode, ufoTopDiskTNode, ufoBottomDiskTNode, ufoBeamTNode];
 }
 
+
+/**
+ * Creates transformation nodes for the pillar base structure and the button.
+ * Appends the pillarButtonTNode to the pillarBaseTNode.
+ * Also appends the pillarBaseTNode to {@param root}.
+ * Defines the pillars materials and colors.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @param resources An object containing defined keys with loaded resources.
+ * @return The buttons transformation node.
+ */
 function createPillar(root, resources) {
-    // Pillar
-    let pillWCirc = new MaterialSGNode([new RenderSGNode(resources.pillarWRing)]);
-    let pillWCircTNode = new TransformationSGNode(glm.translate(2.5, 0, -4), [pillWCirc]);
-    pillWCirc.diffuse  = rgbToPercent([95,91,83,255]);
-    pillWCirc.specular = rgbToPercent([0,0,0,255]);
-    pillWCirc.ambient  = rgbToPercent([79,72,53,255]);
-    pillWCirc.emission = rgbToPercent([0,0,0,255]);
-    pillWCirc.shininess = 0;
-    root.append(pillWCircTNode);
+    let pillarBase = new MaterialSGNode([new RenderSGNode(resources.pillarWRing)]);
+    let pillarBaseTNode = new TransformationSGNode(glm.translate(2.5, 0, -4), [pillarBase]);
+    pillarBase.diffuse  = rgbToPercent([95,91,83,255]);
+    pillarBase.specular = rgbToPercent([0,0,0,255]);
+    pillarBase.ambient  = rgbToPercent([79,72,53,255]);
+    pillarBase.emission = rgbToPercent([0,0,0,255]);
+    pillarBase.shininess = 0;
 
-    let pillButton = new MaterialSGNode([new RenderSGNode(resources.pillarButton)]);
-    let pillButtonTNode = new TransformationSGNode(glm.translate(0, 0, 0), [pillButton]);
-    pillButton.diffuse  = rgbToPercent([105,5,5,255]);
-    pillButton.specular = rgbToPercent([248,118,124,255]);
-    pillButton.ambient  = rgbToPercent([150,0,0,255]);
-    pillButton.emission = rgbToPercent([0,0,0,255]);
-    pillButton.shininess = 36;
-    pillWCircTNode.append(pillButtonTNode);
-    return pillButtonTNode;
+    root.append(pillarBaseTNode);
+
+    let pillarButton = new MaterialSGNode([new RenderSGNode(resources.pillarButton)]);
+    let pillarButtonTNode = new TransformationSGNode(glm.translate(0, 0, 0), [pillarButton]);
+    pillarButton.diffuse  = rgbToPercent([105,5,5,255]);
+    pillarButton.specular = rgbToPercent([248,118,124,255]);
+    pillarButton.ambient  = rgbToPercent([150,0,0,255]);
+    pillarButton.emission = rgbToPercent([0,0,0,255]);
+    pillarButton.shininess = 36;
+
+    pillarBaseTNode.append(pillarButtonTNode);
+
+    return pillarButtonTNode;
 }
 
 
+/**
+ * Creates transformation nodes for the tree top and trunk and appends them to the trees transformation node "tree".
+ * Also appends this node to {@param root}.
+ * Defines the trees materials and colors.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @param trunk     The tree trunk resource.
+ * @param top       The tree top resource.
+ * @param position  The position where the tree is placed.
+ */
 function createTree(root, trunk, top, position) {
     let treeTop = new MaterialSGNode([new RenderSGNode(top)])
     let treeTopTNode = new TransformationSGNode(glm.translate(0, 0, 0), [treeTop]);
@@ -99,7 +136,6 @@ function createTree(root, trunk, top, position) {
 
     let treeTrunk = new MaterialSGNode([new RenderSGNode(trunk)])
     let treeTrunkTNode = new TransformationSGNode(glm.translate(0, 0, 0), [treeTrunk]);
-
     treeTrunk.diffuse = rgbToPercent([73,41,12,255]);
     treeTrunk.specular = rgbToPercent([0,0,0,255]);
     treeTrunk.ambient = rgbToPercent([74,44,19,255]);
@@ -113,6 +149,12 @@ function createTree(root, trunk, top, position) {
 }
 
 
+/**
+ * Creates and places multiple trees to create a forest.
+ * There are four different tree models to choose from.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @param resources An object containing defined keys with loaded resources.
+ */
 function createForest(root, resources) {
     createTree(root, resources.tree1Trunk, resources.tree1Top, [1, 0, 1]);
     createTree(root, resources.tree2Trunk, resources.tree2Top, [3, 0, 2]);
@@ -138,7 +180,18 @@ function createForest(root, resources) {
     createTree(root, resources.tree3Trunk, resources.tree3Top, [-13, 0, 2]);
 }
 
+
 // ignore lines 163 and 164. Will explain why we need those lines for texturing later
+/**
+ * Is used for the creation of all normal penguins = all penguin besides the main one.
+ * Creates a transformation node for the whole penguin and appends it to the mainTNode.
+ * Also appends to {@param root} via the mainTNode.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @param resources An object containing defined keys with loaded resources.
+ * @param position  The position where the tree is placed.
+ * @param rotation  The direction in which the penguin should be placed at.
+ * @return An array containing the penguins transformation nodes.
+ */
 function createPenguin(root, resources, position, rotation) {
     let u_enableObjTex = new SetUniformSGNode("u_enableObjectTexture", true);
     let texNode = new TexturedObjectNode(resources.penguinTex, [new RenderSGNode(resources.penguinFull), u_enableObjTex]);
@@ -148,9 +201,19 @@ function createPenguin(root, resources, position, rotation) {
     let mainTNode = new TransformationSGNode(glm.translate(position[0], position[1], position[2]));
     mainTNode.append(penguinTNode);
     root.append(mainTNode);
+
     return [mainTNode, penguinTNode];
 }
 
+
+/**
+ * Creates transformation node for the orb and appends it to the mainTNode.
+ * Also appends to {@param root} via the mainTNode.
+ * Defines the orbs material and color.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @param resources An object containing defined keys with loaded resources.
+ * @return An array containing the orbs transformation nodes.
+ */
 function createOrb(root, resources) {
     let orb = new MaterialSGNode([new RenderSGNode(resources.orb)]);
 
@@ -160,6 +223,8 @@ function createOrb(root, resources) {
     orb.ambient = rgbToPercent([88,177,4,255]);
     orb.emission = rgbToPercent([36,214,210,255]);
     orb.shininess = 51;
+
+    // These lines 163 and 164 ??
     let orbRotTNode = new TransformationSGNode(mat4.create(), [orb]);
 
     let mainTNode = new TransformationSGNode(glm.translate(2.5, -2, -4), [orbRotTNode]);
@@ -171,23 +236,31 @@ function createOrb(root, resources) {
     return [mainTNode, orbRotTNode];
 }
 
+
+/**
+ * Defines the floors material and color and appends it to {@link root} via a new transformation node.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @return The defined floor.
+ */
 function createFloor(root) {
-    let floor = new MaterialSGNode( [
-        new RenderSGNode(makeRect(10, 10))
-    ]);
+    let floor = new MaterialSGNode( [new RenderSGNode(makeRect(10, 10))]);
     //dark
     floor.ambient = [0.2, 0.4, 0.2, 1];
     floor.diffuse = [0.1, 0.1, 0.1, 1];
     floor.specular = [0.5, 0.5, 0.5, 1];
     floor.shininess = 3;
     // add floor to scenegraph
-    root.append(new TransformationSGNode(glm.transform({translate: [0, 0, 0], rotateX: -90, scale: 5}), [
-        floor
-    ]));
+    root.append(new TransformationSGNode(glm.transform({translate: [0, 0, 0], rotateX: -90, scale: 5}), [floor]));
+
     return floor;
 }
 
 
+/**
+ * Takes RGB values and converts them to percent to be able to use these values in WebGL.
+ * @param v Array of RGB values [red, green, blue, alpha]
+ * @return Returns the color values in percent.
+ */
 function rgbToPercent(v) {
     for(i = 0; i < 4; i++) {
         v[i] = v[i] / 255;
