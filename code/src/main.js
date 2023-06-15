@@ -143,7 +143,6 @@ function init(resources) {
     penguinMainWaddle = createPenguinWaddle(penguinMain, [-3.8, 0, -1.5], [2, 0, -4], 125, 0);
     penguin1Waddle = createPenguinWaddle(penguin1TNode, [-4.8, 0, 0.8], [1, 0, -4.5], 121, 10)
     penguin2Waddle = createPenguinWaddle(penguin2TNode, [-4, 0, 2], [2, 0, -2.5], 132, 25);
-    penguin2Waddle = createPenguinWaddle(penguin2TNode, [-4, 0, 2], [2, 0, -2.5], 132, 25);
     penguin3Waddle = createPenguinWaddle(penguin3TNode, [-3.5, 0, -0.2], [1, 0, -3], 132, -5);
     penguin4Waddle = createPenguinWaddle(penguin4TNode, [-6.2, 0, 1.3], [0, 0, -4.4], 129, -30);
 
@@ -167,7 +166,7 @@ function init(resources) {
     buttonAnim.start();
 
 
-    ufoFlight = createFlight(ufoTNodes, [[100, 5, -30], [8, 5, 0], [8, 5, 0], [5, 5, -5], [0, 5, -8], [-5, 5, -5], [-2, 5, 0], [3, 5, 3]]);
+    ufoFlight = createUfoAnim(ufoTNodes, [[100, 5, -30], [8, 5, 0], [8, 5, 0], [5, 5, -5], [0, 5, -8], [-5, 5, -5], [-2, 5, 0], [3, 5, 3]]);
 
 
     orbAnim = createOrbAnim(orb, [2.5, 1, -4], [2.5, 20, -4]);

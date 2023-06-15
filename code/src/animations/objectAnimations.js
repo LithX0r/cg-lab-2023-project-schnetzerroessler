@@ -1,24 +1,24 @@
 /**
  * Creates two separate animations and returns them as an array with two elements.
  * Animation "penguinMainTurnAnimation" alternates making the penguin rotate 20 degrees to the left and right.
- * Animation "penguinMainWalk" moves the penguin to the final position {@param fPosition} .
+ * Animation "penguinMainWalk" moves the penguin to the final position {@param endPos} .
  * @param penguin   The penguin.
- * @param bPosition The starting position of the penguin.
- * @param fPosition The final position the penguin should be translated to.
+ * @param startPos The starting position of the penguin.
+ * @param endPos The final position the penguin should be translated to.
  * @param angle     The angle the penguin is originally set to.
  * @param offset    The offset that is added to the turn animation in order to make the penguins waddle asynchronously.
  * @return An Array with the two defined animations needed for making a penguin waddle forward.
  */
-function createPenguinWaddle(penguin, bPosition, fPosition, angle, offset) {
-    var penguinMainTurnAnimation = new Animation(penguin[1],[
+function createPenguinWaddle(penguin, startPos, endPos, angle, offset) {
+    let penguinMainTurnAnimation = new Animation(penguin[1],[
         {matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle + 20)), duration: 500 + offset},
         {matrix: mat4.rotateY(mat4.create(), mat4.create(), glm.deg2rad(angle - 20)), duration: 500 + offset}],
         true);
     penguinMainTurnAnimation.start();
 
-    var penguinMainWalk = new Animation(penguin[0], [
-        {matrix: mat4.translate(mat4.create(), mat4.create(), bPosition), duration: 1},
-        {matrix: mat4.translate(mat4.create(), mat4.create(), fPosition), duration: 6000}],
+    let penguinMainWalk = new Animation(penguin[0], [
+        {matrix: mat4.translate(mat4.create(), mat4.create(), startPos), duration: 1},
+        {matrix: mat4.translate(mat4.create(), mat4.create(), endPos), duration: 6000}],
         false);
     penguinMainWalk.start();
 
@@ -60,7 +60,7 @@ function createOrbAnim(orb, startPos, endPos) {
  * @param positions The positions that define the path that the UFO takes.
  * @return An Array with the three defined animations for the UFO.
  */
-function createFlight(ufo, positions) {
+function createUfoAnim(ufo, positions) {
     let flightP1 = new Animation(ufo[0], [
         {matrix: mat4.translate(mat4.create(), mat4.create(), positions[0]), duration: 1},
         {matrix: mat4.translate(mat4.create(), mat4.create(), positions[1]), duration: 5000},
@@ -118,7 +118,7 @@ function createJump(penguin, position, offset, height) {
  * @param penguin   The penguin.
  * @return The arm rotation for the leading penguin.
  */
-function createArmRoation(penguin) {
+function createArmRotation(penguin) {
     let penguinArmUp = new Animation(penguin[3], [
         {matrix: addKeyFrame([-0.145811, 0.947348, -0.00042], -70, 0, 0), duration: 1000}],
         false);
