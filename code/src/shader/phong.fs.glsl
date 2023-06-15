@@ -28,11 +28,14 @@ struct Light {
 uniform Material u_material;
 uniform Light u_light;
 
+//uniform float u_alpha;
 
 //varying vectors for light computation
 varying vec3 v_normalVec;
 varying vec3 v_eyeVec;
 varying vec3 v_lightVec;
+
+
 
 
 // texture related variables

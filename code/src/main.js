@@ -199,7 +199,6 @@ function init(resources) {
     penguinArm.start();
 
      */
-    // let u_enableObjTex = SetUniformSGNode.constructor("u_enableObjectTexture", true, []);
 
 }
 
@@ -209,7 +208,7 @@ function createSceneGraph(gl, resources) {
 
     // create node with different shaders
     function createLightSphere() {
-        return new ShaderSGNode(createProgram(gl, resources.vs, resources.fs), [ // TODO: change to phong shading
+        return new ShaderSGNode(createProgram(gl, resources.vs_single, resources.fs_single), [
             new RenderSGNode(makeSphere(.2, 10, 10))
         ]);
     }
@@ -217,16 +216,16 @@ function createSceneGraph(gl, resources) {
 // /*
     // create white light node
     let light = new LightSGNode();
-    light.ambient = [1, 1, 1, 1];
+    light.ambient = [0, 0, 0, 1];
     light.diffuse = [1, 1, 1, 1];
     light.specular = [1, 1, 1, 1];
-    light.position = [1000, 500, -2];
+    light.position = [1, 10, 0];
     light.append(createLightSphere(resources));
     // add light to scenegraph
     root.append(light);
 
     // create floor
-    let floor = new MaterialSGNode([
+    let floor = new MaterialSGNode( [
         new RenderSGNode(makeRect(10, 10))
     ]);
     //dark
@@ -270,10 +269,14 @@ function render(timeInMilliseconds) {
     //enable depth test to let objects in front occluse objects further away
     gl.enable(gl.DEPTH_TEST);
 
+    // gl.enable(gl.BLEND);
+    // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
     //Create projection Matrix and context for rendering.
     const context = createSGContext(gl);
     context.projectionMatrix = mat4.perspective(mat4.create(), glm.deg2rad(30), gl.drawingBufferWidth / gl.drawingBufferHeight, 0.01, 100);
     context.viewMatrix = mat4.lookAt(mat4.create(), [0, 1, -10], [0, 0, 0], [0, 1, 0]);
+
 
 
     var deltaTime = timeInMilliseconds - previousTime;

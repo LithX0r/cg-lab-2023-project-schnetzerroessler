@@ -158,8 +158,12 @@ function createForest(root, resources) {
     createTree(root, resources.tree3Trunk, resources.tree3Top, [-13, 0, 2]);
 }
 
+// ignore lines 163 and 164. Will explain why we need those lines for texturing later
 function createPenguin(root, resources, position, rotation) {
-    let penguin = new MaterialSGNode(new AdvancedTextureSGNode(resources.penguinTex, [new RenderSGNode(resources.penguinFull)]));
+    let u_enableObjTex = new SetUniformSGNode("u_enableObjectTexture", true);
+    let texNode = new TexturedObjectNode(resources.penguinTex, [new RenderSGNode(resources.penguinFull), u_enableObjTex]);
+    let penguin = new MaterialSGNode(texNode);
+    // let penguin = new MaterialSGNode(new AdvancedTextureSGNode(resources.penguinTex,[new RenderSGNode(resources.penguinFull)]));
     let penguinTNode = new TransformationSGNode(rotation, [penguin]);
     // let pengMat = parseMtlFile(resources.penguinTex);
     // penguin.ambient = pengMat.ambient;
@@ -200,4 +204,18 @@ function rgbToPercent(v) {
         v[i] = v[i] / 255;
     }
     return v;
+}
+
+
+// Please don't doc unless you figure out why we need this by yourself. Will explain later when im awake
+class TexturedObjectNode extends AdvancedTextureSGNode {
+    constructor(image, children) {
+        super(image, children);
+    }
+
+    render(context) {
+        gl.uniform1i(gl.getUniformLocation(context.shader, 'u_enableObjectTexture'), 1);
+        super.render(context);
+        gl.uniform1i(gl.getUniformLocation(context.shader, 'u_enableObjectTexture'), 0);
+    }
 }
