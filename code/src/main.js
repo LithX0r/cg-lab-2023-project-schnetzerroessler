@@ -137,7 +137,7 @@ function init(resources) {
     // let skybox = new EnvironmentSGNode(cubeMapTex, 4, false, makeSphere(50, 10, 10));
     // Object creation
 
-    let u_enableObjTex = new SetUniformSGNode("u_enableObjectTexture", true);
+    // let u_enableObjTex = new SetUniformSGNode("u_enableObjectTexture", true);
     // cubeMapTex = initCubeMap(resources); TODO finish skybox
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // TODO: explain
 
@@ -149,11 +149,11 @@ function init(resources) {
 
     orb = createOrb(root, resources);
 
-    penguinMain = createMainPenguin(root, resources, u_enableObjTex);
-    penguin1TNode = createPenguin(root, resources, [-4.8, 0, 0.8], glm.rotateY(121), u_enableObjTex);
-    penguin2TNode = createPenguin(root, resources, [-4, 0, 2], glm.rotateY(132), u_enableObjTex);
-    penguin3TNode = createPenguin(root, resources, [-3.5, 0, -0.2], glm.rotateY(132), u_enableObjTex);
-    penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129), u_enableObjTex);
+    penguinMain = createMainPenguin(root, resources);
+    penguin1TNode = createPenguin(root, resources, [-4.8, 0, 0.8], glm.rotateY(121));
+    penguin2TNode = createPenguin(root, resources, [-4, 0, 2], glm.rotateY(132));
+    penguin3TNode = createPenguin(root, resources, [-3.5, 0, -0.2], glm.rotateY(132));
+    penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129));
 
 
     // Animation creation
