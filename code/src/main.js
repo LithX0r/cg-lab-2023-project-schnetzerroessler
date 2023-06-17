@@ -218,6 +218,8 @@ function createSceneGraph(gl, resources) {
 
     let light = createLight(gl, root, resources, [1, 10, 0], [.5, .5, .5, 1], [1, 1, 1, 1], [1, 1, 1, 1], .2);
 
+    let allLights = initLights(gl, root, resources);
+
     floor = createFloor(root);
 
     // let sky = new TexturedObjectNode()
