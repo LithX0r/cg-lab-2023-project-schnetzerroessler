@@ -6,17 +6,17 @@
  * @param resources An object containing defined keys with loaded resources.
  * @return An array containing all the penguins transformation nodes.
  */
-function createMainPenguin(root, resources) {
-    let penguinLeftWing = new MaterialSGNode([new RenderSGNode(resources.penguinLeftWing)]);
+function createMainPenguin(root, resources, u_enableTex) {
+    let penguinLeftWing = new MaterialSGNode(new TexturedObjectNode(resources.penguinTex, [new RenderSGNode(resources.penguinLeftWing), u_enableTex]));
     let penguinLeftWingTransformNode = new TransformationSGNode(glm.translate(0, 0, 0), [penguinLeftWing]);
 
-    let penguinRightWing = new MaterialSGNode([new RenderSGNode(resources.penguinRightWing_separate)]);
+    let penguinRightWing = new MaterialSGNode(new TexturedObjectNode(resources.penguinTex, [new RenderSGNode(resources.penguinRightWing), u_enableTex]));
     let penguinRightWingTransformNode = new TransformationSGNode(glm.translate(-0.145811, 0.947348, -0.00042),[penguinRightWing]);
 
-    let penguinHeadBeak = new MaterialSGNode([new RenderSGNode(resources.penguinHeadBeak)]);
+    let penguinHeadBeak = new MaterialSGNode(new TexturedObjectNode(resources.penguinTex, [new RenderSGNode(resources.penguinHeadBeak), u_enableTex]));
     let penguinHeadBeakTransformNode = new TransformationSGNode(glm.translate(0, 0 , 0), [penguinHeadBeak]);
 
-    let penguinBody = new MaterialSGNode([new RenderSGNode(resources.penguinBody)]);
+    let penguinBody = new MaterialSGNode(new TexturedObjectNode(resources.penguinTex, [new RenderSGNode(resources.penguinBody), u_enableTex]));
     let penguinBodyTransformNode = new TransformationSGNode(mat4.create(), [penguinBody, penguinHeadBeakTransformNode, penguinLeftWingTransformNode, penguinRightWingTransformNode]);
 
     penguinBodyTransformNode.setMatrix(glm.rotateY(125));
@@ -192,8 +192,7 @@ function createForest(root, resources) {
  * @param rotation  The direction in which the penguin should be placed at.
  * @return An array containing the penguins transformation nodes.
  */
-function createPenguin(root, resources, position, rotation) {
-    let u_enableObjTex = new SetUniformSGNode("u_enableObjectTexture", true);
+function createPenguin(root, resources, position, rotation, u_enableObjTex) {
     let texNode = new TexturedObjectNode(resources.penguinTex, [new RenderSGNode(resources.penguinFull), u_enableObjTex]);
     let penguin = new MaterialSGNode(texNode);
     // let penguin = new MaterialSGNode(new AdvancedTextureSGNode(resources.penguinTex,[new RenderSGNode(resources.penguinFull)]));

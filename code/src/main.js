@@ -63,9 +63,9 @@ loadResources({
     penguinBody: './src/models/penguin/penguinBodyFeet.obj',
     penguinHeadBeak: './src/models/penguin/penguinHeadBeak.obj',
     penguinLeftWing: './src/models/penguin/penguinLeftWing.obj',
-    penguinRightWing: './src/models/penguin/penguinRightWing.obj',
+    // penguinRightWing: './src/models/penguin/penguinRightWing.obj',
     penguinFull: './src/models/penguin/penguin2.obj',
-    penguinRightWing_separate: './src/models/penguin/penguinRightWing_separate.obj',
+    penguinRightWing: './src/models/penguin/penguinRightWing_textured.obj',
 
     penguinTex: './src/models/penguin/texture_test.png',
 
@@ -125,20 +125,21 @@ function init(resources) {
     cameraAnimation.start();
 
 
-    // cubeMapTex = initCubeMap(resources); TODO finish skybox
-
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // TODO: explain
 
     // cubeMapTex = initCubeMap(resources);
 
     //TODO create your own scenegraph
 
-
-
     root = createSceneGraph(gl, resources);
-    // let skybox = new EnvironmentSGNode(cubeMapTex, 4, false, makeSphere(50, 10, 10));
 
+
+
+    // let skybox = new EnvironmentSGNode(cubeMapTex, 4, false, makeSphere(50, 10, 10));
     // Object creation
+
+    let u_enableObjTex = new SetUniformSGNode("u_enableObjectTexture", true);
+    // cubeMapTex = initCubeMap(resources); TODO finish skybox
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // TODO: explain
 
     ufoTNodes = createUFO(root, resources);
 
@@ -148,11 +149,11 @@ function init(resources) {
 
     orb = createOrb(root, resources);
 
-    penguinMain = createMainPenguin(root, resources);
-    penguin1TNode = createPenguin(root, resources, [-4.8, 0, 0.8], glm.rotateY(121));
-    penguin2TNode = createPenguin(root, resources, [-4, 0, 2], glm.rotateY(132));
-    penguin3TNode = createPenguin(root, resources, [-3.5, 0, -0.2], glm.rotateY(132));
-    penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129));
+    penguinMain = createMainPenguin(root, resources, u_enableObjTex);
+    penguin1TNode = createPenguin(root, resources, [-4.8, 0, 0.8], glm.rotateY(121), u_enableObjTex);
+    penguin2TNode = createPenguin(root, resources, [-4, 0, 2], glm.rotateY(132), u_enableObjTex);
+    penguin3TNode = createPenguin(root, resources, [-3.5, 0, -0.2], glm.rotateY(132), u_enableObjTex);
+    penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129), u_enableObjTex);
 
 
     // Animation creation
@@ -215,27 +216,11 @@ function createSceneGraph(gl, resources) {
     //create scenegraph
     const root = new ShaderSGNode(createProgram(gl, resources.vs, resources.fs))
 
-    // create node with different shaders
-    function createLightSphere() {
-        return new ShaderSGNode(createProgram(gl, resources.vs_single, resources.fs_single), [
-            new RenderSGNode(makeSphere(.2, 10, 10))
-        ]);
-    }
-
-// /*
-    // create white light node
-    let light = new LightSGNode();
-    light.ambient = [.5, .5, .5, 1];
-    light.diffuse = [1, 1, 1, 1];
-    light.specular = [1, 1, 1, 1];
-    light.position = [1, 10, 0];
-    light.append(createLightSphere(resources));
-    // add light to scenegraph
-    root.append(light);
+    let light = createLight(gl, root, resources, [1, 10, 0], [.5, .5, .5, 1], [1, 1, 1, 1], [1, 1, 1, 1], .2);
 
     floor = createFloor(root);
 
-    let sky = new TexturedObjectNode()
+    // let sky = new TexturedObjectNode()
 
     return root;
 }
