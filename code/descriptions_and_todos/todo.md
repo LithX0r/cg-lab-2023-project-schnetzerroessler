@@ -9,8 +9,8 @@
 - [x] loading other penguins
 
 ## Compositing
-- [ ] Basic rotations on objects and child nodes
-- [ ] Basic camera placement 
+- [X] Basic rotations on objects and child nodes
+- [X] Basic camera placement 
   - [ ] LookAt vector
 
 ## Animation
@@ -21,24 +21,24 @@
 - [X] penguin walk
 
 ## Rendering
-~~- [ ] research if we need buffers~~
-~~- [ ] penguin render function~~
-~~- [ ] UFO render function~~
-~~- [ ] pillar render function~~
-~~- [ ] trees render function~~
+- [ ] ~~research if we need buffers~~
+- [ ] ~~penguin render function~~
+- [ ] ~~UFO render function~~
+- [ ] ~~pillar render function~~
+- [ ] ~~trees render function~~
 
 ## Texturing
-- [ ] Penguin Textures
-~~- [ ] Tree Textures~~
-~~- [ ] UFO Textures~~
-~~- [ ] Pillar Textures~~
+- [X] Penguin Textures
+- [ ] ~~Tree Textures~~
+- [ ] ~~UFO Textures~~
+- [ ] ~~Pillar Textures~~
 - [ ] Floor Textures
 - [ ] Add Skybox
 
 ## Materials 
 - [X] Research
-- [ ] generate materials
-  - [ ] penguin
+- [X] generate materials
+  - [X] penguin
   - [X] UFO
   - [X] pillar
   - [X] orb
@@ -56,12 +56,12 @@
 # Refactoring & Doc
 
 ## Objects
-- [ ] extract object creation methods
-- [ ] documentation for animation methods
+- [X] extract object creation methods
+- [X] documentation for animation methods
 - [ ] documentation for creation methods
 
 ## Camera
-- [ ] Documentation for Keyframes
+- [X] Documentation for Keyframes
 - [ ] Maybe change animation to lookAt vectors
 ------------------------------------------------
 # 8.6.2023
@@ -79,11 +79,15 @@
 
 
 ---
-# 9.6.2023
+
+## Final TODO
 
 - [X] finish yesterdays todos
-- [ ] texture map penguin
+- [X] texture map penguin
 - [ ] texture map floor
-~~- [ ] texture map pillar~~
+- [ ] ~~texture map pillar~~
 - [ ] start research on particle system
 - [ ] start research for spotlight
+- [ ] add more lights
+- [ ] add moving light for UFO
+- [ ] add moving light for orb
