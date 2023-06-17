@@ -50,6 +50,8 @@ let orbAnim = null;
 let penguinArmUp = null;
 let penguinArmDown = null;
 
+let cubeMapTex = null;
+
 //load the shader resources using a utility function
 loadResources({
     vs: './src/shader/phong.vs.glsl',
@@ -90,8 +92,14 @@ loadResources({
     tree4Top: './src/models/trees/tree004Top.obj',
     tree4Trunk: './src/models/trees/tree004Trunk.obj',
 
-    orb: './src/models/orb/orb.obj'
+    orb: './src/models/orb/orb.obj',
 
+    env_pos_x: './src/textures/env_pos_x.png',
+    env_pos_y: './src/textures/env_pos_y.png',
+    env_pos_z: './src/textures/env_pos_z.png',
+    env_neg_x: './src/textures/env_pos_x.png',
+    env_neg_y: './src/textures/env_pos_y.png',
+    env_neg_z: './src/textures/env_pos_z.png',
 
 }).then(function (resources /*an object containing our keys with the loaded resources*/) {
     init(resources);
@@ -117,9 +125,18 @@ function init(resources) {
     cameraAnimation.start();
 
 
+    // cubeMapTex = initCubeMap(resources); TODO finish skybox
+
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // TODO: explain
+
+    // cubeMapTex = initCubeMap(resources);
 
     //TODO create your own scenegraph
+
+
+
     root = createSceneGraph(gl, resources);
+    // let skybox = new EnvironmentSGNode(cubeMapTex, 4, false, makeSphere(50, 10, 10));
 
     // Object creation
 
@@ -163,6 +180,37 @@ function init(resources) {
 
 }
 
+function initCubeMap(resources) {
+    let envCubeTexture = gl.createTexture();
+
+    gl.activeTexture(gl.TEXTURE0);
+
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, envCubeTexture);
+
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
+
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+
+    // gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+
+
+    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_pos_x);
+    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_X, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_neg_x);
+    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Y, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_pos_y);
+    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_neg_y);
+    gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Z, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_pos_z);
+    gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_neg_z);
+
+
+
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
+    return envCubeTexture;
+}
+
+
 function createSceneGraph(gl, resources) {
     //create scenegraph
     const root = new ShaderSGNode(createProgram(gl, resources.vs, resources.fs))
@@ -177,7 +225,7 @@ function createSceneGraph(gl, resources) {
 // /*
     // create white light node
     let light = new LightSGNode();
-    light.ambient = [0, 0, 0, 1];
+    light.ambient = [.5, .5, .5, 1];
     light.diffuse = [1, 1, 1, 1];
     light.specular = [1, 1, 1, 1];
     light.position = [1, 10, 0];
@@ -186,6 +234,8 @@ function createSceneGraph(gl, resources) {
     root.append(light);
 
     floor = createFloor(root);
+
+    let sky = new TexturedObjectNode()
 
     return root;
 }
@@ -291,4 +341,36 @@ function render(timeInMilliseconds) {
 }
 
 
+/*
+class EnvironmentSGNode extends SGNode {
 
+    constructor(envtexture, textureunit, doReflect , children ) {
+        super(children);
+        this.envtexture = envtexture;
+        this.textureunit = textureunit;
+        this.doReflect = doReflect;
+    }
+
+    render(context)
+    {
+        //set additional shader parameters
+
+        let invView3x3 = mat3.fromMat4(mat3.create(), mat4.invert(mat4.create(), context.viewMatrix)); //reduce to 3x3 matrix since we only process direction vectors (ignore translation)
+        gl.uniformMatrix3fv(gl.getUniformLocation(context.shader, 'u_invView'), false, invView3x3);
+        gl.uniform1i(gl.getUniformLocation(context.shader, 'u_texCube'), this.textureunit);
+        gl.uniform1i(gl.getUniformLocation(context.shader, 'u_useReflection'), this.doReflect)
+
+        //activate and bind texture
+        gl.activeTexture(gl.TEXTURE0 + this.textureunit);
+        gl.bindTexture(gl.TEXTURE_CUBE_MAP, this.envtexture);
+
+        //render children
+        super.render(context);
+
+        //clean up
+        gl.activeTexture(gl.TEXTURE0 + this.textureunit);
+        gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
+    }
+}
+
+ */
