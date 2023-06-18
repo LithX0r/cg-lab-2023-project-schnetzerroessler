@@ -268,6 +268,8 @@ function rgbToPercent(v) {
 }
 
 
+
+
 // Please don't doc unless you figure out why we need this by yourself. Will explain later when im awake
 class TexturedObjectNode extends AdvancedTextureSGNode {
     constructor(image, children) {
@@ -282,3 +284,4 @@ class TexturedObjectNode extends AdvancedTextureSGNode {
         gl.uniform1i(gl.getUniformLocation(context.shader, 'u_enableObjectTexture'), 0);
     }
 }
+

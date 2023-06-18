@@ -52,6 +52,8 @@ let penguinArmDown = null;
 
 let cubeMapTex = null;
 
+let lights = null;
+
 //load the shader resources using a utility function
 loadResources({
     vs: './src/shader/phong.vs.glsl',
@@ -120,8 +122,8 @@ function init(resources) {
     camera = new UserControlledCamera(gl.canvas, cameraStartPos);
     //setup an animation for the camera, moving it into position
 
-    // cameraAnimation = new Animation(camera,[{matrix: addKeyFrame([2,1,-10],0,-45, 0), duration: 10}], false);
-    cameraAnimation = addCameraAnimation(camera);
+    cameraAnimation = new Animation(camera,[{matrix: addKeyFrame([2,1,-10],0,-45, 0), duration: 10}], false);
+    // cameraAnimation = addCameraAnimation(camera);
     cameraAnimation.start();
 
 
@@ -176,7 +178,7 @@ function initCubeMap(resources) {
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 
 
-    // gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
 
     gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_pos_x);
@@ -218,13 +220,17 @@ function createSceneGraph(gl, resources) {
     penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129));
 
     // Light creation
-    let allLights = initLights(gl, root, resources, orb, ufoTNodes);
+    lights = initLights(gl, root, resources, orb, ufoTNodes);
 
-    let light = createLight(gl, root, resources, [1, 10, 0], [.5, .5, .5, 1], [1, 1, 1, 1], [1, 1, 1, 1], .2);
+    // let spotlight = createSpotlight(gl, root, resources, [0, 10, 0], 0, 0, 0, .2, 10, [0, -1, 0]);
+
+    // let light = createLight(gl, root, resources, [1, 10, 0], [127.5, 127.5, 127.5, 1], [255, 255, 255, 255], [255, 255, 255, 255], .2, "");
+
 
     floor = createFloor(root);
 
     // let sky = new TexturedObjectNode()
+
 
     return root;
 }
@@ -294,12 +300,12 @@ function render(timeInMilliseconds) {
             buttonAnim.update(deltaTime);
         }
         if (!buttonAnim.running) {
-
+            root.remove(lights[0]);
             orbAnim.forEach(e => e.update(deltaTime));
-
         }
         if (!orbAnim[0].running) {
             orbAnim[1].running = false;
+            // root.remove(orb[0]);
             ufoFlight[0].update(deltaTime);
         }
         if (!ufoFlight[0].running) {
@@ -310,6 +316,7 @@ function render(timeInMilliseconds) {
         if (!ufoFlight[1].running) {
             // ufoFlight[2].running = false;
             ufoTNodes[3].setMatrix(glm.translate(0, -7, 0));
+            // lights[2].forEach(l => ufoTNodes[3].remove(l));
             penguinMainJump.update(deltaTime);
             penguin1Jump.update(deltaTime);
             penguin2Jump.update(deltaTime);
