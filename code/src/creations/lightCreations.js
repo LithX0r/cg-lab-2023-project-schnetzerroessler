@@ -8,16 +8,17 @@
  * @param resources An object containing defined keys with loaded resources.
  * @return An array with the defined light sources.
  */
-function initLights(gl, root, resources) {
+function initLights(gl, root, resources, orbTransformNode, ufoTransformNodes) {
     let buttonLight = createLight(gl, root, resources, [2.5, 0.49, -4], [255,255,255,255], [255,255,255,255], [255,255,255,255], 0.1);
-    let orbLight = createLight(gl, root, resources, [2.5, -2, -4], [255,255,255,255], [255,255,255,255], [255,255,255,255], 0.1);
+    let orbLight = createLight(gl, orbTransformNode[0], resources, [2.5, -2, -4], [255,255,255,255], [255,255,255,255], [255,255,255,255], 0.1);
 
     // lights highlighting the bottom of the ice beam
-    let beamLight1 = createLight(gl, root, resources, [4, 2, -4], [255,255,255,255], [255,255,255,255], [255,255,255,255], 0.05)
-    let beamLight2 = createLight(gl, root, resources, [4, 3, -4], [255,255,255,255], [255,255,255,255], [255,255,255,255], 0.05)
-    let beamLight3 = createLight(gl, root, resources, [4, 4, -4], [255,255,255,255], [255,255,255,255], [255,255,255,255], 0.05)
+    let beamLight1 = createLight(gl, ufoTransformNodes[3], resources, [0, 2, 0], [255,255,255,255], [255,255,255,255], [255,255,255,255], 0.05)
+    let beamLight2 = createLight(gl, ufoTransformNodes[3], resources, [0, 3, 0], [255,255,255,255], [255,255,255,255], [255,255,255,255], 0.05)
+    let beamLight3 = createLight(gl, ufoTransformNodes[3], resources, [0, 4, 0], [255,255,255,255], [255,255,255,255], [255,255,255,255], 0.05)
+    let beamLights = [beamLight1, beamLight2, beamLight3];
 
-    return [buttonLight, orbLight, beamLight1, beamLight2, beamLight3];
+    return [buttonLight, orbLight, beamLights];
 }
 
 /**
@@ -58,4 +59,18 @@ function createLightSphere(gl, resources, radius) {
     return new ShaderSGNode(createProgram(gl, resources.vs_single, resources.fs_single), [
         new RenderSGNode(makeSphere(radius, 10, 10))
     ]);
+}
+
+/**
+ *
+ */
+function lightAnim(resources, orbTransformNode, ufoTransformNodes) {
+    let lights = initLights(gl, root, resources);
+    let buttonLight = lights[0];
+    let orbLight = lights[1];
+    let beamLights = [lights[0], lights[1], lights[2]]
+
+
+
+    return [buttonLight, orbLight, beamLights]
 }

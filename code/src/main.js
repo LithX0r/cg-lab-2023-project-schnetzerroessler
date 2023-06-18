@@ -135,25 +135,6 @@ function init(resources) {
 
 
     // let skybox = new EnvironmentSGNode(cubeMapTex, 4, false, makeSphere(50, 10, 10));
-    // Object creation
-
-    // let u_enableObjTex = new SetUniformSGNode("u_enableObjectTexture", true);
-    // cubeMapTex = initCubeMap(resources); TODO finish skybox
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // TODO: explain
-
-    ufoTNodes = createUFO(root, resources);
-
-    pillButtonTNode = createPillar(root, resources);
-
-    createForest(root, resources);
-
-    orb = createOrb(root, resources);
-
-    penguinMain = createMainPenguin(root, resources);
-    penguin1TNode = createPenguin(root, resources, [-4.8, 0, 0.8], glm.rotateY(121));
-    penguin2TNode = createPenguin(root, resources, [-4, 0, 2], glm.rotateY(132));
-    penguin3TNode = createPenguin(root, resources, [-3.5, 0, -0.2], glm.rotateY(132));
-    penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129));
 
 
     // Animation creation
@@ -216,9 +197,30 @@ function createSceneGraph(gl, resources) {
     //create scenegraph
     const root = new ShaderSGNode(createProgram(gl, resources.vs, resources.fs))
 
-    let light = createLight(gl, root, resources, [1, 10, 0], [.5, .5, .5, 1], [1, 1, 1, 1], [1, 1, 1, 1], .2);
+    // Object creation
 
-    let allLights = initLights(gl, root, resources);
+    // let u_enableObjTex = new SetUniformSGNode("u_enableObjectTexture", true);
+    // cubeMapTex = initCubeMap(resources); TODO finish skybox
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // TODO: explain
+
+    ufoTNodes = createUFO(root, resources);
+
+    pillButtonTNode = createPillar(root, resources);
+
+    createForest(root, resources);
+
+    orb = createOrb(root, resources);
+
+    penguinMain = createMainPenguin(root, resources);
+    penguin1TNode = createPenguin(root, resources, [-4.8, 0, 0.8], glm.rotateY(121));
+    penguin2TNode = createPenguin(root, resources, [-4, 0, 2], glm.rotateY(132));
+    penguin3TNode = createPenguin(root, resources, [-3.5, 0, -0.2], glm.rotateY(132));
+    penguin4TNode = createPenguin(root, resources, [-6.2, 0, 1.3], glm.rotateY(129));
+
+    // Light creation
+    let allLights = initLights(gl, root, resources, orb, ufoTNodes);
+
+    let light = createLight(gl, root, resources, [1, 10, 0], [.5, .5, .5, 1], [1, 1, 1, 1], [1, 1, 1, 1], .2);
 
     floor = createFloor(root);
 
