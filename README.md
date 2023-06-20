@@ -62,6 +62,8 @@ Nothing to change here in `README` file.
 
 ## Final Submission due on 20.06.2023
 
+## **LATE SUBMISSION BY ONE DAY**
+
 The repository needs to contain:
   * code/ Documented code + resources + libs
   * video/ A screen recording of the movie

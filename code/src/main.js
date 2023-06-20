@@ -102,6 +102,8 @@ loadResources({
 
     orb: './src/models/orb/orb.obj',
 
+    particle: './src/models/particle.obj',
+
     env_pos_x: './src/textures/env_pos_x.png',
     env_pos_y: './src/textures/env_pos_y.png',
     env_pos_z: './src/textures/env_pos_z.png',
@@ -129,8 +131,8 @@ function init(resources) {
     //setup an animation for the camera, moving it into position
 
     //change between camera animation and manual camera controls by commenting out code
-    //cameraAnimation = new Animation(camera,[{matrix: addKeyFrame([2,1,-10],0,-45, 0), duration: 10}], false);
-    cameraAnimation = addCameraAnimation(camera);
+    cameraAnimation = new Animation(camera,[{matrix: addKeyFrame([2,1,-10],0,-45, 0), duration: 10}], false);
+    // cameraAnimation = addCameraAnimation(camera);
     cameraAnimation.start();
 
 
@@ -234,8 +236,9 @@ function createSceneGraph(gl, resources) {
 
     // let spotlight = createSpotlight(gl, root, resources, [0, 10, 0], 0, 0, 0, .2, 10, [0, -1, 0]);
 
-    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(resources.penguinFull, resources.penguinTex));
-    root.append(partsys);
+    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(resources.particle, resources.penguinTex, 20, true, [0, -4.7, 0]));
+    ufoTNodes[3].append(partsys);
+    partsys.children[0].init();
     partsys.children[0].spawn();
 
     floor = createFloor(root);
@@ -285,7 +288,7 @@ function render(timeInMilliseconds) {
 
     //TODO use your own scene for rendering
 
-    // partsys.children[0].spawn();
+    partsys.children[0].update();
     // /*
     ufoTNodes[1].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(1.7), ufoTNodes[1].matrix));
     ufoTNodes[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(-1.7), ufoTNodes[2].matrix));
