@@ -9,13 +9,13 @@
  * @return An array with the defined light sources.
  */
 function initLights(gl, root, resources, orbTransformNode, ufoTransformNodes) {
-    let buttonLight = createLight(gl, root, resources, [2.5, 0.49, -4], [0,0,0,255], [255,255,255,255], [255,255,255,255], 0.1, "Button");
-    let orbLight = createLight(gl, orbTransformNode[0], resources, [0, 0, 0], [0,0,0,255], [255,255,255,255], [255,255,255,255], 0.1, "Orb");
+    let buttonLight = createLight(gl, root, resources, [2.5, 0.49, -4], [25,25,25,255], [255,50,50,255], [255,50,50,255], 0.1, "Button");
+    let orbLight = createLight(gl, orbTransformNode[0], resources, [0, 0, 0], [50,50,50,255], [0,255,220,255], [0,255,220,255], 0.05, "Orb");
 
     // lights highlighting the bottom of the ice beam
-    let beamLight1 = createLight(gl, ufoTransformNodes[3], resources, [0, 0, 0], [0, 0, 0, 255], [255,255,255,255], [255,255,255,255], 0.05, "Beam1");
-    let beamLight2 = createLight(gl, ufoTransformNodes[3], resources, [0, -1, 0], [0, 0, 0, 255], [255,255,255,255], [255,255,255,255], 0.05, "Beam2");
-    let beamLight3 = createLight(gl, ufoTransformNodes[3], resources, [0, -2, 0], [0, 0, 0, 255], [255,255,255,255], [255,255,255,255], 0.05, "Beam3");
+    let beamLight1 = createLight(gl, ufoTransformNodes[3], resources, [0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam1");
+    let beamLight2 = createLight(gl, ufoTransformNodes[3], resources, [-0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam2");
+    let beamLight3 = createLight(gl, ufoTransformNodes[3], resources, [0, -4.7, -0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam3");
     let beamLights = [beamLight1, beamLight2, beamLight3];
 
     return [buttonLight, orbLight, beamLights];
