@@ -12,6 +12,8 @@ var cameraAnimation = null;
 // scenegraph root node
 var root = null;
 
+var rotateBeamLight1, rotateBeamLight2, rotateBeamLight3;
+
 // time in last render step
 var previousTime = 0;
 
@@ -226,6 +228,10 @@ function createSceneGraph(gl, resources) {
     // Light creation
     lights = initLights(gl, root, resources, orb, ufoTNodes);
 
+    rotateBeamLight1 = createLightRotation(lights[2][0]);
+    rotateBeamLight2 = createLightRotation(lights[2][1]);
+    rotateBeamLight3 = createLightRotation(lights[2][2]);
+
     // let spotlight = createSpotlight(gl, root, resources, [0, 10, 0], 0, 0, 0, .2, 10, [0, -1, 0]);
 
     partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(gl, resources, resources.penguinTex, 15, resources.penguinFull, 100, [0, 0, 0]));
@@ -326,7 +332,16 @@ function render(timeInMilliseconds) {
             ufoFlight[1].update(deltaTime);
             // ufoFlight[2].update(deltaTime);
             ufoTNodes[3].setMatrix(glm.translate(0, 0, 0));
-            lights[2].forEach(l => enableLight(l, ufoTNodes[3])); // enable beamLights when beam is activated
+
+            //lights[2].forEach(l => enableLight(l, ufoTNodes[3])); // enable beamLights when beam is activated
+            ufoTNodes[3].append(rotateBeamLight1);
+            ufoTNodes[3].append(rotateBeamLight2);
+            ufoTNodes[3].append(rotateBeamLight3);
+
+            //enable light rotation
+            rotateBeamLight1.matrix = glm.rotateY(timeInMilliseconds*0.05);
+            rotateBeamLight2.matrix = glm.rotateY(timeInMilliseconds*0.05);
+            rotateBeamLight3.matrix = glm.rotateY(timeInMilliseconds*0.05);
         }
 
         if (!ufoFlight[1].running) {

@@ -9,7 +9,7 @@ function initLights(gl, root, resources) {
     let buttonLight = createLight(gl, resources, [2.5, 0.49, -4], [10,10,10,255], [255,0,0,255], [255,0,0,255], 0.1, "Button");
     enableLight(buttonLight, root);
 
-    let orbLight = createLight(gl, resources, [0, 0, 0], [25,25,25,255], [0,255,220,255], [0,255,220,255], 0.05, "Orb");
+    let orbLight = createLight(gl, resources, [0, 0, 0], [10,10,10,255], [0,255,220,255], [0,255,220,255], 0.05, "Orb");
     // enable later
 
     // lights highlighting the bottom of the ice beam
@@ -23,7 +23,7 @@ function initLights(gl, root, resources) {
     let sunLight = createLight(gl, resources, [-5, 30, 0], [180, 180, 150, 255], [255,247,208,255], [255,247,208,255], 1, "");
     enableLight(sunLight, root);
 
-    return [buttonLight, orbLight, beamLights];
+    return [buttonLight, orbLight, beamLights, sunLight];
 }
 
 
@@ -85,6 +85,13 @@ function disableLight(lightSource) {
     lightSource.diffuse = [0, 0, 0, 0];
     lightSource.specular = [0, 0, 0, 0];
     lightSource.ambient = [0, 0, 0, 0];
+}
+
+
+function createLightRotation(light) {
+    return new TransformationSGNode(mat4.create(), [
+        light
+    ]);
 }
 
 
