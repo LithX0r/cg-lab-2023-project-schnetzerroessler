@@ -30,6 +30,28 @@ function createMainPenguin(root, resources) {
 
 
 /**
+ * Is used for the creation of all normal penguins = all penguin besides the main one.
+ * Creates a transformation node for the whole penguin and appends it to the mainTNode.
+ * Also appends to {@param root} via the mainTNode.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @param resources An object containing defined keys with loaded resources.
+ * @param position  The position where the tree is placed.
+ * @param rotation  The direction in which the penguin should be placed at.
+ * @return An array containing the penguins transformation nodes.
+ */
+function createPenguin(root, resources, position, rotation) {
+    let texNode = new TexturedObjectNode(resources.penguinTex, [new RenderSGNode(resources.penguinFull)]);
+    let penguin = new MaterialSGNode(texNode);
+    let penguinTNode = new TransformationSGNode(rotation, [penguin]);
+    let mainTNode = new TransformationSGNode(glm.translate(position[0], position[1], position[2]));
+    mainTNode.append(penguinTNode);
+    root.append(mainTNode);
+
+    return [mainTNode, penguinTNode];
+}
+
+
+/**
  * Creates transformation nodes for all the UFOs parts and appends them to the ufoCenterTNode.
  * Also appends this node to {@param root}.
  * Defines the UFOs materials and colors.
@@ -117,6 +139,31 @@ function createPillar(root, resources) {
 
 
 /**
+ * Creates transformation node for the orb and appends it to the mainTNode.
+ * Also appends to {@param root} via the mainTNode.
+ * Defines the orbs material and color.
+ * @param root      Our own scenegraph created in {@link #init}.
+ * @param resources An object containing defined keys with loaded resources.
+ * @return An array containing the orbs transformation nodes.
+ */
+function createOrb(root, resources) {
+    let orb = new MaterialSGNode([new RenderSGNode(resources.orb)]);
+    orb.diffuse = rgbToPercent([0,255,122,255])
+    orb.specular = rgbToPercent([250,250,250,255]);
+    orb.ambient = rgbToPercent([88,177,4,255]);
+    orb.emission = rgbToPercent([36,214,210,255]);
+    orb.shininess = 51;
+
+    let orbRotTNode = new TransformationSGNode(mat4.create(), [orb]);
+    let mainTNode = new TransformationSGNode(glm.translate(2.5, -2, -4), [orbRotTNode]);
+    mainTNode.append(orbRotTNode);
+    root.append(mainTNode);
+
+    return [mainTNode, orbRotTNode];
+}
+
+
+/**
  * Creates transformation nodes for the tree top and trunk and appends them to the trees transformation node "tree".
  * Also appends this node to {@param root}.
  * Defines the trees materials and colors.
@@ -181,61 +228,6 @@ function createForest(root, resources) {
 }
 
 
-// ignore lines 163 and 164. Will explain why we need those lines for texturing later
-/**
- * Is used for the creation of all normal penguins = all penguin besides the main one.
- * Creates a transformation node for the whole penguin and appends it to the mainTNode.
- * Also appends to {@param root} via the mainTNode.
- * @param root      Our own scenegraph created in {@link #init}.
- * @param resources An object containing defined keys with loaded resources.
- * @param position  The position where the tree is placed.
- * @param rotation  The direction in which the penguin should be placed at.
- * @return An array containing the penguins transformation nodes.
- */
-function createPenguin(root, resources, position, rotation) {
-    let texNode = new TexturedObjectNode(resources.penguinTex, [new RenderSGNode(resources.penguinFull)]);
-    let penguin = new MaterialSGNode(texNode);
-    // let penguin = new MaterialSGNode(new AdvancedTextureSGNode(resources.penguinTex,[new RenderSGNode(resources.penguinFull)]));
-    let penguinTNode = new TransformationSGNode(rotation, [penguin]);
-    let mainTNode = new TransformationSGNode(glm.translate(position[0], position[1], position[2]));
-    mainTNode.append(penguinTNode);
-    root.append(mainTNode);
-
-    return [mainTNode, penguinTNode];
-}
-
-
-/**
- * Creates transformation node for the orb and appends it to the mainTNode.
- * Also appends to {@param root} via the mainTNode.
- * Defines the orbs material and color.
- * @param root      Our own scenegraph created in {@link #init}.
- * @param resources An object containing defined keys with loaded resources.
- * @return An array containing the orbs transformation nodes.
- */
-function createOrb(root, resources) {
-    let orb = new MaterialSGNode([new RenderSGNode(resources.orb)]);
-
-
-    orb.diffuse = rgbToPercent([0,255,122,255])
-    orb.specular = rgbToPercent([250,250,250,255]);
-    orb.ambient = rgbToPercent([88,177,4,255]);
-    orb.emission = rgbToPercent([36,214,210,255]);
-    orb.shininess = 51;
-
-    // These lines 163 and 164 ??
-    let orbRotTNode = new TransformationSGNode(mat4.create(), [orb]);
-
-    let mainTNode = new TransformationSGNode(glm.translate(2.5, -2, -4), [orbRotTNode]);
-
-
-    mainTNode.append(orbRotTNode);
-    root.append(mainTNode);
-
-    return [mainTNode, orbRotTNode];
-}
-
-
 /**
  * Defines the floors material and color and appends it to {@link root} via a new transformation node.
  * @param root      Our own scenegraph created in {@link #init}.
@@ -243,7 +235,6 @@ function createOrb(root, resources) {
  */
 function createFloor(root) {
     let floor = new MaterialSGNode( [new RenderSGNode(makeRect(10, 10))]);
-    //dark
     floor.ambient = [0.2, 0.4, 0.2, 1];
     floor.diffuse = [0.1, 0.1, 0.1, 1];
     floor.specular = [0.5, 0.5, 0.5, 1];
