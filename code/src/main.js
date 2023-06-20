@@ -264,7 +264,6 @@ function render(timeInMilliseconds) {
     context.viewMatrix = mat4.lookAt(mat4.create(), [0, 1, -10], [0, 0, 0], [0, 1, 0]);
 
 
-
     var deltaTime = timeInMilliseconds - previousTime;
     previousTime = timeInMilliseconds;
 
@@ -282,17 +281,17 @@ function render(timeInMilliseconds) {
     // /*
     ufoTNodes[1].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(1.7), ufoTNodes[1].matrix));
     ufoTNodes[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(-1.7), ufoTNodes[2].matrix));
+
     if (startedPenguins) {
 
-
-
         penguinMainWaddle.forEach(e => e.update(deltaTime));
-
         penguin1Waddle.forEach(e => e.update(deltaTime));
         penguin2Waddle.forEach(e => e.update(deltaTime));
         penguin3Waddle.forEach(e => e.update(deltaTime));
         penguin4Waddle.forEach(e => e.update(deltaTime));
+
         startedPenguins = penguinMainWaddle[0].running;
+
     } else {
 
         penguinMainWaddle[1].running = false;
@@ -300,16 +299,20 @@ function render(timeInMilliseconds) {
         penguin2Waddle[1].running = false;
         penguin3Waddle[1].running = false;
         penguin4Waddle[1].running = false;
+
         penguinArmUp.update(deltaTime);
+
         if(!penguinArmUp.running) {
             penguinArmDown.update(deltaTime);
             buttonAnim.update(deltaTime);
         }
+
         if (!buttonAnim.running) {
             disableLight(lights[0]); // disable buttonLight after button is pressed
             enableLight(lights[1], orb[0]); // enable orbLight after button is pressed
             orbAnim.forEach(e => e.update(deltaTime));
         }
+
         if (!orbAnim[0].running) {
             orbAnim[1].running = false;
             if(lights[1].uniform === 'u_lightOrb') { // disable orbLight before removing the orb from the scene
@@ -317,6 +320,7 @@ function render(timeInMilliseconds) {
             }
             ufoFlight[0].update(deltaTime);
         }
+
         if (!ufoFlight[0].running) {
             root.remove(orb[0]); // let orb disappear after it is no longer needed
             ufoFlight[1].update(deltaTime);
@@ -324,6 +328,7 @@ function render(timeInMilliseconds) {
             ufoTNodes[3].setMatrix(glm.translate(0, 0, 0));
             lights[2].forEach(l => enableLight(l, ufoTNodes[3])); // enable beamLights when beam is activated
         }
+
         if (!ufoFlight[1].running) {
             // ufoFlight[2].running = false;
             ufoTNodes[3].setMatrix(glm.translate(0, -7, 0));
@@ -335,12 +340,6 @@ function render(timeInMilliseconds) {
             penguin3Jump.update(deltaTime);
             penguin4Jump.update(deltaTime);
         }
-    }
-
-    function disableLight(lightX) {
-        lightX.diffuse = [0, 0, 0, 0];
-        lightX.specular = [0, 0, 0, 0];
-        lightX.ambient = [0, 0, 0, 0];
     }
 
     // */
