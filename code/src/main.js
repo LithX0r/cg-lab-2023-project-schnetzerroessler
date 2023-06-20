@@ -236,7 +236,7 @@ function createSceneGraph(gl, resources) {
 
     partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(gl, resources, resources.penguinTex, 15, resources.penguinFull, 100, [0, 0, 0]));
     root.append(partsys);
-    partsys.children[0].initSystem();
+    partsys.children[0].spawn();
 
     floor = createFloor(root);
 
@@ -270,6 +270,7 @@ function render(timeInMilliseconds) {
     context.viewMatrix = mat4.lookAt(mat4.create(), [0, 1, -10], [0, 0, 0], [0, 1, 0]);
 
 
+
     var deltaTime = timeInMilliseconds - previousTime;
     previousTime = timeInMilliseconds;
 
@@ -283,21 +284,22 @@ function render(timeInMilliseconds) {
     }
 
     //TODO use your own scene for rendering
-    partsys.children[0].update();
+
+    // partsys.children[0].spawn();
     // /*
     ufoTNodes[1].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(1.7), ufoTNodes[1].matrix));
     ufoTNodes[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(-1.7), ufoTNodes[2].matrix));
-
     if (startedPenguins) {
 
+
+
         penguinMainWaddle.forEach(e => e.update(deltaTime));
+
         penguin1Waddle.forEach(e => e.update(deltaTime));
         penguin2Waddle.forEach(e => e.update(deltaTime));
         penguin3Waddle.forEach(e => e.update(deltaTime));
         penguin4Waddle.forEach(e => e.update(deltaTime));
-
         startedPenguins = penguinMainWaddle[0].running;
-
     } else {
 
         penguinMainWaddle[1].running = false;
