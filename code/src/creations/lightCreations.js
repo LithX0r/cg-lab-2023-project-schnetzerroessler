@@ -9,14 +9,19 @@
  * @return An array with the defined light sources.
  */
 function initLights(gl, root, resources, orbTransformNode, ufoTransformNodes) {
-    let buttonLight = createLight(gl, root, resources, [2.5, 0.49, -4], [25,25,25,255], [255,50,50,255], [255,50,50,255], 0.1, "Button");
-    let orbLight = createLight(gl, orbTransformNode[0], resources, [0, 0, 0], [50,50,50,255], [0,255,220,255], [0,255,220,255], 0.05, "Orb");
+    let buttonLight = createLight(gl, resources, [2.5, 0.49, -4], [10,10,10,255], [255,0,0,255], [255,0,0,255], 0.1, "Button");
+    enableLight(buttonLight, root);
+    let orbLight = createLight(gl, resources, [0, 0, 0], [25,25,25,255], [0,255,220,255], [0,255,220,255], 0.05, "Orb");
 
     // lights highlighting the bottom of the ice beam
-    let beamLight1 = createLight(gl, ufoTransformNodes[3], resources, [0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam1");
-    let beamLight2 = createLight(gl, ufoTransformNodes[3], resources, [-0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam2");
-    let beamLight3 = createLight(gl, ufoTransformNodes[3], resources, [0, -4.7, -0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam3");
+    let beamLight1 = createLight(gl, resources, [0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam1");
+    let beamLight2 = createLight(gl, resources, [-0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam2");
+    let beamLight3 = createLight(gl, resources, [0, -4.7, -0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam3");
     let beamLights = [beamLight1, beamLight2, beamLight3];
+
+    // illuminates whole scene
+    let sunLight = createLight(gl, resources, [-5, 30, 0], [180, 180, 150, 255], [255,247,208,255], [255,247,208,255], 1, "");
+    enableLight(sunLight, root);
 
     return [buttonLight, orbLight, beamLights];
 }
@@ -33,7 +38,7 @@ function initLights(gl, root, resources, orbTransformNode, ufoTransformNodes) {
  * @param radius    The light spheres' radius.
  * @return The light source.
  */
-function createLight(gl, root, resources, position, ambient, diffuse, specular, radius, name) {
+function createLight(gl, resources, position, ambient, diffuse, specular, radius, name) {
     let light = new LightSGNode();
     light.ambient = rgbToPercent(ambient);
     light.diffuse = rgbToPercent(diffuse);
@@ -43,8 +48,14 @@ function createLight(gl, root, resources, position, ambient, diffuse, specular, 
     light.uniform = "u_light" + name;
     light.append(createLightSphere( resources, radius));
     // add light to scenegraph
-    root.append(light);
+    //root.append(light);
+
     return light;
+}
+
+function enableLight(lightX, lightRoot) {
+    // add light to scenegraph
+    lightRoot.append(lightX);
 }
 
 function createSpotlight( root, resources, position, ambient, diffuse, specular, radius, cutoff, direction) {

@@ -126,8 +126,9 @@ function init(resources) {
     camera = new UserControlledCamera(gl.canvas, cameraStartPos);
     //setup an animation for the camera, moving it into position
 
-    cameraAnimation = new Animation(camera,[{matrix: addKeyFrame([2,1,-10],0,-45, 0), duration: 10}], false);
-    // cameraAnimation = addCameraAnimation(camera);
+    //change between camera animation and manual camera controls by commenting out code
+    //cameraAnimation = new Animation(camera,[{matrix: addKeyFrame([2,1,-10],0,-45, 0), duration: 10}], false);
+    cameraAnimation = addCameraAnimation(camera);
     cameraAnimation.start();
 
 
@@ -227,8 +228,6 @@ function createSceneGraph(gl, resources) {
 
     // let spotlight = createSpotlight(gl, root, resources, [0, 10, 0], 0, 0, 0, .2, 10, [0, -1, 0]);
 
-    let light = createLight(gl, root, resources, [1, 10, 0], [127.5, 127.5, 127.5, 1], [255, 255, 255, 255], [255, 255, 255, 255], .2, "");
-
     partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(gl, resources, resources.penguinTex, 15, resources.penguinFull, 100, [0, 0, 0]));
     root.append(partsys);
     partsys.children[0].initSystem();
@@ -249,7 +248,8 @@ function render(timeInMilliseconds) {
     checkForWindowResize(gl);
 
     gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-    gl.clearColor(0.9, 0.9, 0.9, 1.0);
+    //set background color to light blue
+    gl.clearColor(0.87, 0.87, 1.0, 1.0);
     //clear the buffer
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     //enable depth test to let objects in front occluse objects further away
@@ -306,22 +306,28 @@ function render(timeInMilliseconds) {
             buttonAnim.update(deltaTime);
         }
         if (!buttonAnim.running) {
-            root.remove(lights[0]);
+            disableLight(lights[0]); // disable buttonLight after button is pressed
+            enableLight(lights[1], orb[0]); // enable orbLight after button is pressed
             orbAnim.forEach(e => e.update(deltaTime));
         }
         if (!orbAnim[0].running) {
             orbAnim[1].running = false;
-            // root.remove(orb[0]);
+            if(lights[1].uniform === 'u_lightOrb') { // disable orbLight before removing the orb from the scene
+                disableLight(lights[1]);
+            }
             ufoFlight[0].update(deltaTime);
         }
         if (!ufoFlight[0].running) {
+            root.remove(orb[0]); // let orb disappear after it is no longer needed
             ufoFlight[1].update(deltaTime);
             // ufoFlight[2].update(deltaTime);
             ufoTNodes[3].setMatrix(glm.translate(0, 0, 0));
+            lights[2].forEach(l => enableLight(l, ufoTNodes[3])); // enable beamLights when beam is activated
         }
         if (!ufoFlight[1].running) {
             // ufoFlight[2].running = false;
             ufoTNodes[3].setMatrix(glm.translate(0, -7, 0));
+            lights[2].forEach(l => disableLight(l)); // enable beamLights when beam is activated
             // lights[2].forEach(l => ufoTNodes[3].remove(l));
             penguinMainJump.update(deltaTime);
             penguin1Jump.update(deltaTime);
@@ -330,6 +336,13 @@ function render(timeInMilliseconds) {
             penguin4Jump.update(deltaTime);
         }
     }
+
+    function disableLight(lightX) {
+        lightX.diffuse = [0, 0, 0, 0];
+        lightX.specular = [0, 0, 0, 0];
+        lightX.ambient = [0, 0, 0, 0];
+    }
+
     // */
 
     //Apply camera
