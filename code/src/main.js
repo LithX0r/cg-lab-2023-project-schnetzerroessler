@@ -234,7 +234,7 @@ function createSceneGraph(gl, resources) {
 
     // let spotlight = createSpotlight(gl, root, resources, [0, 10, 0], 0, 0, 0, .2, 10, [0, -1, 0]);
 
-    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(gl, resources, resources.penguinTex, 15, resources.penguinFull, 100, [0, 0, 0]));
+    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(resources.penguinFull, resources.penguinTex));
     root.append(partsys);
     partsys.children[0].spawn();
 
