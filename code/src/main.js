@@ -54,12 +54,16 @@ let cubeMapTex = null;
 
 let lights = null;
 
+let partsys = null;
+
 //load the shader resources using a utility function
 loadResources({
     vs: './src/shader/phong.vs.glsl',
     fs: './src/shader/phong.fs.glsl',
     vs_single: './src/shader/single.vs.glsl',
     fs_single: './src/shader/single.fs.glsl',
+    ps_vs: './src/shader/particles.vs.glsl',
+    ps_fs: './src/shader/particles.fs.glsl',
 
     // Objects
     penguinBody: './src/models/penguin/penguinBodyFeet.obj',
@@ -133,7 +137,6 @@ function init(resources) {
     //TODO create your own scenegraph
 
     root = createSceneGraph(gl, resources);
-
 
 
     // let skybox = new EnvironmentSGNode(cubeMapTex, 4, false, makeSphere(50, 10, 10));
@@ -224,8 +227,11 @@ function createSceneGraph(gl, resources) {
 
     // let spotlight = createSpotlight(gl, root, resources, [0, 10, 0], 0, 0, 0, .2, 10, [0, -1, 0]);
 
-    // let light = createLight(gl, root, resources, [1, 10, 0], [127.5, 127.5, 127.5, 1], [255, 255, 255, 255], [255, 255, 255, 255], .2, "");
+    let light = createLight(gl, root, resources, [1, 10, 0], [127.5, 127.5, 127.5, 1], [255, 255, 255, 255], [255, 255, 255, 255], .2, "");
 
+    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(gl, resources, resources.penguinTex, 15, resources.penguinFull, 100, [0, 0, 0]));
+    root.append(partsys);
+    partsys.children[0].initSystem();
 
     floor = createFloor(root);
 
@@ -272,7 +278,7 @@ function render(timeInMilliseconds) {
     }
 
     //TODO use your own scene for rendering
-
+    partsys.children[0].update();
     // /*
     ufoTNodes[1].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(1.7), ufoTNodes[1].matrix));
     ufoTNodes[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(-1.7), ufoTNodes[2].matrix));

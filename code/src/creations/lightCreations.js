@@ -34,20 +34,20 @@ function initLights(gl, root, resources, orbTransformNode, ufoTransformNodes) {
  * @return The light source.
  */
 function createLight(gl, root, resources, position, ambient, diffuse, specular, radius, name) {
-    let light = new LightSGNode(position, []);
+    let light = new LightSGNode();
     light.ambient = rgbToPercent(ambient);
     light.diffuse = rgbToPercent(diffuse);
     light.specular = rgbToPercent(specular);
     light.position = position;
     // light._worldPosition = position;
     light.uniform = "u_light" + name;
-    light.append(createLightSphere(gl, resources, radius));
+    light.append(createLightSphere( resources, radius));
     // add light to scenegraph
     root.append(light);
     return light;
 }
 
-function createSpotlight(gl, root, resources, position, ambient, diffuse, specular, radius, cutoff, direction) {
+function createSpotlight( root, resources, position, ambient, diffuse, specular, radius, cutoff, direction) {
     let light = new SpotlightSGNode(cutoff, direction, position, []);
     // light.ambient = ambient;
     light.append(createLightSphere(gl, resources, radius));
@@ -63,7 +63,7 @@ function createSpotlight(gl, root, resources, position, ambient, diffuse, specul
  * @param radius    The spheres radius.
  * @return The created sphere.
  */
-function createLightSphere(gl, resources, radius) {
+function createLightSphere(resources, radius) {
     return new ShaderSGNode(createProgram(gl, resources.vs_single, resources.fs_single), [
         new RenderSGNode(makeSphere(radius, 10, 10))
     ]);
