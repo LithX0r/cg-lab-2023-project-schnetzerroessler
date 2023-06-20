@@ -12,7 +12,7 @@ var cameraAnimation = null;
 // scenegraph root node
 var root = null;
 
-var rotateBeamLight1, rotateBeamLight2, rotateBeamLight3;
+var rotateBeamLights;
 
 // time in last render step
 var previousTime = 0;
@@ -227,10 +227,7 @@ function createSceneGraph(gl, resources) {
 
     // Light creation
     lights = initLights(gl, root, resources, orb, ufoTNodes);
-
-    rotateBeamLight1 = createLightRotation(lights[2][0]);
-    rotateBeamLight2 = createLightRotation(lights[2][1]);
-    rotateBeamLight3 = createLightRotation(lights[2][2]);
+    rotateBeamLights = [createLightRotation(lights[2][0]), createLightRotation(lights[2][1]), createLightRotation(lights[2][2])]
 
     // let spotlight = createSpotlight(gl, root, resources, [0, 10, 0], 0, 0, 0, .2, 10, [0, -1, 0]);
 
@@ -335,21 +332,14 @@ function render(timeInMilliseconds) {
             // ufoFlight[2].update(deltaTime);
             ufoTNodes[3].setMatrix(glm.translate(0, 0, 0));
 
-            //lights[2].forEach(l => enableLight(l, ufoTNodes[3])); // enable beamLights when beam is activated
-            ufoTNodes[3].append(rotateBeamLight1);
-            ufoTNodes[3].append(rotateBeamLight2);
-            ufoTNodes[3].append(rotateBeamLight3);
-
-            //enable light rotation
-            rotateBeamLight1.matrix = glm.rotateY(timeInMilliseconds*0.05);
-            rotateBeamLight2.matrix = glm.rotateY(timeInMilliseconds*0.05);
-            rotateBeamLight3.matrix = glm.rotateY(timeInMilliseconds*0.05);
+            rotateBeamLights.forEach(l => enableLight(l, ufoTNodes[3])); // append beam light rotations when beam is activated
+            rotateBeamLights.forEach(l => (l.matrix = glm.rotateY(timeInMilliseconds*0.2))) //enable beam light rotation
         }
 
         if (!ufoFlight[1].running) {
             // ufoFlight[2].running = false;
             ufoTNodes[3].setMatrix(glm.translate(0, -7, 0));
-            lights[2].forEach(l => disableLight(l)); // enable beamLights when beam is activated
+            lights[2].forEach(l => disableLight(l)); // disable beam lights
             // lights[2].forEach(l => ufoTNodes[3].remove(l));
             penguinMainJump.update(deltaTime);
             penguin1Jump.update(deltaTime);
