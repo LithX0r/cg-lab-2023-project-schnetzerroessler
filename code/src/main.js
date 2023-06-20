@@ -229,9 +229,9 @@ function createSceneGraph(gl, resources) {
 
     let light = createLight(gl, root, resources, [1, 10, 0], [127.5, 127.5, 127.5, 1], [255, 255, 255, 255], [255, 255, 255, 255], .2, "");
 
-    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(gl, resources, resources.penguinTex, 15, resources.penguinFull, 100, [0, 0, 0]));
+    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(resources.penguinFull, resources.penguinTex));
     root.append(partsys);
-    partsys.children[0].initSystem();
+    partsys.children[0].spawn();
 
     floor = createFloor(root);
 
@@ -278,7 +278,8 @@ function render(timeInMilliseconds) {
     }
 
     //TODO use your own scene for rendering
-    partsys.children[0].update();
+
+    // partsys.children[0].spawn();
     // /*
     ufoTNodes[1].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(1.7), ufoTNodes[1].matrix));
     ufoTNodes[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(-1.7), ufoTNodes[2].matrix));
