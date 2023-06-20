@@ -13,14 +13,20 @@ function initLights(gl, root, resources) {
     // enable later
 
     // lights highlighting the bottom of the ice beam
+    /*
     let beamLight1 = createLight(gl, resources, [0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam1");
     let beamLight2 = createLight(gl, resources, [-0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam2");
     let beamLight3 = createLight(gl, resources, [0, -4.7, -0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam3");
+    */
+    // beam lights are bright enough to cover whole floor as a transition between grass and snow
+    let beamLight1 = createLight(gl, resources, [0.5, -4.7, 0.5], [45, 25, 180, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam1");
+    let beamLight2 = createLight(gl, resources, [-0.5, -4.7, 0.5], [45, 25, 180, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam2");
+    let beamLight3 = createLight(gl, resources, [0, -4.7, -0.5], [45, 25, 180, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam3");
     let beamLights = [beamLight1, beamLight2, beamLight3];
     // enable later
 
     // illuminates the whole scene
-    let sunLight = createLight(gl, resources, [-5, 30, 0], [180, 180, 150, 255], [255,247,208,255], [255,247,208,255], 1, "");
+    let sunLight = createLight(gl, resources, [-5, 30, 0], [200, 200, 200, 255], [255,255,255,255], [255,255,255,255], 1, "");
     enableLight(sunLight, root);
 
     return [buttonLight, orbLight, beamLights, sunLight];
@@ -88,7 +94,12 @@ function disableLight(lightSource) {
 }
 
 
-function createLightRotation(light) {
+/**
+ * Creates a transformation node for a light to be able to rotate it in a circle later.
+ * @param light The light that should be able to be rotated.
+ * @return A transformation node used for moving a light around in a circle.
+ */
+function createLightTransformNode(light) {
     return new TransformationSGNode(mat4.create(), [
         light
     ]);
