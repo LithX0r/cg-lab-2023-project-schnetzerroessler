@@ -14,6 +14,8 @@ var root = null;
 
 var rotateBeamLights;
 
+var grassToSnow;
+
 // time in last render step
 var previousTime = 0;
 
@@ -28,7 +30,6 @@ let penguin4TNode = null;
 let pillButtonTNode = null;
 
 let ufoTNodes = null;
-
 
 let penguinMainWaddle = null;
 let penguin1Waddle = null;
@@ -51,6 +52,8 @@ let orbAnim = null;
 
 let penguinArmUp = null;
 let penguinArmDown = null;
+
+let grassToSnowTNode;
 
 let cubeMapTex = null;
 
@@ -168,6 +171,25 @@ function init(resources) {
     penguinArmUp = penguinArm[0];
     penguinArmDown = penguinArm[1];
 
+    //
+    grassToSnowTNode = new TransformationSGNode(mat4.fromValues(
+        floor.ambient[0], floor.ambient[1], floor.ambient[2], floor.ambient[3],
+        floor.diffuse[0], floor.diffuse[1], floor.diffuse[2], floor.diffuse[3],
+        floor.specular[0], floor.specular[1], floor.specular[2], floor.specular[3],
+        floor.emission[0], floor.emission[1], floor.emission[2], floor.emission[3]));
+
+    let whiteFloorMatrix = mat4.fromValues(
+        1, 1, 1, 1,
+        1, 1, 1, 1,
+        1, 1, 1, 1,
+        1, 1, 1, 1);
+
+    grassToSnow = new Animation(grassToSnowTNode, [
+        {matrix: grassToSnowTNode.matrix, duration: 4000},
+        {matrix: whiteFloorMatrix, duration: 8000}],
+        false);
+    grassToSnow.start();
+
 }
 
 function initCubeMap(resources) {
@@ -227,7 +249,7 @@ function createSceneGraph(gl, resources) {
 
     // Light creation
     lights = initLights(gl, root, resources, orb, ufoTNodes);
-    rotateBeamLights = [createLightRotation(lights[2][0]), createLightRotation(lights[2][1]), createLightRotation(lights[2][2])]
+    rotateBeamLights = [createLightTransformNode(lights[2][0]), createLightTransformNode(lights[2][1]), createLightTransformNode(lights[2][2])]
 
     // let spotlight = createSpotlight(gl, root, resources, [0, 10, 0], 0, 0, 0, .2, 10, [0, -1, 0]);
 
@@ -288,8 +310,6 @@ function render(timeInMilliseconds) {
     ufoTNodes[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(-1.7), ufoTNodes[2].matrix));
     if (startedPenguins) {
 
-
-
         penguinMainWaddle.forEach(e => e.update(deltaTime));
 
         penguin1Waddle.forEach(e => e.update(deltaTime));
@@ -297,6 +317,7 @@ function render(timeInMilliseconds) {
         penguin3Waddle.forEach(e => e.update(deltaTime));
         penguin4Waddle.forEach(e => e.update(deltaTime));
         startedPenguins = penguinMainWaddle[0].running;
+
     } else {
 
         penguinMainWaddle[1].running = false;
@@ -334,9 +355,13 @@ function render(timeInMilliseconds) {
 
             rotateBeamLights.forEach(l => enableLight(l, ufoTNodes[3])); // append beam light rotations when beam is activated
             rotateBeamLights.forEach(l => (l.matrix = glm.rotateY(timeInMilliseconds*0.2))) //enable beam light rotation
+
+            //grassToSnow.update();
+            //floor.ambient = [grassToSnowTNode.matrix[0], grassToSnowTNode.matrix[1], grassToSnowTNode.matrix[2], grassToSnowTNode.matrix[3]];
         }
 
         if (!ufoFlight[1].running) {
+            makeFloorSnow(floor);
             // ufoFlight[2].running = false;
             ufoTNodes[3].setMatrix(glm.translate(0, -7, 0));
             lights[2].forEach(l => disableLight(l)); // disable beam lights
@@ -348,6 +373,7 @@ function render(timeInMilliseconds) {
             penguin4Jump.update(deltaTime);
         }
     }
+
 
     // */
 
