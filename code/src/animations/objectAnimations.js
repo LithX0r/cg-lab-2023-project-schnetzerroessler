@@ -148,3 +148,17 @@ function createOrbAnim(orb, startPos, endPos) {
 
     return [orbFlight, orbRot];
 }
+
+
+/**
+ * Changes the floors ambient values to 1 to make it look like it is covered with snow.
+ * @param floor The floor that should be changed.
+ * @return The white floor.
+ */
+function makeFloorSnow(floor) {
+    floor.ambient = [1,1,1,1];
+    //floor.diffuse = [1,1,1,1];
+    //floor.specular = [1,1,1,1];
+
+    return floor;
+}

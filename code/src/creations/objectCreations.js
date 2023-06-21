@@ -247,20 +247,6 @@ function createFloor(root) {
 
 
 /**
- * Changes the floors ambient values to 1 to make it look like it is covered with snow.
- * @param floor The floor that should be changed.
- * @return The white floor.
- */
-function makeFloorSnow(floor) {
-    floor.ambient = [1,1,1,1];
-    //floor.diffuse = [1,1,1,1];
-    //floor.specular = [1,1,1,1];
-
-    return floor;
-}
-
-
-/**
  * Takes RGB values and converts them to percent to be able to use these values in WebGL.
  * @param v Array of RGB values [red, green, blue, alpha]
  * @return Returns the color values in percent.

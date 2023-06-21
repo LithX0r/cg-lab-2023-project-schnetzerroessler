@@ -1,9 +1,9 @@
-//the OpenGL context
+// the OpenGL context
 var gl = null,
     program = null;
 
 
-//Camera
+// Camera
 var camera = null;
 var cameraPos = vec3.create();
 var cameraCenter = vec3.create();
@@ -14,7 +14,9 @@ var root = null;
 
 var rotateBeamLights;
 
-var grassToSnow;
+// part of original attempt to turn the floor white gradually:
+// var grassToSnow;
+// let grassToSnowTNode;
 
 // time in last render step
 var previousTime = 0;
@@ -52,8 +54,6 @@ let orbAnim = null;
 
 let penguinArmUp = null;
 let penguinArmDown = null;
-
-let grassToSnowTNode;
 
 let cubeMapTex = null;
 
@@ -173,7 +173,8 @@ function init(resources) {
     penguinArmUp = penguinArm[0];
     penguinArmDown = penguinArm[1];
 
-    //
+    // original attempt to turn the floor white gradually:
+    /*
     grassToSnowTNode = new TransformationSGNode(mat4.fromValues(
         floor.ambient[0], floor.ambient[1], floor.ambient[2], floor.ambient[3],
         floor.diffuse[0], floor.diffuse[1], floor.diffuse[2], floor.diffuse[3],
@@ -191,6 +192,7 @@ function init(resources) {
         {matrix: whiteFloorMatrix, duration: 8000}],
         false);
     grassToSnow.start();
+    */
 
 }
 
@@ -359,8 +361,9 @@ function render(timeInMilliseconds) {
             rotateBeamLights.forEach(l => enableLight(l, ufoTNodes[3])); // append beam light rotations when beam is activated
             rotateBeamLights.forEach(l => (l.matrix = glm.rotateY(timeInMilliseconds*0.2))) //enable beam light rotation
 
-            //grassToSnow.update();
-            //floor.ambient = [grassToSnowTNode.matrix[0], grassToSnowTNode.matrix[1], grassToSnowTNode.matrix[2], grassToSnowTNode.matrix[3]];
+            // part of original attempt to turn the floor white gradually:
+            // grassToSnow.update();
+            // floor.ambient = [grassToSnowTNode.matrix[0], grassToSnowTNode.matrix[1], grassToSnowTNode.matrix[2], grassToSnowTNode.matrix[3]];
         }
 
         if (!ufoFlight[1].running) {
