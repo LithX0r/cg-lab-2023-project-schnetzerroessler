@@ -1,5 +1,5 @@
 /**
- * Rotates the camera or object first based on the given angles and then translates it to the wanted location.
+ * Rotates a matrix based on the given angles and then translates it to the wanted location.
  * Is also used to add the penguins arm/button-pressing rotation.
  * @param position  The coordinates where the viewer is positioned.
  * @param xAngle    The view's angle on the x-axis.

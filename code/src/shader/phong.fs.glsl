@@ -42,8 +42,6 @@ uniform Light u_lightBeam2;
 uniform Light u_lightBeam3;
 uniform Spotlight u_spotlight;
 
-//uniform float u_alpha;
-
 //varying vectors for light computation
 varying vec3 v_normalVec;
 varying vec3 v_eyeVec;
@@ -54,19 +52,16 @@ varying vec3 v_lightBeam1Vec;
 varying vec3 v_lightBeam2Vec;
 varying vec3 v_lightBeam3Vec;
 
-
-
 // texture related variables
 varying vec2 v_texCoord;
 uniform sampler2D u_tex;
 uniform bool u_enableObjectTexture;
 
-
 // spotlight
-//uniform bool u_isSpotlight;
 uniform float u_cufoff;
-uniform vec3 u_spotDir;
+varying vec3 v_spotlightDir;
 varying vec3 v_spotlightVec;
+
 
 vec4 calculateSimplePointLight(Light light, Material material, vec3 lightVec, vec3 normalVec, vec3 eyeVec, vec4 textureColor) {
     // You can find all built-in functions (min, max, clamp, reflect, normalize, etc.)
@@ -85,10 +80,8 @@ vec4 calculateSimplePointLight(Light light, Material material, vec3 lightVec, ve
 
     if(u_enableObjectTexture)
     {
-        //TASK 2: replace diffuse and ambient material color with texture color
         material.diffuse = textureColor;
         material.ambient = textureColor;
-        //Note: an alternative to replacing the material color is to multiply it with the texture color
     }
 
     vec4 c_amb  = clamp(light.ambient * material.ambient, 0.0, 1.0);
@@ -99,6 +92,7 @@ vec4 calculateSimplePointLight(Light light, Material material, vec3 lightVec, ve
     return c_amb + c_diff + c_spec + c_em;
 }
 
+
 vec4 calculateSpotlight(Spotlight spotlight, Material material, vec3 lightVec, vec3 normalVec, vec3 eyeVec, vec4 textureColor) {
 
     lightVec = normalize(spotlight.position - lightVec);
@@ -106,6 +100,7 @@ vec4 calculateSpotlight(Spotlight spotlight, Material material, vec3 lightVec, v
     eyeVec = normalize(eyeVec);
 
     // implement phong shader
+
     //compute diffuse term
     float diffuse = max(dot(normalVec, lightVec), 0.0);
 
@@ -135,6 +130,7 @@ vec4 calculateSpotlight(Spotlight spotlight, Material material, vec3 lightVec, v
     }
 }
 
+
 void main() {
 
     vec4 textureColor = vec4(0, 0, 0, 1);
@@ -143,13 +139,12 @@ void main() {
         textureColor = texture2D(u_tex, v_texCoord);
     }
 
-//    gl_FragColor = calculateSpotlight(u_spotlight, u_material, v_spotlightVec, v_normalVec, v_eyeVec, textureColor);
     gl_FragColor = calculateSimplePointLight(u_light, u_material, v_lightVec, v_normalVec, v_eyeVec, textureColor)
     + calculateSimplePointLight(u_lightButton, u_material, v_lightButtonVec, v_normalVec, v_eyeVec, textureColor)
     + calculateSimplePointLight(u_lightOrb, u_material, v_lightOrbVec, v_normalVec, v_eyeVec, textureColor)
     + calculateSimplePointLight(u_lightBeam1, u_material, v_lightBeam1Vec, v_normalVec, v_eyeVec, textureColor)
     + calculateSimplePointLight(u_lightBeam2, u_material, v_lightBeam2Vec, v_normalVec, v_eyeVec, textureColor)
     + calculateSimplePointLight(u_lightBeam3, u_material, v_lightBeam3Vec, v_normalVec, v_eyeVec, textureColor);
-//    + calculateSpotlight(u_spotlight, u_material, v_spotlightVec, v_normalVec, v_eyeVec, textureColor);
+//  + calculateSpotlight(u_spotlight, u_material, v_spotlightVec, v_normalVec, v_eyeVec, textureColor);
 
 }

@@ -337,12 +337,12 @@ function parseObjFile(objectData) {
   //based on https://github.com/frenchtoast747/webgl-obj-loader/blob/master/webgl-obj-loader.js
   /*
    The OBJ file format does a sort of compression when saving a model in a
-   program like Blender. There are at least 3 sections (4 including textures)
+   program like Blender. There are at least 3 sections (4 including envmap)
    within the file. Each line in a section begins with the same string:
      * 'v': indicates vertex section
      * 'vn': indicates vertex normal section
      * 'f': indicates the faces section
-     * 'vt': indicates vertex texture section (if textures were used on the model)
+     * 'vt': indicates vertex texture section (if envmap were used on the model)
    Each of the above sections (except for the faces section) is a list/set of
    unique vertices.
    Each line of the faces section contains a list of
@@ -460,7 +460,7 @@ function parseObjFile(objectData) {
            */
           var vertex = elements[j].split('/');
           /*
-           The verts, textures, and vertNormals arrays each contain a
+           The verts, envmap, and vertNormals arrays each contain a
            flattend array of coordinates.
            Because it gets confusing by referring to vertex and then
            vertex (both are different in my descriptions) I will explain
@@ -472,13 +472,13 @@ function parseObjFile(objectData) {
            simple pointer arithmetic is used to skip to the start of the
            vertexNormal, then the offset is added to get the correct
            component: +0 is x, +1 is y, +2 is z.
-           This same process is repeated for verts and textures.
+           This same process is repeated for verts and envmap.
            */
           // vertex position
           unpacked.verts.push(+verts[(vertex[0] - 1) * 3 + 0]);
           unpacked.verts.push(+verts[(vertex[0] - 1) * 3 + 1]);
           unpacked.verts.push(+verts[(vertex[0] - 1) * 3 + 2]);
-          // vertex textures
+          // vertex envmap
           if (textures.length) {
             unpacked.textures.push(+textures[(vertex[1] - 1) * 2 + 0]);
             unpacked.textures.push(+textures[(vertex[1] - 1) * 2 + 1]);

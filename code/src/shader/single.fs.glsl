@@ -19,7 +19,6 @@ struct Spotlight {
 	vec3 position;
 };
 
-//uniform Material u_material;
 uniform Light u_light;
 uniform Light u_lightButton;
 uniform Light u_lightOrb;
@@ -28,12 +27,8 @@ uniform Light u_lightBeam2;
 uniform Light u_lightBeam3;
 uniform Spotlight u_spotlight;
 
-void main() {
-//	gl_FragColor = vec4(1, 0, 0, 2);
-//	vec4 c = u_light.diffuse;
-//	vec4 c = vec4(1, 1, 1, 1);
-//	gl_FragColor = vec4(c);
 
+void main() {
 	// needed to get colored light sources
 	gl_FragColor = vec4(
 		u_light.diffuse.rgb +

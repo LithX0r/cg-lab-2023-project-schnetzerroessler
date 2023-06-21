@@ -55,14 +55,15 @@ let orbAnim = null;
 let penguinArmUp = null;
 let penguinArmDown = null;
 
-let cubeMapTex = null;
+// let cubeMapTex = null;    // we initially planned to implement a cube map but omitted the idea due to time constraints
 
 let lights = null;
 
-let partsys = null;
+let particleSystem = null;
 
-//load the shader resources using a utility function
+// load the shader resources using a utility function
 loadResources({
+    // Shaders
     vs: './src/shader/phong.vs.glsl',
     fs: './src/shader/phong.fs.glsl',
     vs_single: './src/shader/single.vs.glsl',
@@ -74,11 +75,9 @@ loadResources({
     penguinBody: './src/models/penguin/penguinBodyFeet.obj',
     penguinHeadBeak: './src/models/penguin/penguinHeadBeak.obj',
     penguinLeftWing: './src/models/penguin/penguinLeftWing.obj',
-    // penguinRightWing: './src/models/penguin/penguinRightWing.obj',
     penguinFull: './src/models/penguin/penguin2.obj',
     penguinRightWing: './src/models/penguin/penguinRightWing_textured.obj',
-
-    penguinTex: './src/models/penguin/texture_test.png',
+    penguinTex: './src/models/penguin/penguin_texture.png',
 
     ufoFixedParts: './src/models/ufo/ufoFixedParts.obj',
     ufoUpperDisk: './src/models/ufo/ufoUpperDisk.obj',
@@ -105,14 +104,16 @@ loadResources({
 
     orb: './src/models/orb/orb.obj',
 
-    particle: './src/models/particle.obj',
+    particle: './src/models/particle/particle.obj',
+    particleTex: './src/models/particle/particle_texture.png'
 
-    env_pos_x: './src/textures/env_pos_x.png',
-    env_pos_y: './src/textures/env_pos_y.png',
-    env_pos_z: './src/textures/env_pos_z.png',
-    env_neg_x: './src/textures/env_pos_x.png',
-    env_neg_y: './src/textures/env_pos_y.png',
-    env_neg_z: './src/textures/env_pos_z.png',
+    // Environment maps not used
+    // env_pos_x: './src/envmap/env_pos_x.png',
+    // env_pos_y: './src/envmap/env_pos_y.png',
+    // env_pos_z: './src/envmap/env_pos_z.png',
+    // env_neg_x: './src/envmap/env_pos_x.png',
+    // env_neg_y: './src/envmap/env_pos_y.png',
+    // env_neg_z: './src/envmap/env_pos_z.png'
 
 }).then(function (resources /*an object containing our keys with the loaded resources*/) {
     init(resources);
@@ -121,34 +122,28 @@ loadResources({
 });
 
 /**
-
  * initializes OpenGL context, compile shader, and load buffers
  */
 function init(resources) {
-    //create a GL context
+    // create a GL context
     gl = createContext();
 
-    //setup camera
+    // setup camera
     cameraStartPos = vec3.fromValues(2, 1, -10);
     camera = new UserControlledCamera(gl.canvas, cameraStartPos);
-    //setup an animation for the camera, moving it into position
 
-    //change between camera animation and manual camera controls by commenting out code
-    cameraAnimation = new Animation(camera,[{matrix: addKeyFrame([2,1,-10],0,-45, 0), duration: 10}], false);
-    // cameraAnimation = addCameraAnimation(camera);
+    // set up an animation for the camera, moving it into position
+    // change between camera animation and manual camera controls by commenting out code
+    // cameraAnimation = new Animation(camera,[{matrix: addKeyFrame([2,1,-10],0,-45, 0), duration: 10}], false);
+    cameraAnimation = addCameraAnimation(camera);
     cameraAnimation.start();
 
-
-
-    // cubeMapTex = initCubeMap(resources);
-
-    //TODO create your own scenegraph
-
+    // initialize scenegraph
     root = createSceneGraph(gl, resources);
 
-
+    // would have initialized cube map
+    // cubeMapTex = initCubeMap(resources);
     // let skybox = new EnvironmentSGNode(cubeMapTex, 4, false, makeSphere(50, 10, 10));
-
 
     // Animation creation
     penguinMainWaddle = createPenguinWaddle(penguinMain, [-3.8, 0, -1.5], [2, 0, -4], 125, 0);
@@ -173,7 +168,7 @@ function init(resources) {
     penguinArmUp = penguinArm[0];
     penguinArmDown = penguinArm[1];
 
-    // original attempt to turn the floor white gradually:
+    // initial attempt to turn the floor white gradually:
     /*
     grassToSnowTNode = new TransformationSGNode(mat4.fromValues(
         floor.ambient[0], floor.ambient[1], floor.ambient[2], floor.ambient[3],
@@ -193,9 +188,10 @@ function init(resources) {
         false);
     grassToSnow.start();
     */
-
 }
 
+// was meant to initialize the cube map like it was done in the slides
+/*
 function initCubeMap(resources) {
     let envCubeTexture = gl.createTexture();
 
@@ -209,9 +205,7 @@ function initCubeMap(resources) {
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 
-
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
 
     gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_X, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_pos_x);
     gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_X, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_neg_x);
@@ -220,28 +214,22 @@ function initCubeMap(resources) {
     gl.texImage2D(gl.TEXTURE_CUBE_MAP_POSITIVE_Z, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_pos_z);
     gl.texImage2D(gl.TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, resources.env_neg_z);
 
-
-
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
     return envCubeTexture;
 }
+ */
 
 
 function createSceneGraph(gl, resources) {
-    //create scenegraph
+    // create scenegraph
     const root = new ShaderSGNode(createProgram(gl, resources.vs, resources.fs))
 
     // Object creation
-
-    // let u_enableObjTex = new SetUniformSGNode("u_enableObjectTexture", true);
-    // cubeMapTex = initCubeMap(resources); TODO finish skybox
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // TODO: explain
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true); // flips y in order to make penguin texture map work
 
     ufoTNodes = createUFO(root, resources);
 
     pillButtonTNode = createPillar(root, resources);
-
-    createForest(root, resources);
 
     orb = createOrb(root, resources);
 
@@ -257,15 +245,12 @@ function createSceneGraph(gl, resources) {
 
     // let spotlight = createSpotlight(root, resources, [0, 2, 30], 0, 0, 0, .2, 1, [0, -1, 0]);
 
-    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(makeRect(.05, .05), resources.penguinTex, 20, true, [-.5, -5.4, -.5]));
-    ufoTNodes[3].append(partsys);
-    partsys.children[0].init();
-    // partsys.children[0].spawn();
+    particleSystem = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(resources.particle, resources.particleTex, 13, [0,-1,0]));
+    ufoTNodes[3].append(particleSystem);
+    particleSystem.children[0].init();
 
     floor = createFloor(root);
-
-    // let sky = new TexturedObjectNode()
-
+    createForest(root, resources);
 
     return root;
 }
@@ -278,13 +263,17 @@ function render(timeInMilliseconds) {
     checkForWindowResize(gl);
 
     gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+
     //set background color to light blue
     gl.clearColor(0.57, 0.86, 1.0, 1.0);
+
     //clear the buffer
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
     //enable depth test to let objects in front occluse objects further away
     gl.enable(gl.DEPTH_TEST);
 
+    // it was initially planned to implement alpha blending but was never implemented
     // gl.enable(gl.BLEND);
     // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
@@ -292,8 +281,6 @@ function render(timeInMilliseconds) {
     const context = createSGContext(gl);
     context.projectionMatrix = mat4.perspective(mat4.create(), glm.deg2rad(30), gl.drawingBufferWidth / gl.drawingBufferHeight, 0.01, 100);
     context.viewMatrix = mat4.lookAt(mat4.create(), [0, 1, -10], [0, 0, 0], [0, 1, 0]);
-
-
 
     var deltaTime = timeInMilliseconds - previousTime;
     previousTime = timeInMilliseconds;
@@ -307,20 +294,19 @@ function render(timeInMilliseconds) {
         camera.control.enabled = true;
     }
 
-    //TODO use your own scene for rendering
 
-    partsys.children[0].update();
-    // /*
+    // use your own scene for rendering
     ufoTNodes[1].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(1.7), ufoTNodes[1].matrix));
     ufoTNodes[2].setMatrix(mat4.multiply(mat4.create(), glm.rotateY(-1.7), ufoTNodes[2].matrix));
+
     if (startedPenguins) {
 
         penguinMainWaddle.forEach(e => e.update(deltaTime));
-
         penguin1Waddle.forEach(e => e.update(deltaTime));
         penguin2Waddle.forEach(e => e.update(deltaTime));
         penguin3Waddle.forEach(e => e.update(deltaTime));
         penguin4Waddle.forEach(e => e.update(deltaTime));
+
         startedPenguins = penguinMainWaddle[0].running;
 
     } else {
@@ -353,9 +339,11 @@ function render(timeInMilliseconds) {
         }
 
         if (!ufoFlight[0].running) {
+            particleSystem.children[0].update(); // starts updating particle system as soon as it becomes visible to reduce lag
+
             root.remove(orb[0]); // let orb disappear after it is no longer needed
+
             ufoFlight[1].update(deltaTime);
-            // ufoFlight[2].update(deltaTime);
             ufoTNodes[3].setMatrix(glm.translate(0, 0, 0));
 
             rotateBeamLights.forEach(l => enableLight(l, ufoTNodes[3])); // append beam light rotations when beam is activated
@@ -368,10 +356,9 @@ function render(timeInMilliseconds) {
 
         if (!ufoFlight[1].running) {
             makeFloorSnow(floor);
-            // ufoFlight[2].running = false;
             ufoTNodes[3].setMatrix(glm.translate(0, -7, 0));
             lights[2].forEach(l => disableLight(l)); // disable beam lights
-            // lights[2].forEach(l => ufoTNodes[3].remove(l));
+
             penguinMainJump.update(deltaTime);
             penguin1Jump.update(deltaTime);
             penguin2Jump.update(deltaTime);
@@ -380,20 +367,18 @@ function render(timeInMilliseconds) {
         }
     }
 
-
-    // */
-
-    //Apply camera
+    // Apply camera
     camera.render(context);
 
-    //Render scene
+    // Render scene
     root.render(context);
 
-    //request another call as soon as possible
+    // Request another call as soon as possible
     requestAnimationFrame(render);
 }
 
 
+// Environment node for skybox and environment map was never used. Implemented similar to slides.
 /*
 class EnvironmentSGNode extends SGNode {
 
@@ -425,5 +410,4 @@ class EnvironmentSGNode extends SGNode {
         gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
     }
 }
-
  */

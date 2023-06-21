@@ -10,14 +10,12 @@ function initLights(gl, root, resources) {
     enableLight(buttonLight, root);
 
     let orbLight = createLight(gl, resources, [0, 0, 0], [5,10,10,255], [0,255,220,255], [0,255,220,255], 0.05, "Orb");
-    // enable later
 
     // lights highlighting the bottom of the ice beam -> bright enough to cover whole floor as a transition between grass and snow
     let beamLight1 = createLight(gl, resources, [0.5, -4.7, 0.5], [45, 25, 180, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam1");
     let beamLight2 = createLight(gl, resources, [-0.5, -4.7, 0.5], [45, 25, 180, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam2");
     let beamLight3 = createLight(gl, resources, [0, -4.7, -0.5], [45, 25, 180, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam3");
     let beamLights = [beamLight1, beamLight2, beamLight3];
-    // enable later
 
     // illuminates the whole scene
     let sunLight = createLight(gl, resources, [-5, 30, 0], [200, 200, 200, 255], [255,255,255,255], [255,255,255,255], 1, "");
@@ -108,10 +106,15 @@ function createLightTransformNode(light) {
 }
 
 
+// We could not get the spotlight to work properly.
+// Spotlight was lighting half of the scene or illuminated part of scene was dependent on viewing position.
+/*
 function createSpotlight( root, resources, position, ambient, diffuse, specular, radius, cutoff, direction) {
     let light = new SpotlightSGNode(cutoff, direction, position, []);
     // light.ambient = ambient;
-    light.append(createLightSphere(resources, radius));
+    // light.diffuse = diffuse;
+    // light.specular = specular;
+    light.append(createLightSphere(light, resources, radius));
     root.append(light);
     return light;
 }
@@ -119,25 +122,18 @@ function createSpotlight( root, resources, position, ambient, diffuse, specular,
 
 class SpotlightSGNode extends LightSGNode {
     constructor(cutoff, direction, position, children) {
-        // let u_isSpotlight = new SetUniformSGNode("u_isSpotlight", isSpotlight);
-        // let u_cutoff = new SetUniformSGNode("u_cutoff");
-        // let u_spotDir = new SetUniformSGNode("u_spotDir");
-        // children.push(u_cutoff, u_spotDir);
         super(position, children);
-
         this.uniform = "u_spotlight";
         this.cutoff = Math.cos(glm.deg2rad(cutoff));
         this.direction = direction;
-
     }
 
     render(context) {
-        // gl.uniform1i(gl.getUniformLocation(context.shader, "u_isSpotlight"), 1);
-        // gl.uniformMatrix4fv(gl.getUniformLocation(context.shader, "u_modelMatrix"), false, context.sceneMatrix);
+        gl.uniform3fv(gl.getUniformLocation(context.shader, "u_spotlightDir"), this.direction);
         gl.uniform3fv(gl.getUniformLocation(context.shader, this.uniform + ".position"), this.position);
         gl.uniform1f(gl.getUniformLocation(context.shader, this.uniform +"+.cutoff"), this.cutoff);
         gl.uniform3fv(gl.getUniformLocation(context.shader, this.uniform + ".direction"), this.direction);
         super.render(context);
-        // gl.uniform1i(gl.getUniformLocation(context.shader, "u_isSpotlight"), 0);
     }
 }
+*/

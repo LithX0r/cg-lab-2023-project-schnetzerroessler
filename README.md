@@ -62,8 +62,6 @@ Nothing to change here in `README` file.
 
 ## Final Submission due on 20.06.2023
 
-## **LATE SUBMISSION BY ONE DAY**
-
 The repository needs to contain:
   * code/ Documented code + resources + libs
   * video/ A screen recording of the movie
@@ -84,20 +82,19 @@ Workload has to sum up to 100%.
 Select which effects you have implemented in the table below. Replace yes/no/partial with one of the options.
 Mention in the comments column of the table where you have implemented the code and where it is visible (e.g., spotlight is the lamp post shining on the street). 
 
-| Implemented    | ID | Name                                                                                                   | Max. Points | Issues/Comments |
-|----------------|----|--------------------------------------------------------------------------------------------------------|-------------|-----------------|
-| yes/no/partial | 1a | Add at least one manually composed object that consists of multiple scene graph nodes.                 | 6           |                 |
-| yes/no/partial | 1b | Animate separate parts of the composed object and also move the composed object itself in the scene.   | 4           |                 |
-| yes/no/partial | 1c | Use at least two clearly different materials for the composed object.                                  | 3           |                 |
-| yes/no/partial | 1d | Texture parts of your composed object by setting proper texture coordinates.                           | 5           |                 |
-| yes/no/partial | 2a | Use multiple light sources.                                                                            | 5           |                 |
-| yes/no/partial | 2b | One light source should be moving in the scene.                                                        | 3           |                 |
-| yes/no/partial | 2c | Implement at least one spot-light.                                                                     | 10          |                 |
-| yes/no/partial | 2d | Apply Phong shading to all objects in the scene.                                                       | 4           |                 |
-| yes/no/partial | 3  | The camera is animated 30 seconds without user intervention. Animation quality and complexity of the camera and the objects influence the judgement.                                                                       | 10           |                 |
-| yes/no/partial | Sx | TODO Special Effect Name                                                                               | TODO        |                 |
-| yes/no/partial | Sy | TODO Special Effect Name                                                                               | TODO        |                 |
-| yes/no/partial | SE | Special effects are nicely integrated and well documented                                              | 20          |                 |
+| Implemented | ID | Name                                                                                                                                                 | Max. Points | Issues/Comments                                                                                                                                                                             |
+|-------------|----|------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| yes         | 1a | Add at least one manually composed object that consists of multiple scene graph nodes.                                                               | 6           | visible in ufo, penguin and pillar; implemented in objectCreations.js                                                                                                                       |
+| yes         | 1b | Animate separate parts of the composed object and also move the composed object itself in the scene.                                                 | 4           | visible in ufo and penguin; implemented in objectAnimations.js                                                                                                                              |
+| yes         | 1c | Use at least two clearly different materials for the composed object.                                                                                | 3           | visible in ufo; implemented in objectCreations.js; documented in Material_doc.md                                                                                                            |
+| yes         | 1d | Texture parts of your composed object by setting proper texture coordinates.                                                                         | 5           | visible in penguins and particle; implemented in objectCreations.js and TextureObjectNode.js                                                                                                |
+| yes         | 2a | Use multiple light sources.                                                                                                                          | 5           | visible in all lights in the scene; implemented in lightCreations.js                                                                                                                        |
+| yes         | 2b | One light source should be moving in the scene.                                                                                                      | 3           | visible in lights moving around beam of ufo and together with the ufo; implemented in lightCreations.js and main.js                                                                         |
+| partial     | 2c | Implement at least one spot-light.                                                                                                                   | 10          | Did not work the way we wanted it to; implemented but not working in lightCreations.js, phong.vs.glsl and phong.fs.glsl                                                                     |
+| yes         | 2d | Apply Phong shading to all objects in the scene.                                                                                                     | 4           | implemented in objectCreations.js, phong.fs.glsl and phong.vs.glsl                                                                                                                          |
+| yes         | 3  | The camera is animated 30 seconds without user intervention. Animation quality and complexity of the camera and the objects influence the judgement. | 10          | visible in camera movement; implemented in camAnimation.js                                                                                                                                  |
+| partial     | Sx | Particle system                                                                                                                                      | 30          | Could not get particle movement to work. Particle system can only spawn and remove particles near the origin location. implemented in ParticleSystemNode.js; visible in particles below ufo |
+| partial     | SE | Special effects are nicely integrated and well documented                                                                                            | 20          | See point above                                                                                                                                                                             |
 
 ### Special Effect Description
 
@@ -105,3 +102,16 @@ TODO
 
 Describe how the effects work in principle and how you implemented them. If your effect does not work but you tried to implement it, make sure that you explain this. Even if your code is broken do not delete it (e.g., keep it as a comment). If you describe the effect (how it works, and how to implement it in theory), then you will also get some points. If you remove the code and do not explain it in the README this will lead to 0 points for the effect and the integration SE.
 
+The particle system is implemented as its own class ParticleSystemNode in the file ParticleSystemNode.js. The class contains the following functions:
+
+#### constructor
+inputs:
+- **model:** the model which should be spawned by the particle system
+- **texture:** texture of the spawned model
+- **maxParticles:** the maximum number of particles of a system which are allowed to live at the same time
+- **position:** Array containing the current position of the particle system relative to its root.
+
+The constructor sets fields for all input parameters and adds arrays for spawn times (birth) of particles, the max age of particles (age) and the directions of particles (direction). It also sets a field called startupTime which contains the system time at construction of the system.
+
+#### spawn
+The spawn method spawns a particle until max particle size has been reached

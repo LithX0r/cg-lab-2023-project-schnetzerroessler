@@ -5,7 +5,7 @@
  * @param penguin   The penguin.
  * @param startPos  The starting position of the penguin.
  * @param endPos    The final position the penguin should be translated to.
- * @param angle     The angle the penguin is originally set to.
+ * @param angle     The angle the penguin is initially set to.
  * @param offset    The offset that is added to the turn animation in order to make the penguins waddle asynchronously.
  * @return An Array with the two defined animations needed for making a penguin waddle forward.
  */
@@ -76,7 +76,7 @@ function createPenguinWingRotation(penguin) {
  * Creates three separate animations and returns them as an array with three elements.
  * Animation "flightP1" defines the flight from the UFOs starting position to the position where the ice beam is activated.
  * Animation "flightP2 defines the flight the UFO takes when the ice beam is activated.
- * Animation "iceBeam" teleports the ice beam up from below the map and down again when it is no longer needed.
+ * Animation "iceBeam" teleports the ice beam up from below the map.
  * @param ufo       The UFO.
  * @param positions The positions that define the path that the UFO takes.
  * @return An Array with the three defined animations for the UFO.
