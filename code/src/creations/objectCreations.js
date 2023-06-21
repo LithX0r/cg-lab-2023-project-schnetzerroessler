@@ -151,7 +151,7 @@ function createOrb(root, resources) {
     orb.diffuse = rgbToPercent([0,255,122,255])
     orb.specular = rgbToPercent([250,250,250,255]);
     orb.ambient = rgbToPercent([88,177,4,255]);
-    orb.emission = rgbToPercent([36,214,210,255]);
+    orb.emission = rgbToPercent([0,249,255,255]);
     orb.shininess = 51;
 
     let orbRotTNode = new TransformationSGNode(mat4.create(), [orb]);

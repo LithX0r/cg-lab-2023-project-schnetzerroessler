@@ -9,16 +9,10 @@ function initLights(gl, root, resources) {
     let buttonLight = createLight(gl, resources, [2.5, 0.49, -4], [10,10,10,255], [255,0,0,255], [255,0,0,255], 0.1, "Button");
     enableLight(buttonLight, root);
 
-    let orbLight = createLight(gl, resources, [0, 0, 0], [10,10,10,255], [0,255,220,255], [0,255,220,255], 0.05, "Orb");
+    let orbLight = createLight(gl, resources, [0, 0, 0], [5,10,10,255], [0,255,220,255], [0,255,220,255], 0.05, "Orb");
     // enable later
 
-    // lights highlighting the bottom of the ice beam
-    /*
-    let beamLight1 = createLight(gl, resources, [0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam1");
-    let beamLight2 = createLight(gl, resources, [-0.5, -4.7, 0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam2");
-    let beamLight3 = createLight(gl, resources, [0, -4.7, -0.5], [25, 25, 25, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam3");
-    */
-    // beam lights are bright enough to cover whole floor as a transition between grass and snow
+    // lights highlighting the bottom of the ice beam -> bright enough to cover whole floor as a transition between grass and snow
     let beamLight1 = createLight(gl, resources, [0.5, -4.7, 0.5], [45, 25, 180, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam1");
     let beamLight2 = createLight(gl, resources, [-0.5, -4.7, 0.5], [45, 25, 180, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam2");
     let beamLight3 = createLight(gl, resources, [0, -4.7, -0.5], [45, 25, 180, 255], [90,50,255,255], [90,50,255,255], 0.05, "Beam3");
@@ -51,9 +45,8 @@ function createLight(gl, resources, position, ambient, diffuse, specular, radius
     light.diffuse = rgbToPercent(diffuse);
     light.specular = rgbToPercent(specular);
     light.position = position;
-    // light._worldPosition = position;
     light.uniform = "u_light" + name;
-    light.append(createLightSphere( resources, radius));
+    light.append(createLightSphere( light, resources, radius));
 
     return light;
 }
@@ -61,15 +54,24 @@ function createLight(gl, resources, position, ambient, diffuse, specular, radius
 
 /**
  * Creates a sphere on which a different shader is used in order to make it a light sphere.
+ * @param light     The defined light.
  * @param resources An object containing defined keys with loaded resources.
  * @param radius    The spheres radius.
  * @return The created sphere.
  */
+function createLightSphere(light, resources, radius) {
+    let material = new MaterialSGNode( new RenderSGNode(makeSphere(radius,10,10)) );
+    if (typeof light !== 'undefined') { material.lights = [light]; }
+    return new ShaderSGNode(createProgram(gl, resources.vs_single, resources.fs_single), [ material ] );
+}
+/*
+// does not color the light spheres, so we used code from shading demo above
 function createLightSphere(resources, radius) {
     return new ShaderSGNode(createProgram(gl, resources.vs_single, resources.fs_single), [
         new RenderSGNode(makeSphere(radius, 10, 10))
     ]);
 }
+*/
 
 
 /**
