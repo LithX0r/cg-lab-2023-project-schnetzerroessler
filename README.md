@@ -104,37 +104,38 @@ The particle system is implemented as its own class ParticleSystemNode in the fi
 
 #### constructor
 inputs:
-- **model:** the model which should be spawned by the particle system
-- **texture:** texture of the spawned model
-- **maxParticles:** the maximum number of particles of a system which are allowed to live at the same time
-- **position:** Array containing the current position of the particle system relative to its root.
+- **model:** The model which should be spawned as a particle by the particle system.
+- **texture:** The texture of the spawned model.
+- **maxParticles:** The maximum number of particles of a system which are allowed to live at the same time.
+- **position:** An Array containing the current position of the particle system relative to its root.
 
-The constructor sets fields for all input parameters and adds arrays for spawn times (birth) of particles, the max age of particles (age) and the directions of particles (direction). It also sets a field called startupTime which contains the system time at construction of the system.
+The constructor sets fields for all input parameters and adds arrays for the spawn times of particles (birth), the max age of particles (age) and the directions of particles (direction). It also sets a field called startupTime which contains the system time at the creation of the system.
 
 #### spawn
-The spawn method spawns a particle until max particle size has been reached. Sets birth, max age an direction with every spawn
-Max age is 1500ms and formula is age = 1500*Math.random();
+The spawn method spawns particles until the maximum number of particles has been reached. Sets birth, age(maximum age) and direction with every spawn of a particle.
+The maximum age is 1500ms. The calculation is done with the formula: age = 1500*Math.random(); where Math.random() generates a number between 0 and 1.
 
 #### isDead
 inputs:
-- **age:** max age of the given particle
-- **birth:** spawn time of the given particle
-Determines if a given particle has exceeded its age by subtracting the spawn time from Date.now();
+- **age:** The maximum age of the given particle.
+- **birth:** The spawn time of the given particle.
+
+Determines if a given particle has exceeded its maximum age by subtracting the spawn time from Date.now() and comparing this value to the maximum age.
 
 #### setBuffer
-Sets buffers for attributes for direction and time for particles.vs.glsl and particles.fs.glsl
+Sets attribute buffers of direction and time for the shaders particles.vs.glsl and particles.fs.glsl.
 
 #### update
-Iterates over every node in the particle system and checks if the given node should be alive or dead. If it is dead its values get removed from this.birth, this.age and its is removed from the child list.
-Array is iterated backwards in order to avoid problems while when removing values from array while iterating the same array. 'isDead' is used in order to check if particle is already dead.
+Iterates over every node in the particle system and checks if the given node should be alive or dead. If it is dead, its values get removed from this.birth as well as this.age, and it is removed from the children list.
+The Array is iterated backwards in order to avoid problems when removing values from the array while iterating the same array. The method 'isDead' is used in order to check if a particle is already dead.
 
 #### render
-Calls render of superclass. Loads values into attribute buffers and sets value for every uniform for particles.vs.glsl and particles.fs.glsl.
+Calls the render method of the superclass of class ParticleSystemNode. Loads values into attribute buffers and sets value for every uniform for the shaders particles.vs.glsl and particles.fs.glsl.
 
 #### setDirection
-Sets the direction of the particle in order to modify it in the shader. Uses (Math.round() ? 1 : -1) in order to also generate negative direction values.
-Returns an array consisting of its x y and z offsets.
+Sets the direction of the particle in order to modify it in the shader. Uses (Math.round() ? 1 : -1) to generate positive as well as negative direction values.
+Returns an array consisting of its x, y and z coordinate offsets.
 
 #### Notes
-We could not get the moving in the shader to work. Scaling the direction with time always resulted in spawning the particles completely out of sight or spawning one big particle which obstructed the view.
-Particle spawns and deletes work as they should besides the lag due to too many polygons. We also could not find a solution for the errors thrown while creating the buffers. 
+We could not get the particle movement in the shader to work. Scaling the direction with time always resulted in spawning the particles completely out of sight or spawning one big particle which obstructed the view.
+The particle spawn and delete mechanics work as they should, aside from the lag caused by too many polygons. We also could not find a solution for the errors thrown while creating the buffers. 

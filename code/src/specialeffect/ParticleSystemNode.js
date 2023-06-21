@@ -53,9 +53,7 @@ class ParticleSystemNode extends SGNode {
     }
 
     /**
-     * Sets buffers for the attributes direction and time for the vertex and fragment shader.
-     * Vertex shader: particles.vs.glsl
-     * Fragment shader: particles.fs.glsl
+     * Sets attribute buffers of direction and time for the shaders particles.vs.glsl and particles.fs.glsl.
      */
     setBuffer() {
         this.directionBuff = gl.createBuffer();
