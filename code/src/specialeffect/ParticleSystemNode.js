@@ -15,7 +15,6 @@ class ParticleSystemNode extends SGNode {
     }
     spawn() {
         for(let i = this.children.length; i < this.maxParticles; i++) {
-            // this.children.push(new TransformationSGNode(glm.translate((Math.round(Math.random()) ? 1 : -1)*this.position[0]+Math.random()*i/this.maxParticles, this.position[1]+Math.random(), (Math.round(Math.random()) ? 1 : -1)*this.position[2]+Math.random()*i/this.maxParticles) ,[new MaterialSGNode(new TexturedObjectNode(this.texture, [new RenderSGNode(this.model)]))]));
             this.children.push(new TransformationSGNode(glm.translate(this.position[0]+Math.random()*i/this.maxParticles, this.position[1]+Math.random(), this.position[2]+Math.random()*i/this.maxParticles) ,[new MaterialSGNode(new TexturedObjectNode(this.texture, [new RenderSGNode(this.model)]))]));
             this.birth.push(Date.now());
             this.age.push(1500*Math.random());
@@ -24,7 +23,6 @@ class ParticleSystemNode extends SGNode {
     }
 
     isDead(age, birth) {
-        // console.log(Date.now()-birth);
         return Date.now()-birth > age;
     }
 
@@ -44,7 +42,6 @@ class ParticleSystemNode extends SGNode {
         for(let i = this.maxParticles-1; i >= 0; i--) {
             let cur = this.children[i];
             if(this.isDead(this.age[i], this.birth[i])) {
-                console.log("dead");
                 this.children.splice(i, 1);
                 this.birth.splice(i, 1);
                 this.age.splice(i, 1);
@@ -75,10 +72,10 @@ class ParticleSystemNode extends SGNode {
 
     setDirection() {
         let xOffset = (Math.round(Math.random()) ? 1 : -1)*Math.random()*.02
-        let yOffset = (Math.round(Math.random()) ? 1 : -1)*Math.random()*.02
-        let zOffset = -Math.random()*.02;
+        let yOffset = -Math.random()*.02;
+        let zOffset = (Math.round(Math.random()) ? 1 : -1)*Math.random()*.02
 
-        return [xOffset, yOffset, zOffset, xOffset, yOffset, zOffset, xOffset, yOffset, zOffset, xOffset, yOffset, zOffset];
+        return [xOffset, yOffset, zOffset];
 
     }
 }

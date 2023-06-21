@@ -114,4 +114,29 @@ inputs:
 The constructor sets fields for all input parameters and adds arrays for spawn times (birth) of particles, the max age of particles (age) and the directions of particles (direction). It also sets a field called startupTime which contains the system time at construction of the system.
 
 #### spawn
-The spawn method spawns a particle until max particle size has been reached
+The spawn method spawns a particle until max particle size has been reached. Sets birth, max age an direction with every spawn
+Max age is 1500ms and formula is age = 1500*Math.random();
+
+#### isDead
+inputs:
+- **age:** max age of the given particle
+- **birth:** spawn time of the given particle
+Determines if a given particle has exceeded its age by subtracting the spawn time from Date.now();
+
+#### setBuffer
+Sets buffers for attributes for direction and time for particles.vs.glsl and particles.fs.glsl
+
+#### update
+Iterates over every node in the particle system and checks if the given node should be alive or dead. If it is dead its values get removed from this.birth, this.age and its is removed from the child list.
+Array is iterated backwards in order to avoid problems while when removing values from array while iterating the same array. 'isDead' is used in order to check if particle is already dead.
+
+#### render
+Calls render of superclass. Loads values into attribute buffers and sets value for every uniform for particles.vs.glsl and particles.fs.glsl.
+
+#### serDirection
+Sets the direction of the particle in order to modify it in the shader. Uses (Math.round() ? 1 : -1) in order to also generate negative direction values.
+Returns an array consisting of its x y and z offsets.
+
+#### Notes
+We could not get the moving in the shader to work. Scaling the direction with time always resulted in spawning the particles completely out of sight or spawning one big particle which obstructed the view.
+Particle spawns and deletes work as they should besides the lag due to too many polygons. We also could not find a solution for the errors thrown while creating the buffers. 
