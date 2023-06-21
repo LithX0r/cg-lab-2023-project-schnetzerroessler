@@ -279,7 +279,7 @@ function render(timeInMilliseconds) {
 
     gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
     //set background color to light blue
-    gl.clearColor(0.87, 0.87, 1.0, 1.0);
+    gl.clearColor(0.57, 0.86, 1.0, 1.0);
     //clear the buffer
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     //enable depth test to let objects in front occluse objects further away
