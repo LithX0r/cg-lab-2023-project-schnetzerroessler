@@ -98,8 +98,6 @@ Mention in the comments column of the table where you have implemented the code 
 
 ### Special Effect Description
 
-TODO
-
 Describe how the effects work in principle and how you implemented them. If your effect does not work but you tried to implement it, make sure that you explain this. Even if your code is broken do not delete it (e.g., keep it as a comment). If you describe the effect (how it works, and how to implement it in theory), then you will also get some points. If you remove the code and do not explain it in the README this will lead to 0 points for the effect and the integration SE.
 
 The particle system is implemented as its own class ParticleSystemNode in the file ParticleSystemNode.js. The class contains the following functions:
@@ -133,7 +131,7 @@ Array is iterated backwards in order to avoid problems while when removing value
 #### render
 Calls render of superclass. Loads values into attribute buffers and sets value for every uniform for particles.vs.glsl and particles.fs.glsl.
 
-#### serDirection
+#### setDirection
 Sets the direction of the particle in order to modify it in the shader. Uses (Math.round() ? 1 : -1) in order to also generate negative direction values.
 Returns an array consisting of its x y and z offsets.
 
