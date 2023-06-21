@@ -109,7 +109,7 @@ function createLightTransformNode(light) {
 function createSpotlight( root, resources, position, ambient, diffuse, specular, radius, cutoff, direction) {
     let light = new SpotlightSGNode(cutoff, direction, position, []);
     // light.ambient = ambient;
-    light.append(createLightSphere(gl, resources, radius));
+    light.append(createLightSphere(resources, radius));
     root.append(light);
     return light;
 }

@@ -150,5 +150,6 @@ void main() {
     + calculateSimplePointLight(u_lightBeam1, u_material, v_lightBeam1Vec, v_normalVec, v_eyeVec, textureColor)
     + calculateSimplePointLight(u_lightBeam2, u_material, v_lightBeam2Vec, v_normalVec, v_eyeVec, textureColor)
     + calculateSimplePointLight(u_lightBeam3, u_material, v_lightBeam3Vec, v_normalVec, v_eyeVec, textureColor);
+//    + calculateSpotlight(u_spotlight, u_material, v_spotlightVec, v_normalVec, v_eyeVec, textureColor);
 
 }

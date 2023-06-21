@@ -253,12 +253,12 @@ function createSceneGraph(gl, resources) {
     lights = initLights(gl, root, resources, orb, ufoTNodes);
     rotateBeamLights = [createLightTransformNode(lights[2][0]), createLightTransformNode(lights[2][1]), createLightTransformNode(lights[2][2])]
 
-    // let spotlight = createSpotlight(gl, root, resources, [0, 10, 0], 0, 0, 0, .2, 10, [0, -1, 0]);
+    // let spotlight = createSpotlight(root, resources, [0, 2, 30], 0, 0, 0, .2, 1, [0, -1, 0]);
 
-    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(resources.particle, resources.penguinTex, 20, true, [0, -4.7, 0]));
+    partsys = new ShaderSGNode(createProgram(gl, resources.ps_vs, resources.ps_fs), new ParticleSystemNode(makeRect(.05, .05), resources.penguinTex, 20, true, [-.5, -5.4, -.5]));
     ufoTNodes[3].append(partsys);
     partsys.children[0].init();
-    partsys.children[0].spawn();
+    // partsys.children[0].spawn();
 
     floor = createFloor(root);
 

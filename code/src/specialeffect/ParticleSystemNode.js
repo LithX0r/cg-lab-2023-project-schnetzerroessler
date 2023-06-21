@@ -15,7 +15,8 @@ class ParticleSystemNode extends SGNode {
     }
     spawn() {
         for(let i = this.children.length; i < this.maxParticles; i++) {
-            this.children.push(new TransformationSGNode(glm.translate(Math.random()*i/this.maxParticles, Math.random(), Math.random()*i/this.maxParticles) ,[new MaterialSGNode(new TexturedObjectNode(this.texture, [new RenderSGNode(this.model)]))]));
+            // this.children.push(new TransformationSGNode(glm.translate((Math.round(Math.random()) ? 1 : -1)*this.position[0]+Math.random()*i/this.maxParticles, this.position[1]+Math.random(), (Math.round(Math.random()) ? 1 : -1)*this.position[2]+Math.random()*i/this.maxParticles) ,[new MaterialSGNode(new TexturedObjectNode(this.texture, [new RenderSGNode(this.model)]))]));
+            this.children.push(new TransformationSGNode(glm.translate(this.position[0]+Math.random()*i/this.maxParticles, this.position[1]+Math.random(), this.position[2]+Math.random()*i/this.maxParticles) ,[new MaterialSGNode(new TexturedObjectNode(this.texture, [new RenderSGNode(this.model)]))]));
             this.birth.push(Date.now());
             this.age.push(2000*Math.random());
             this.direction.push(vec3.fromValues(Math.random()*2*Math.pow(-1, i), -Math.random()*2, Math.random()*2*Math.pow(-1, i)))
@@ -59,6 +60,7 @@ class ParticleSystemNode extends SGNode {
         gl.enableVertexAttribArray(directionLocation)
         gl.bindBuffer(gl.ARRAY_BUFFER, this.directionBuff);
         gl.vertexAttribPointer(directionLocation, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.timeBuff);
         gl.vertexAttribPointer(timeLocation, 1, gl.FLOAT, false, 0, 0);
 
 

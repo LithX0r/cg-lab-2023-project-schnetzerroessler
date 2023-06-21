@@ -40,7 +40,7 @@ varying vec2 v_texCoord;
 void main() {
     vec4 eyePosition = u_modelView * vec4(a_position, 1);
 
-//    vec4 worldspacePos = u_modelMatrix * vec4(a_position, 1);
+    vec4 worldspacePos = vec4(u_normalMatrix * a_position,1);
 
     v_normalVec = u_normalMatrix * a_normal;
 
@@ -52,7 +52,7 @@ void main() {
     v_lightBeam1Vec = u_lightBeam1Pos - eyePosition.xyz;
     v_lightBeam2Vec = u_lightBeam2Pos - eyePosition.xyz;
     v_lightBeam3Vec = u_lightBeam3Pos - eyePosition.xyz;
-    v_spotlightVec = u_spotlightPos - eyePosition.xyz;
+    v_spotlightVec = u_spotlightPos - worldspacePos.xyz;
 
     v_texCoord = a_texCoord;
 

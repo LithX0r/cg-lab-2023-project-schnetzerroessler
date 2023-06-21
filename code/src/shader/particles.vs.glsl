@@ -21,6 +21,6 @@ void main() {
 
     vec3 pos = (a_position + a_direction);
 
-    gl_Position = u_projection * u_modelView * vec4((a_position), 1);
+    gl_Position = u_projection * u_modelView * vec4((pos), 1);
     v_texCoord = a_texCoord;
 }
